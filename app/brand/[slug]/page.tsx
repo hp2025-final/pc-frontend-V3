@@ -7,8 +7,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import CategoryControls from "@/components/CategoryControls";
 import styles from "./brand.module.css";
 
-// ISR — revalidate every 5 minutes
-export const revalidate = 300;
+// ISR — revalidate every 2 hours (7200 seconds)
+export const revalidate = 7200;
 
 interface BrandPageProps {
   params: Promise<{ slug: string }>;

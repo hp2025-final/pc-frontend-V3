@@ -11,8 +11,8 @@ import SocialMediaSection from "@/components/SocialMediaSection";
 import CustomBuildBanners from "@/components/CustomBuildBanners";
 import type { SocialMediaReel } from "@/lib/types";
 
-// Enable ISR - Revalidate every 12 hours (43200 seconds) - matches WooCommerce API cache
-export const revalidate = 43200;
+// Enable ISR - Revalidate every 2 hours (7200 seconds)
+export const revalidate = 7200;
 
 export default async function Home() {
   // Fetch categories and category slugs

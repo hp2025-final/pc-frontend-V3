@@ -4,6 +4,9 @@ const BASE_URL = process.env.WOOCOMMERCE_BASE_URL || "https://api.pcwalaonline.c
 const CONSUMER_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY;
 const CONSUMER_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET;
 
+// Cache duration: 2 hours (7200 seconds)
+const CACHE_REVALIDATE = 7200;
+
 function getAuthParams(): string {
   if (!CONSUMER_KEY || !CONSUMER_SECRET) {
     console.warn("WooCommerce credentials are missing in environment variables!");
@@ -20,7 +23,7 @@ export async function getCategories(): Promise<WooCommerceCategory[]> {
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products/categories?per_page=100&${getAuthParams()}`,
       {
-        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+        next: { revalidate: CACHE_REVALIDATE },
       }
     );
     if (!res.ok) {
@@ -72,7 +75,7 @@ export async function getProducts(params: {
 
     const url = `${BASE_URL}/wp-json/wc/v3/products?${queryParts.join("&")}`;
     const res = await fetch(url, {
-      next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+      next: { revalidate: CACHE_REVALIDATE },
     });
 
     if (!res.ok) {
@@ -122,7 +125,7 @@ export async function getProductsWithCount(params: {
 
     const url = `${BASE_URL}/wp-json/wc/v3/products?${queryParts.join("&")}`;
     const res = await fetch(url, {
-      next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+      next: { revalidate: CACHE_REVALIDATE },
     });
 
     if (!res.ok) {
@@ -152,7 +155,7 @@ export async function getBrands(): Promise<WooCommerceBrand[]> {
     while (keepFetching) {
       const url = `${BASE_URL}/wp-json/wc/v3/products/brands?per_page=100&page=${page}&${getAuthParams()}`;
       const res = await fetch(url, {
-        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+        next: { revalidate: CACHE_REVALIDATE },
       });
 
       if (!res.ok) {
@@ -188,7 +191,7 @@ export async function getProductBySlug(slug: string): Promise<WooCommerceProduct
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products?slug=${slug}&status=publish&${getAuthParams()}`,
       {
-        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+        next: { revalidate: CACHE_REVALIDATE },
       }
     );
     if (!res.ok) {
@@ -211,7 +214,7 @@ export async function getProductsByIds(ids: number[]): Promise<WooCommerceProduc
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products?include=${ids.join(",")}&status=publish&${getAuthParams()}`,
       {
-        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+        next: { revalidate: CACHE_REVALIDATE },
       }
     );
     if (!res.ok) {
@@ -232,7 +235,7 @@ export async function getCategoryBySlug(slug: string): Promise<WooCommerceCatego
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products/categories?slug=${slug}&${getAuthParams()}`,
       {
-        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
+        next: { revalidate: CACHE_REVALIDATE },
       }
     );
     if (!res.ok) {

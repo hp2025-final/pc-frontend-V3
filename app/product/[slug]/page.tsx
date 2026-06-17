@@ -8,8 +8,8 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// ISR: Revalidate every 5 minutes
-export const revalidate = 300;
+// ISR: Revalidate every 2 hours (7200 seconds)
+export const revalidate = 7200;
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
