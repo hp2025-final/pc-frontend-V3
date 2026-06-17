@@ -20,7 +20,7 @@ export async function getCategories(): Promise<WooCommerceCategory[]> {
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products/categories?per_page=100&${getAuthParams()}`,
       {
-        next: { revalidate: 1800 }, // 30-minute Cache (ISR) - categories don't change often
+        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
       }
     );
     if (!res.ok) {
@@ -72,7 +72,7 @@ export async function getProducts(params: {
 
     const url = `${BASE_URL}/wp-json/wc/v3/products?${queryParts.join("&")}`;
     const res = await fetch(url, {
-      next: { revalidate: 600 }, // 10-minute cache - products update less frequently
+      next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
     });
 
     if (!res.ok) {
@@ -122,7 +122,7 @@ export async function getProductsWithCount(params: {
 
     const url = `${BASE_URL}/wp-json/wc/v3/products?${queryParts.join("&")}`;
     const res = await fetch(url, {
-      next: { revalidate: 600 }, // 10-minute cache
+      next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
     });
 
     if (!res.ok) {
@@ -152,7 +152,7 @@ export async function getBrands(): Promise<WooCommerceBrand[]> {
     while (keepFetching) {
       const url = `${BASE_URL}/wp-json/wc/v3/products/brands?per_page=100&page=${page}&${getAuthParams()}`;
       const res = await fetch(url, {
-        next: { revalidate: 1800 }, // 30-minute cache - brands rarely change
+        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
       });
 
       if (!res.ok) {
@@ -188,7 +188,7 @@ export async function getProductBySlug(slug: string): Promise<WooCommerceProduct
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products?slug=${slug}&status=publish&${getAuthParams()}`,
       {
-        next: { revalidate: 600 }, // 10-minute cache
+        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
       }
     );
     if (!res.ok) {
@@ -211,7 +211,7 @@ export async function getProductsByIds(ids: number[]): Promise<WooCommerceProduc
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products?include=${ids.join(",")}&status=publish&${getAuthParams()}`,
       {
-        next: { revalidate: 600 }, // 10-minute cache
+        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
       }
     );
     if (!res.ok) {
@@ -232,7 +232,7 @@ export async function getCategoryBySlug(slug: string): Promise<WooCommerceCatego
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products/categories?slug=${slug}&${getAuthParams()}`,
       {
-        next: { revalidate: 1800 }, // 30-minute cache - category info rarely changes
+        next: { revalidate: 43200 }, // 12-hour cache (manual updates + purge when needed)
       }
     );
     if (!res.ok) {
