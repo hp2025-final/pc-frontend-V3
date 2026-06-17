@@ -1,0 +1,453 @@
+/* ===================================================
+   Cache Manager - Brutalist Admin Dashboard
+   Matches PC Wala design system
+   =================================================== */
+
+/* Login Screen */
+.loginWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-off-white);
+  padding: 20px;
+}
+
+.loginBox {
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-dark);
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 100%;
+}
+
+.loginHeader {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.loginTitle {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-dark);
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.loginSubtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-orange);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loginLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: -8px;
+}
+
+.loginInput {
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-off-white);
+  color: var(--color-dark);
+  transition: border-color 0.2s ease;
+}
+
+.loginInput:focus {
+  outline: none;
+  border-color: var(--color-dark);
+}
+
+.loginError {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-orange);
+  background-color: #fff5f0;
+  padding: 12px;
+  border: 1px solid var(--color-orange);
+  text-align: center;
+}
+
+.loginButton {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 16px 24px;
+  background-color: var(--color-dark);
+  color: var(--color-lime);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.loginButton:hover {
+  background-color: var(--color-orange);
+  color: var(--color-dark);
+}
+
+.loginFooter {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.cornerBracket {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-orange);
+  border-right: 2px solid var(--color-orange);
+}
+
+/* Main Dashboard */
+.wrapper {
+  min-height: 100vh;
+  background-color: var(--color-off-white);
+  padding: 24px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  position: relative;
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  padding: 32px 24px;
+  border: 1px solid var(--color-dark);
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--color-lime);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  margin: 0;
+  color: var(--color-white);
+  opacity: 0.8;
+}
+
+.logoutBtn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 8px 12px;
+  background-color: transparent;
+  color: var(--color-lime);
+  border: 1px solid var(--color-lime);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+}
+
+.logoutBtn:hover {
+  background-color: var(--color-lime);
+  color: var(--color-dark);
+}
+
+/* Result Display */
+.result {
+  background-color: var(--color-white);
+  border: 2px solid;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.resultSuccess {
+  border-color: var(--color-lime);
+  background-color: #f5fff0;
+}
+
+.resultError {
+  border-color: var(--color-orange);
+  background-color: #fff5f0;
+}
+
+.resultHeader {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--color-dark);
+}
+
+.resultItems {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-dark);
+  margin-top: 12px;
+}
+
+.resultItems strong {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.resultItems ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.resultItems li {
+  margin-bottom: 4px;
+}
+
+.resultCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-orange);
+  margin-top: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Section */
+.section {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  margin-bottom: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: var(--color-off-white);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sectionIcon {
+  font-size: 24px;
+}
+
+.sectionTitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-dark);
+}
+
+.sectionBody {
+  padding: 24px 20px;
+}
+
+.optionLabel {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-dark);
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* Radio Group */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: var(--color-off-white);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radioLabel:hover {
+  background-color: var(--color-white);
+  border-color: var(--color-dark);
+}
+
+.radioInput {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-orange);
+  cursor: pointer;
+}
+
+.radioText {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-dark);
+}
+
+/* Buttons */
+.clearButton {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 16px 24px;
+  background-color: var(--color-orange);
+  color: var(--color-dark);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.clearButton:hover:not(:disabled) {
+  background-color: var(--color-dark);
+  color: var(--color-lime);
+}
+
+.clearButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Quick Actions */
+.quickActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 24px 20px;
+}
+
+.quickButton {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 16px 24px;
+  background-color: var(--color-dark);
+  color: var(--color-lime);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.quickButton:hover:not(:disabled) {
+  background-color: var(--color-lime);
+  color: var(--color-dark);
+}
+
+.quickButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  text-align: center;
+  margin-top: 48px;
+}
+
+.footerCorner {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-lime);
+  border-right: 2px solid var(--color-lime);
+}
+
+.footerText {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 16px;
+  }
+
+  .loginBox {
+    padding: 32px 24px;
+  }
+
+  .loginTitle {
+    font-size: 24px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .logoutBtn {
+    position: static;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    padding: 12px 16px;
+  }
+
+  .sectionBody {
+    padding: 16px;
+  }
+}
