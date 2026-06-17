@@ -1,0 +1,239 @@
+/* ===== Mobile-First Layout ===== */
+
+.section {
+  width: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background-color: var(--color-outline);
+  border: 1px solid var(--color-outline);
+}
+
+/* Banner Area — 375px height on mobile */
+.bannerArea {
+  position: relative;
+  width: 100%;
+  height: 375px;
+  background-color: var(--color-surface-container-lowest);
+  overflow: hidden;
+}
+
+.desktopBanner {
+  display: none;
+  object-fit: cover;
+}
+
+.mobileBanner {
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Products Area */
+.productsArea {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface-container-lowest);
+  overflow: hidden;
+}
+
+/* Header with Title */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-surface);
+  position: relative;
+}
+
+.cornerBracket {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-accent-lime);
+  border-right: 2px solid var(--color-accent-lime);
+  z-index: 3;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-on-surface);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Slider Wrapper */
+.sliderWrapper {
+  --visible-items: 2;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Products Grid (flex strip) */
+.productsGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.productsGrid.transitionEnabled {
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 2 products visible on mobile */
+.productItem {
+  flex: 0 0 auto;
+  background-color: var(--color-surface-container-lowest);
+  border-right: 1px solid var(--color-outline);
+}
+
+/* Footer: View All */
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  border-top: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+}
+
+.viewAllLink {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  color: var(--color-surface-container-lowest);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 10px;
+  text-decoration: none;
+  background-color: var(--color-on-surface);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.3s ease;
+  border-right: 1px solid var(--color-outline);
+}
+
+.viewAllLinkText {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewAllLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width 0.5s ease;
+  z-index: 1;
+}
+
+.viewAllLink:hover::before {
+  width: 100%;
+}
+
+.viewAllLink:hover {
+  color: var(--color-on-surface);
+}
+
+/* Navigation Buttons */
+.navButtons {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0;
+}
+
+.navButton {
+  width: 44px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-container-lowest);
+  border: none;
+  border-left: 1px solid var(--color-outline);
+  color: var(--color-on-surface);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navButton:first-child {
+  border-left: none;
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ===== Desktop Overrides ===== */
+@media (min-width: 769px) {
+  .container {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .bannerArea {
+    grid-column: span 4;
+    height: auto;
+    min-height: 500px;
+  }
+
+  .desktopBanner {
+    display: block;
+  }
+
+  .mobileBanner {
+    display: none;
+  }
+
+  .productsArea {
+    grid-column: span 8;
+  }
+
+  .header {
+    padding: 24px 32px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+  
+  .sliderWrapper {
+    --visible-items: 4;
+  }
+
+  .viewAllLink {
+    padding: 16px;
+    font-size: 11px;
+  }
+
+  .navButton {
+    width: 48px;
+    height: 48px;
+  }
+}

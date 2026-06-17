@@ -1,0 +1,285 @@
+/* ===================================================
+   brand.module.css
+   Identical to category.module.css
+   Mobile-first design
+   =================================================== */
+
+/* Page wrapper */
+.pageWrapper {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-outline);
+}
+
+/* ─── Brand Header ─────────────────────────────── */
+.brandHeader {
+  padding: 48px var(--grid-margin);
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Lime corner bracket — bottom right */
+.cornerBracket {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-accent-lime);
+  border-right: 2px solid var(--color-accent-lime);
+  z-index: 3;
+}
+
+/* Title and Count Badge Wrapper — inline on mobile */
+.titleCountWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Big brutalist title */
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--color-on-surface);
+  text-transform: uppercase;
+  margin: 0;
+  flex: 1;
+}
+
+/* Count badge — right side aligned with title */
+.countBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  border: 1px solid var(--color-outline);
+  padding: 10px 16px;
+  background-color: var(--color-surface);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  line-height: 1;
+}
+
+.countBadgeNumber {
+  color: var(--color-primary);
+  font-size: 32px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  display: block;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 2px;
+}
+
+.countBadgeLabel {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--color-on-surface);
+}
+
+/* ─── Product Grid ───────────────────────────────── */
+.gridWrapper {
+  border-bottom: 1px solid var(--color-outline);
+}
+
+/* ─── Empty State ────────────────────────────────── */
+.emptyState {
+  padding: 80px var(--grid-margin);
+  text-align: center;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+}
+
+.emptyStateText {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  margin: 0 0 8px 0;
+}
+
+.emptyStateSubtext {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-on-surface);
+  margin: 0;
+}
+
+/* ─── Pagination ─────────────────────────────────── */
+.pagination {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  border-top: none;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.paginationItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 48px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  border-right: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.paginationItem:first-child {
+  border-left: 1px solid var(--color-outline);
+}
+
+.paginationItem:hover {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.paginationActive {
+  background-color: var(--color-primary);
+  color: var(--color-on-surface);
+}
+
+.paginationActive:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-surface);
+}
+
+.paginationEllipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 48px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-on-surface);
+  border-right: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+  cursor: default;
+  user-select: none;
+}
+
+.paginationPrevNext {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 48px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-outline);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.paginationPrevNext:first-child {
+  border-left: 1px solid var(--color-outline);
+}
+
+.paginationPrevNext:hover {
+  background-color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
+}
+
+.paginationDisabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ─── Mobile Overrides ───────────────────────────── */
+@media (max-width: 768px) {
+  .brandHeader {
+    padding: 24px var(--grid-margin);
+    gap: 16px;
+  }
+
+  .titleCountWrapper {
+    gap: 12px;
+  }
+
+  .sectionTitle {
+    font-size: 48px;
+    flex: 0 1 auto;
+  }
+
+  .countBadge {
+    padding: 8px 12px;
+    font-size: 10px;
+    align-self: flex-start;
+  }
+
+  .countBadgeNumber {
+    font-size: 24px;
+    margin-bottom: 2px;
+  }
+
+  .countBadgeLabel {
+    font-size: 8px;
+  }
+
+  .paginationItem {
+    min-width: 40px;
+    height: 44px;
+    font-size: 10px;
+  }
+
+  .paginationEllipsis {
+    height: 44px;
+    min-width: 32px;
+  }
+
+  .paginationPrevNext {
+    padding: 0 12px;
+    height: 44px;
+    font-size: 9px;
+  }
+}
+
+/* ─── Desktop Overrides ──────────────────────────── */
+@media (min-width: 769px) {
+  .sectionTitle {
+    font-size: 84px;
+  }
+}

@@ -1,0 +1,208 @@
+.section {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-outline);
+  border-bottom: 1px solid var(--color-outline);
+  position: relative;
+  overflow: hidden;
+  padding: 48px var(--grid-margin);
+}
+
+.cornerBracket {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 16px;
+  height: 16px;
+  border-bottom: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+  z-index: 2;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── Left Header Block: Elegant Light Container ─── */
+.headerBlock {
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.systemTag {
+  font-size: 9px;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--color-on-surface);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.subtext {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.6;
+  margin: 24px 0 0 0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+}
+
+.miniBracket {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+}
+
+/* ─── Right Features Grid (2x2) ─── */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Feature Cards */
+.featureCard {
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+.featureIndex {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 11px;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--color-on-surface);
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover .iconWrapper {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-container-lowest);
+}
+
+.featureTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.featureDesc {
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.cardBracket {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-bottom: 1px solid var(--color-outline);
+  border-right: 1px solid var(--color-outline);
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover .cardBracket {
+  opacity: 1;
+  border-color: var(--color-primary);
+}
+
+/* ─── Desktop 769px+ ─── */
+@media (min-width: 769px) {
+  .section {
+    padding: 64px var(--grid-margin);
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .headerBlock {
+    flex: 0 0 38%;
+    padding: 40px;
+  }
+
+  .sectionTitle {
+    font-size: 48px;
+  }
+
+  .featuresGrid {
+    flex: 0 0 62%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .featureCard {
+    padding: 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .sectionTitle {
+    font-size: 56px;
+  }
+
+  .headerBlock {
+    padding: 48px;
+  }
+}

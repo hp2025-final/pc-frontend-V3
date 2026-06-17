@@ -1,0 +1,194 @@
+/* ===================================================
+   CategoryControls.module.css
+   Scoped only to the sort + price controls bar.
+   Zero overlap with homepage or GridSection styles.
+   =================================================== */
+
+/* Controls Bar */
+.controlsBar {
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  width: 100%;
+}
+
+/* Right: Dropdowns Group */
+.dropdownGroup {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Base Dropdown Wrapper - spans 50% on mobile, 25% on desktop */
+.dropdownWrapper {
+  display: flex;
+  align-items: stretch;
+  width: 50%;
+  border-right: 1px solid var(--color-outline);
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.dropdownWrapper:nth-child(2n) {
+  border-right: none;
+}
+
+/* Title Label - spans 15% of the 50% box on mobile (15 / 50 = 30% width) */
+.dropdownLabel {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  width: 30%;
+  border-right: 1px solid var(--color-outline);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+  cursor: default;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* Input / Select field containers - spans 35% of the 50% box on mobile (35 / 50 = 70% width) */
+.selectWrapper,
+.searchWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 70%;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--color-surface-container-lowest);
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  padding: 0 24px 0 10px;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.select:hover {
+  background-color: var(--color-surface);
+}
+
+.select:focus {
+  background-color: var(--color-surface);
+  outline: 1px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+.selectArrow {
+  position: absolute;
+  right: 8px;
+  font-size: 9px;
+  color: var(--color-primary);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.searchInput {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--color-surface-container-lowest);
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  padding: 0 28px 0 10px;
+  height: 100%;
+  width: 100%;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:hover,
+.searchInput:focus {
+  background-color: var(--color-surface);
+}
+
+.searchInput:focus {
+  outline: 1px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+.clearButton {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearButton:hover {
+  color: var(--color-on-surface);
+}
+
+/* ===== Desktop Overrides ===== */
+@media (min-width: 769px) {
+  .dropdownWrapper {
+    width: 25%;
+    border-bottom: none;
+  }
+
+  .dropdownWrapper:nth-child(2n) {
+    border-right: 1px solid var(--color-outline);
+  }
+
+  .dropdownWrapper:last-child {
+    border-right: none;
+  }
+
+  /* 10% label of the 25% wrapper = 10 / 25 = 40% width */
+  .dropdownLabel {
+    width: 40%;
+    font-size: 10px;
+    height: 48px;
+    padding: 0 10px;
+  }
+
+  /* 15% field of the 25% wrapper = 15 / 25 = 60% width */
+  .selectWrapper,
+  .searchWrapper {
+    width: 60%;
+    height: 48px;
+  }
+
+  .select,
+  .searchInput {
+    font-size: 10px;
+    height: 100%;
+  }
+
+  .clearButton {
+    font-size: 16px;
+  }
+}
+

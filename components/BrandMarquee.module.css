@@ -1,0 +1,95 @@
+.marqueeSection {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-accent-lime);
+  overflow: hidden;
+  position: relative;
+  padding: 24px 0;
+  margin-top: 0 !important;
+}
+
+.marqueeContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marqueeTrack {
+  display: flex;
+  gap: 0;
+  animation: marqueeScroll 120s linear infinite;
+  width: max-content;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
+.marqueeTrack:hover {
+  animation-play-state: paused;
+}
+
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 8px 24px;
+  border-right: 1px solid var(--color-dark);
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.brandLink:hover {
+  background-color: rgba(26, 28, 28, 0.05);
+}
+
+.brandLink:hover .brandDot {
+  background-color: var(--color-dark);
+  transform: scale(1.2);
+}
+
+.brandLink:hover .brandName {
+  color: #ff7a2f;
+  transform: translateX(4px);
+}
+
+.brandDot {
+  width: 8px;
+  height: 8px;
+  background-color: #ff7a2f !important;
+  border-radius: 0;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.brandName {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 769px) {
+  .marqueeSection {
+    padding: 32px 0;
+  }
+
+  .marqueeTrack {
+    gap: 0;
+  }
+
+  .brandName {
+    font-size: 18px;
+  }
+}

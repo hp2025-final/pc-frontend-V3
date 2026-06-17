@@ -1,0 +1,52 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 100%;
+  background-color: var(--color-accent-lime);
+  color: var(--color-on-surface);
+  text-decoration: none;
+  position: relative;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: var(--color-on-surface);
+  transition: width 0.5s ease;
+  z-index: 1;
+}
+
+.button:hover::before {
+  width: 100%;
+}
+
+.svg {
+  position: relative;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  transition: stroke 0.5s ease;
+}
+
+.button:hover .svg {
+  stroke: var(--color-surface-container-lowest);
+}
+
+@media (min-width: 769px) {
+  .button {
+    width: 80px;
+  }
+  
+  .svg {
+    width: 28px;
+    height: 28px;
+  }
+}

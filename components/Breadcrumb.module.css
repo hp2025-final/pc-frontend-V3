@@ -1,0 +1,71 @@
+.breadcrumbNav {
+  border-bottom: 1px solid var(--color-outline-variant);
+  padding: 12px var(--grid-margin);
+  background-color: var(--color-surface-container-lowest);
+}
+
+.breadcrumbContainer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--color-on-surface-variant);
+  font-size: 10px;
+}
+
+.link {
+  color: var(--color-on-surface-variant);
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--color-primary);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.current {
+  color: var(--color-on-surface);
+}
+
+/* Mobile Optimizations: Single line breadcrumb with truncation */
+@media (max-width: 768px) {
+  .breadcrumbNav {
+    padding: 6px var(--grid-margin); /* Reduced from 12px */
+  }
+
+  .breadcrumbContainer {
+    font-size: 8px; /* Reduced from 10px */
+    gap: 4px; /* Reduced from 8px */
+    flex-wrap: nowrap; /* Force single line */
+    overflow: hidden; /* Hide overflow */
+  }
+
+  .item {
+    gap: 4px; /* Reduced from 8px */
+    flex-shrink: 0; /* Prevent items from shrinking */
+  }
+
+  .link {
+    white-space: nowrap; /* Prevent link text from wrapping */
+  }
+
+  /* Truncate last breadcrumb item (product name) to fit in remaining space */
+  .item:last-child {
+    flex-shrink: 1; /* Allow last item to shrink */
+    min-width: 0; /* Allow flexbox to shrink below content size */
+  }
+
+  .item:last-child .current {
+    display: inline-block;
+    max-width: 150px; /* Reduced to ensure single line */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+}

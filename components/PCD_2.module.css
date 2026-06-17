@@ -1,0 +1,489 @@
+/* components/PCD_2.module.css */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+  background-color: var(--color-surface-container-lowest);
+  border: none;
+  position: relative;
+  transition: clip-path 0.3s ease;
+}
+
+.linkOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.imageArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-surface-container-lowest);
+  height: 220px;
+  width: 100%;
+  padding: 12px;
+  position: relative;
+  border-bottom: 1px solid var(--color-outline);
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  padding: 2px 6px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badgeBracket {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-accent-lime);
+  border-right: 2px solid var(--color-accent-lime);
+}
+
+.badgeText {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Sale Badge - Top Right (Scenario 3) */
+.saleBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: var(--color-dark); /* Black background */
+  color: var(--color-accent-lime); /* Lime green text */
+  padding: 4px 8px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-accent-lime); /* Lime border */
+}
+
+.saleBadgeText {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.titleArea {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.productTitle {
+  font-family: var(--font-body);
+  font-weight: 600;
+  margin: 0;
+  font-size: 10px;
+  min-height: 28px;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  color: var(--color-on-surface);
+}
+
+.metaInfo {
+  font-size: 10px;
+  color: var(--color-on-surface);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Full-width stacked footer - Using CSS Grid for 3-row structure */
+.footerArea {
+  width: 100%;
+  margin-top: auto;
+  background-color: var(--color-surface-container-lowest);
+  display: grid;
+  grid-template-rows: auto auto auto; /* 3 rows: badge, price, was/strikethrough */
+  gap: 0;
+}
+
+/* Row 1: Badge row at top-right with NO padding/margin */
+.badgeRow {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-surface-container-lowest);
+  min-height: 14px;
+}
+
+/* ═══════════════════════════════════════════════════
+   SHARP NEUMORPHIC SPLIT-CELL BADGES
+   [Icon Cell (inset)] │ [Text Cell (flat)]
+   Square corners · Soft shadows · Split layout
+   ═══════════════════════════════════════════════════ */
+
+/* Shared raised neumorphic container */
+.tagBadgeDown,
+.tagBadgeUp,
+.tagBadgeSale,
+.tagBadgeShift,
+.marketPriceBadge {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  overflow: hidden;
+  font-family: var(--font-mono), monospace;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--color-dark);
+  height: 24px;
+  box-sizing: border-box;
+  border: none;
+}
+
+/* Icon cell — dark filled with colored icon */
+.badgeIconCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7px;
+  background: var(--color-dark);
+  border-right: 1px solid var(--color-border);
+}
+
+/* Text cell — flat on raised surface */
+.badgeTextCell {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  color: var(--color-dark);
+  white-space: nowrap;
+}
+
+/* ── Icon Sizing ── */
+
+.tagIcon {
+  width: 11px;
+  height: 11px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.fluctuationIcon {
+  width: 11px;
+  height: 11px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.arrowIconUp,
+.arrowIconDown {
+  width: 10px;
+  height: 10px;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ── Per-variant icon colors ── */
+
+/* Price Down → Lime icon */
+.tagBadgeDown .badgeIconCell {
+  color: var(--color-accent-lime);
+}
+
+/* Price Up → Orange icon */
+.tagBadgeUp .badgeIconCell {
+  color: var(--color-primary);
+}
+
+/* Shift → Orange icon */
+.tagBadgeShift .badgeIconCell {
+  color: var(--color-primary);
+}
+
+/* Sale → Orange icon */
+.tagBadgeSale .badgeIconCell {
+  color: var(--color-primary);
+}
+
+/* Market Price → Dual icons in icon cell */
+.marketPriceBadge .badgeIconCell {
+  gap: 2px;
+}
+
+.marketPriceBadge .arrowIconUp {
+  color: var(--color-primary);
+}
+
+.marketPriceBadge .arrowIconDown {
+  color: var(--color-accent-lime);
+}
+
+/* ── Labels ── */
+
+.priceLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-dark);
+  opacity: 0.6;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+.minLabel {
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+/* Row 2: Price cell (consistent padding) */
+.priceRow {
+  padding: 10px 12px 6px 12px;
+}
+
+.priceValue {
+  font-family: var(--font-display);
+  color: var(--color-on-surface);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  display: block;
+}
+
+/* Row 3: Was price + Percentage cell OR Strikethrough cell */
+.fluctuationRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px 10px 12px;
+  flex-wrap: wrap;
+  min-height: 20px; /* Minimum height even when empty */
+}
+
+.wasPriceText {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  color: var(--color-dark);
+  opacity: 0.5;
+}
+
+.percentageText {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-orange);
+}
+
+.percentageTextDown {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-dark);
+  opacity: 0.7;
+}
+
+
+/* Scenario 3: Strikethrough row for regular price */
+.strikethroughRow {
+  padding: 0 12px 10px 12px;
+  min-height: 20px; /* Match fluctuation row height */
+}
+
+.strikethroughPrice {
+  font-family: var(--font-display);
+  color: var(--color-on-surface);
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Fallback: WhatsApp arrow row (when no tag) */
+.fallbackFooter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1px;
+  background-color: var(--color-outline);
+  width: 100%;
+  margin-top: auto;
+}
+
+.fallbackPriceCol {
+  padding: 10px 12px;
+  background-color: var(--color-surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fallbackPriceLabel {
+  font-size: 9px;
+  color: var(--color-on-surface);
+  margin-bottom: 4px;
+}
+
+.fallbackPriceValue {
+  font-family: var(--font-display);
+  color: var(--color-on-surface);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.fallbackWhatsappCol {
+  background-color: var(--color-surface-container-lowest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 769px) {
+  .card {
+    border: 1px solid var(--color-outline);
+  }
+
+  .card:hover {
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  }
+
+  .imageArea {
+    height: 260px;
+  }
+
+  .badge {
+    padding: 3px 8px;
+  }
+
+  .badgeText {
+    font-size: 10px;
+  }
+
+  .saleBadge {
+    padding: 8px 16px;
+  }
+
+  .saleBadgeText {
+    font-size: 10px;
+  }
+
+  .titleArea {
+    padding: 14px 12px;
+  }
+
+  .productTitle {
+    font-size: 12px;
+    min-height: 34px;
+  }
+
+  .badgeRow {
+    padding: 0;
+    min-height: 15px;
+  }
+
+  /* Neumorphic badges — desktop scale */
+  .tagBadgeDown,
+  .tagBadgeUp,
+  .tagBadgeSale,
+  .tagBadgeShift,
+  .marketPriceBadge {
+    font-size: 9px;
+    height: 28px;
+    box-shadow:
+      4px 4px 8px var(--color-border),
+      -4px -4px 8px var(--color-white);
+  }
+
+  .badgeIconCell {
+    padding: 0 8px;
+  }
+
+  .badgeTextCell {
+    padding: 0 10px;
+  }
+
+  .tagIcon,
+  .fluctuationIcon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .arrowIconUp,
+  .arrowIconDown {
+    width: 11px;
+    height: 11px;
+  }
+
+  .priceLabel {
+    font-size: 11px;
+  }
+
+  .priceRow {
+    padding: 12px 16px 6px 16px;
+  }
+
+  .priceValue {
+    font-size: 16px;
+  }
+
+  .fluctuationRow {
+    padding: 0 16px 12px 16px;
+  }
+
+  .wasPriceText {
+    font-size: 10px;
+  }
+
+  .percentageText,
+  .percentageTextDown {
+    font-size: 10px;
+  }
+
+  .strikethroughRow {
+    padding: 0 16px 12px 16px;
+  }
+
+  .strikethroughPrice {
+    font-size: 14px;
+  }
+
+  .fallbackPriceCol {
+    padding: 14px 16px;
+  }
+
+  .fallbackPriceValue {
+    font-size: 14px;
+  }
+}

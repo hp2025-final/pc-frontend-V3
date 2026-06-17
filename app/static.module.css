@@ -1,0 +1,415 @@
+/* ===================================================
+   static.module.css
+   Shared styles for all static/content pages
+   (About, Contact, Warranty, Privacy, Terms)
+   Technical Brutalist Futurism — design system tokens
+   =================================================== */
+
+/* ─── Page Wrapper ───────────────────────────────── */
+.pageWrapper {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-outline);
+  padding: 0 0 64px 0;
+}
+
+/* ─── Page Header Block ──────────────────────────── */
+.pageHeader {
+  padding: 48px var(--grid-margin) 32px;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-outline);
+  position: relative;
+}
+
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  margin: 0;
+}
+
+.pageTitleAccent {
+  color: var(--color-primary);
+}
+
+.headerBracket {
+  position: absolute;
+  bottom: 0;
+  right: var(--grid-margin);
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-accent-lime);
+  border-right: 2px solid var(--color-accent-lime);
+}
+
+/* ─── Content Container ──────────────────────────── */
+.contentContainer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--grid-margin);
+}
+
+/* ─── Content Box (brutalist card) ───────────────── */
+.contentBox {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-outline);
+  padding: 32px;
+  margin-top: 32px;
+  position: relative;
+}
+
+.contentBox::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+}
+
+/* ─── Section Title (inside content) ─────────────── */
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-on-surface);
+  margin: 32px 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.sectionTitle:first-child {
+  margin-top: 0;
+}
+
+/* ─── Prose (body copy) ──────────────────────────── */
+.prose {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-on-surface);
+}
+
+.prose p {
+  margin: 0 0 16px 0;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+
+.prose li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.prose a:hover {
+  color: var(--color-on-surface);
+}
+
+/* ─── Intro Text (larger body) ───────────────────── */
+.introText {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-on-surface);
+  margin-bottom: 24px;
+}
+
+/* ─── Specs / Warranty Table ─────────────────────── */
+.specTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-outline);
+  margin: 24px 0;
+}
+
+.specTable th,
+.specTable td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-outline);
+  vertical-align: top;
+}
+
+.specTable th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  background-color: var(--color-off-white);
+  border-right: 1px solid var(--color-outline);
+  width: 30%;
+}
+
+.specTable td {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-on-surface);
+  background-color: var(--color-white);
+}
+
+.specTable tr:last-child th,
+.specTable tr:last-child td {
+  border-bottom: none;
+}
+
+.specTable tr {
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.specTable tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-primary);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.specTable tr:hover::before {
+  transform: scaleY(1);
+}
+
+.specTable tr:hover td {
+  background-color: var(--color-off-white);
+}
+
+/* ─── CTA Box (dark callout) ─────────────────────── */
+.ctaBox {
+  background-color: var(--color-dark);
+  border: 1px solid var(--color-dark);
+  padding: 32px;
+  margin-top: 32px;
+  position: relative;
+}
+
+.ctaBox::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--color-accent-lime);
+  border-right: 2px solid var(--color-accent-lime);
+}
+
+.ctaTitle {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-white);
+  display: inline-block;
+}
+
+.ctaText {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-border);
+  margin: 0 0 20px 0;
+}
+
+/* ─── WhatsApp Button ────────────────────────────── */
+.waButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background-color: var(--color-accent-lime);
+  color: var(--color-dark);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.waButton:hover {
+  background-color: var(--color-dark);
+  color: var(--color-accent-lime);
+  outline: 1px solid var(--color-accent-lime);
+}
+
+.waButtonOutline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background-color: transparent;
+  color: var(--color-on-surface);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--color-outline);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.waButtonOutline:hover {
+  background-color: var(--color-dark);
+  color: var(--color-accent-lime);
+  border-color: var(--color-dark);
+}
+
+.waIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ─── Contact Grid ───────────────────────────────── */
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  background-color: var(--color-outline);
+  border: 1px solid var(--color-outline);
+  margin-top: 32px;
+}
+
+.contactCard {
+  background-color: var(--color-white);
+  padding: 32px;
+  position: relative;
+}
+
+.contactCard::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+}
+
+.contactLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+}
+
+.contactValue {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-on-surface);
+  margin: 0 0 16px 0;
+}
+
+.contactNote {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-on-surface-variant);
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+}
+
+/* ─── Map Link Button ────────────────────────────── */
+.mapButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: var(--color-off-white);
+  color: var(--color-on-surface);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--color-outline);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.mapButton:hover {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  border-color: var(--color-dark);
+}
+
+/* ─── Updated / Meta Label ───────────────────────── */
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  margin-bottom: 24px;
+}
+
+/* ─── Desktop Responsive ─────────────────────────── */
+@media (min-width: 769px) {
+  .pageTitle {
+    font-size: 84px;
+  }
+
+  .contactGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contentBox {
+    padding: 48px;
+  }
+
+  .ctaBox {
+    padding: 48px;
+  }
+}

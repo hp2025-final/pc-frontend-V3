@@ -1,0 +1,136 @@
+.searchContainer {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+  width: 100%;
+  height: 38px;
+}
+
+.searchInput {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  padding: 0 12px;
+  color: var(--color-on-surface);
+  outline: none;
+  font-size: 12px;
+  width: 100%;
+}
+
+.searchButton {
+  border: none;
+  border-left: 1px solid var(--color-outline);
+  background: var(--color-surface-container);
+  padding: 0 14px;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-surface);
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.searchButton:hover:not(:disabled) {
+  background-color: var(--color-outline-variant);
+}
+
+.searchButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dropdownPopover {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline);
+  z-index: 200;
+  /* Box shadow removed to comply strictly with color palette, or uses a simple flat design border-based shadow if desired. Flat brutalist design looks cleaner here. */
+}
+
+.dropdownHeader {
+  font-size: 10px;
+  color: var(--color-primary);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface-container-low);
+}
+
+.dropdownList {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  text-decoration: none;
+  color: inherit;
+  background-color: var(--color-surface-container-lowest);
+  transition: background-color 0.15s ease;
+}
+
+.dropdownItem:hover {
+  background-color: var(--color-surface-container-low);
+}
+
+.thumbnailWrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  margin-right: 12px;
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface-container-lowest);
+}
+
+.itemDetails {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.itemName {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemPrice {
+  font-size: 10px;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+.dropdownFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+  font-weight: 600;
+  font-size: 11px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center;
+  border-top: 1px solid var(--color-outline-variant);
+}
+
+.dropdownFooter:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary-container);
+}

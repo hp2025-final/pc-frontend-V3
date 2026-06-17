@@ -1,0 +1,316 @@
+:root {
+  /* Colors from Technical Futurism Design Spec - strictly mapped to 6 allowed colors: #ffffff, #f9f9f9, #dadada, #1a1c1c, #ff7a2f, #ceff2f */
+  --color-white: #ffffff;
+  --color-off-white: #f9f9f9;
+  --color-border: #dadada;
+  --color-dark: #1a1c1c;
+  --color-orange: #ff7a2f;
+  --color-lime: #ceff2f;
+  
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f9f9f9;
+  --color-surface-container: #f9f9f9;
+  --color-surface-container-high: #dadada;
+  --color-surface-container-highest: #dadada;
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #1a1c1c;
+  --color-inverse-surface: #1a1c1c;
+  --color-inverse-on-surface: #f9f9f9;
+  
+  /* Outline / Border Colors (Neutral Grays) */
+  --color-outline: #dadada;
+  --color-outline-variant: #f9f9f9;
+  
+  /* Primary Orange / Brand Accent Colors */
+  --color-surface-tint: #ff7a2f;
+  --color-primary: #ff7a2f;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ff7a2f;
+  --color-on-primary-container: #1a1c1c;
+  --color-inverse-primary: #ff7a2f;
+
+  /* Lime Green / Secondary Accent Color */
+  --color-accent-lime: #ceff2f;
+
+  /* Secondary Grays */
+  --color-secondary: #1a1c1c;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #dadada;
+  --color-on-secondary-container: #1a1c1c;
+  
+  --color-tertiary: #1a1c1c;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #dadada;
+  --color-on-tertiary-container: #1a1c1c;
+
+  /* Status Colors (Mapped to Accent Orange/Lime/White/Gray) */
+  --color-error: #ff7a2f;
+  --color-on-error: #ffffff;
+  --color-error-container: #f9f9f9;
+  --color-on-error-container: #ff7a2f;
+  /* Layout Spacing */
+  --grid-margin: 2rem;
+  --grid-gutter: 1px;
+  --container-padding: 3rem;
+  --stack-sm: 0.5rem;
+  --stack-md: 1.5rem;
+  --stack-lg: 4rem;
+}
+
+/* Section spacing for modern layout */
+section {
+  margin-bottom: 64px;
+}
+
+section:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Typography Utility Classes */
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.headline-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.headline-md {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.body-md {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Screen size adaptations */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 60px;
+  }
+  /* Section spacing reduced on mobile */
+  section {
+    margin-bottom: 48px;
+  }
+
+  .display-lg {
+    font-size: 36px;
+  }
+  .headline-lg {
+    font-size: 28px;
+  }
+  .headline-md {
+    font-size: 22px;
+  }
+  :root {
+    --grid-margin: 1rem;
+    --container-padding: 1rem;
+  }
+}
+
+/* The Blueprint Grid (1px borders everywhere) */
+.blueprint-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gutter);
+  background-color: var(--color-outline-variant);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.grid-module {
+  background-color: var(--color-surface-container-lowest);
+  padding: var(--stack-md);
+  border: 1px solid var(--color-outline-variant);
+}
+
+/* Adaptive mobile layout: collapses grid items to span all columns */
+@media (max-width: 768px) {
+  .blueprint-grid {
+    grid-template-columns: 1fr;
+  }
+  .grid-module {
+    grid-column: span 1 !important;
+  }
+  
+  /* Section header stays 2-column on mobile (65% / 35%) */
+  .blueprint-grid:has(.section-header-left) {
+    grid-template-columns: 65% 35% !important;
+    gap: 0 !important;
+  }
+  
+  .section-header-left {
+    grid-column: span 1 !important;
+    border-right: 1px solid var(--color-outline) !important;
+  }
+  
+  .section-header-right {
+    grid-column: span 1 !important;
+    border-left: none !important;
+  }
+}
+
+/* Button UI */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-on-surface);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border-radius: 0px;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-on-surface);
+  color: var(--color-on-primary);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--color-on-surface);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 11px 23px;
+  border: 1px solid var(--color-outline);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border-radius: 0px;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-on-surface);
+}
+
+/* Tech indicators */
+.tech-label-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tech-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  display: inline-block;
+}
+
+.tech-dot.active {
+  background-color: var(--color-accent-lime);
+}
+
+.tech-dot.error {
+  background-color: var(--color-error);
+}
+
+/* Live Search CSS hover & animations */
+.live-search-item:hover {
+  background-color: var(--color-surface) !important;
+}
+
+.live-search-footer:hover {
+  background-color: var(--color-primary) !important;
+  color: var(--color-on-surface) !important;
+}
+
+@media (max-width: 768px) {
+  .brutalist-section-title {
+    font-size: 48px !important;
+  }
+}
+
+/* 2-Column Mobile Grid for Products */
+@media (max-width: 768px) {
+  .grid-2-col-mobile {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1px !important;
+    padding: 0 !important;
+    border: none !important;
+    background-color: var(--color-outline) !important;
+  }
+  
+  .grid-2-col-mobile > div {
+    grid-column: span 1 !important;
+  }
+}
+
+
+

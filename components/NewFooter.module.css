@@ -1,0 +1,310 @@
+.footer {
+  background-color: var(--color-outline); /* Gray #dadada background */
+  color: var(--color-on-surface); /* Near black #1a1c1c text */
+  border-top: 2px solid var(--color-on-surface);
+  margin-top: auto;
+  position: relative;
+  font-family: var(--font-body);
+}
+
+/* ─── Top Banner ─── */
+.topBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 24px var(--grid-margin);
+  background-color: var(--color-surface-container-lowest); /* White #ffffff cells */
+  border-bottom: 2px solid var(--color-on-surface);
+}
+
+.bannerLeft {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.brandWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandTitle {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-on-surface); /* Near black text */
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.brandSub {
+  font-size: 10px;
+  color: var(--color-primary); /* Orange #ff7a2f */
+  letter-spacing: 0.2em;
+  margin-top: 4px;
+}
+
+.systemStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--color-on-surface);
+  padding: 6px 12px;
+  border: 1.5px solid var(--color-on-surface);
+  background-color: var(--color-surface); /* Off-white #f9f9f9 */
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary); /* Orange status dot */
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.bannerRight {
+  font-size: 10px;
+  color: var(--color-on-surface);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Asymmetric Modular Grid ─── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px; /* thick gray border gaps between white blocks */
+  background-color: var(--color-outline); /* #dadada */
+}
+
+.col {
+  background-color: var(--color-surface-container-lowest); /* White #ffffff cells */
+  padding: 32px var(--grid-margin);
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.col:hover {
+  background-color: var(--color-surface); /* Off-white #f9f9f9 on cell hover */
+}
+
+.moduleNumber {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+  letter-spacing: 0.1em;
+}
+
+.colTitle {
+  font-size: 11px;
+  color: var(--color-on-surface);
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-bottom: 1.5px solid var(--color-on-surface);
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+.brandDesc {
+  font-size: 13px;
+  color: #4a4a4a; /* legible gray text on white */
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ─── Corner Bracket Decoration for Cells ─── */
+.cornerBracket {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid var(--color-primary);
+  border-left: 1.5px solid var(--color-primary);
+  opacity: 0.4;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.col:hover .cornerBracket {
+  opacity: 1;
+  transform: translate(-2px, -2px);
+}
+
+/* ─── Link Lists ─── */
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link {
+  color: var(--color-on-surface);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.linkDot {
+  font-size: 8px;
+  color: var(--color-primary);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateX(-4px);
+}
+
+.link:hover {
+  color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.link:hover .linkDot {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── Contact Section ─── */
+.contactSection {
+  margin-bottom: 24px;
+}
+
+.contactLabel {
+  font-size: 10px;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.contactText {
+  font-size: 13px;
+  color: #4a4a4a;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.whatsappCTA {
+  background-color: var(--color-surface); /* Off-white #f9f9f9 container */
+  border: 1.5px solid var(--color-on-surface);
+  padding: 16px;
+  position: relative;
+}
+
+.phoneLink {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-on-surface);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.waIcon {
+  color: var(--color-on-surface);
+  transition: transform 0.2s ease;
+}
+
+.phoneLink:hover {
+  color: var(--color-primary);
+}
+
+.phoneLink:hover .waIcon {
+  color: var(--color-primary);
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* ─── Lime Green Accent Strip ─── */
+.accentStrip {
+  height: 4px;
+  background-color: var(--color-accent-lime); /* Lime green #ceff2f strip */
+  width: 100%;
+  border-top: 2px solid var(--color-on-surface);
+  border-bottom: 2px solid var(--color-on-surface);
+}
+
+/* ─── Footer Bottom Row ─── */
+.bottomRow {
+  padding: 24px var(--grid-margin);
+  background-color: var(--color-surface-container-lowest); /* White #ffffff cell */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.copyright {
+  font-size: 10px;
+  color: var(--color-on-surface);
+  letter-spacing: 0.05em;
+}
+
+.systemLabel {
+  font-size: 10px;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+}
+
+/* ─── Wholesale CTA ─── */
+.wholesaleCTA {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-on-surface);
+  border-top: none;
+  padding: 16px;
+  position: relative;
+}
+
+/* ─── NTN Section ─── */
+.ntnSection {
+  margin-top: 12px;
+}
+
+.ntnLink {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  padding: 10px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.ntnLink:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE DESIGN (Desktop 769px+)
+   ═══════════════════════════════════════════════ */
+@media (min-width: 769px) {
+  .grid {
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr; /* asymmetric columns */
+    gap: 2px;
+  }
+
+  .col {
+    padding: 48px var(--grid-margin);
+  }
+}

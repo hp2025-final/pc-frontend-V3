@@ -1,0 +1,1765 @@
+/* ===================================================
+   product.module.css
+   Scoped ENTIRELY to app/product/[slug]/page.tsx
+   Parent wrapper: .productPageWrapper
+   All selectors are scoped to prevent CSS bleed
+   Mobile-first responsive design
+   =================================================== */
+
+/* ─── Page Wrapper ───────────────────────────────── */
+.productPageWrapper {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-outline);
+}
+
+/* ─── 12-Column Product Grid ─────────────────────── */
+.productPageWrapper .productGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-outline);
+}
+
+/* ─── LEFT: Specs Column (4 cols desktop) ──────── */
+.productPageWrapper .specsColumn {
+  padding: 0;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-white);
+}
+
+.productPageWrapper .specsContainer {
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .specsHeader {
+  padding: 16px 20px;
+  background-color: var(--color-white);
+  color: var(--color-on-surface);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .specsTable {
+  display: flex;
+  flex-direction: column;
+  margin: 0; /* Full-width brutalist style */
+}
+
+.productPageWrapper .specRow {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 0;
+  border-bottom: 1px solid var(--color-outline);
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.productPageWrapper .specRow:last-child {
+  border-bottom: none;
+}
+
+/* Accenting hover transition */
+.productPageWrapper .specRow::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-primary);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.productPageWrapper .specRow:hover::before {
+  transform: scaleY(1);
+}
+
+.productPageWrapper .specLabel {
+  padding: 12px 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  background-color: var(--color-off-white);
+  border-right: 1px solid var(--color-outline);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.productPageWrapper .specValue {
+  padding: 12px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-on-surface);
+  background-color: var(--color-white);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.productPageWrapper .specRow:hover .specLabel {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+}
+
+.productPageWrapper .specRow:hover .specValue {
+  background-color: var(--color-off-white);
+}
+
+.productPageWrapper .specsEmpty {
+  padding: 40px 20px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-on-surface-variant);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ─── CENTER: Image Column (6 cols desktop) ─── */
+.productPageWrapper .imageColumn {
+  padding: 0;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-white);
+  position: relative;
+}
+
+.productPageWrapper .imageSticky {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE ONLY STYLES (< 769px)
+   ═══════════════════════════════════════════════════════ */
+
+/* Image Column - Remove borders and padding on mobile */
+@media (max-width: 768px) {
+  .productPageWrapper .imageColumn {
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid var(--color-outline);
+    background-color: var(--color-white);
+  }
+
+  /* Stock Badge on Image - Mobile (smaller) */
+  .productPageWrapper .stockBadgeOnImage {
+    padding: 0 8px;
+    gap: 6px;
+    height: 24px;
+    left: 0;
+    right: auto !important;
+    width: max-content !important;
+  }
+
+  .productPageWrapper .stockDot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .productPageWrapper .stockText {
+    font-size: 8px;
+  }
+
+  .productPageWrapper .stockBracket {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Image Gallery Layout - Mobile ONLY (Image LEFT, Thumbnails RIGHT) */
+  .productPageWrapper .imageGalleryLayout {
+    display: grid !important;
+    grid-template-columns: 1fr 80px !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px !important;
+    background-color: var(--color-white) !important;
+    padding: 8px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Main Image - Mobile LEFT side (SQUARE) */
+  .productPageWrapper .mainImageContainer {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-outline) !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    order: 1 !important;
+    box-sizing: border-box;
+    margin: 0 !important;
+  }
+
+  .productPageWrapper .mainImageWrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* Makes it square - aspect ratio 1:1 */
+    background-color: var(--color-white);
+    box-sizing: border-box;
+  }
+
+  .productPageWrapper .mainImageWrapper > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Thumbnail Column - Mobile RIGHT side (shows 4 at a time) */
+  .productPageWrapper .thumbnailColumnWrapper {
+    overflow: hidden;
+    background-color: var(--color-outline);
+    border: 1px solid var(--color-outline) !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    order: 2 !important;
+    height: 320px; /* 80px × 4 thumbnails */
+    position: relative;
+    margin: 0 !important;
+    /* Hide scrollbar completely */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .productPageWrapper .thumbnailColumnWrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .productPageWrapper .thumbnailColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: transform 0.3s ease;
+    width: 100%;
+    will-change: transform;
+  }
+
+  .productPageWrapper .thumbnail {
+    position: relative;
+    flex: 0 0 80px;
+    width: 100%;
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    background-color: var(--color-white);
+    border: none;
+    border-bottom: 1px solid var(--color-outline);
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .productPageWrapper .thumbnail:last-child {
+    border-bottom: none;
+  }
+
+  .productPageWrapper .thumbnail:hover {
+    opacity: 0.8;
+  }
+
+  .productPageWrapper .thumbnailActive {
+    opacity: 1;
+    background-color: var(--color-off-white);
+    border: 2px solid var(--color-accent-lime) !important;
+  }
+
+  /* Navigation Bar - Mobile full width below */
+  .productPageWrapper .navigationBarWrapper {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-outline) !important;
+    margin: 0 !important;
+  }
+
+  .productPageWrapper .navigationBar {
+    display: grid;
+    grid-template-columns: 76px 1fr 76px;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .productPageWrapper .navButtonUp,
+  .productPageWrapper .navButtonDown {
+    background-color: var(--color-off-white);
+    color: var(--color-dark);
+    border: none;
+    padding: 12px 16px;
+    width: 76px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .productPageWrapper .navButtonUp {
+    border-right: 1px solid var(--color-outline);
+  }
+
+  .productPageWrapper .navButtonDown {
+    border-left: 1px solid var(--color-outline);
+  }
+
+  .productPageWrapper .navButtonUp:hover:not(:disabled),
+  .productPageWrapper .navButtonDown:hover:not(:disabled) {
+    background-color: var(--color-dark);
+    color: var(--color-accent-lime);
+  }
+
+  .productPageWrapper .navButtonUp:disabled,
+  .productPageWrapper .navButtonDown:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .productPageWrapper .imageCounter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-on-surface);
+    padding: 12px;
+    background-color: var(--color-white);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   LEGACY/BASE STYLES (will be overridden by mobile or desktop)
+   ═══════════════════════════════════════════════════════ */
+
+/* Image Gallery Layout - Mobile (thumbnails left, image right, nav below) */
+.productPageWrapper .imageGalleryLayout {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px;
+  background-color: var(--color-white);
+  padding: 12px;
+}
+
+/* Main Image Container - Mobile top right */
+.productPageWrapper .mainImageContainer {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-outline);
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.productPageWrapper .mainImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--color-white);
+}
+
+/* Thumbnail Column Wrapper - Mobile left side (vertical) */
+.productPageWrapper .thumbnailColumnWrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--color-outline);
+  border: 1px solid var(--color-outline);
+  grid-column: 1;
+  grid-row: 1;
+  max-height: 400px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.productPageWrapper .thumbnailColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-height: min-content;
+}
+
+.productPageWrapper .thumbnail {
+  position: relative;
+  flex: 0 0 80px;
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  min-height: 80px;
+  background-color: var(--color-white);
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease, border 0.2s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.productPageWrapper .thumbnail:hover {
+  opacity: 0.7;
+}
+
+.productPageWrapper .thumbnailActive {
+  opacity: 1;
+  border: 2px solid var(--color-accent-lime);
+}
+
+/* Navigation Bar Wrapper - Mobile full width below */
+.productPageWrapper .navigationBarWrapper {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .navigationBar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0;
+  align-items: stretch;
+}
+
+.productPageWrapper .navButtonUp,
+.productPageWrapper .navButtonDown {
+  background-color: var(--color-off-white);
+  color: var(--color-dark);
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.productPageWrapper .navButtonUp {
+  border-right: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .navButtonDown {
+  border-left: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .navButtonUp:hover:not(:disabled),
+.productPageWrapper .navButtonDown:hover:not(:disabled) {
+  background-color: var(--color-dark);
+  color: var(--color-accent-lime);
+}
+
+.productPageWrapper .navButtonUp:disabled,
+.productPageWrapper .navButtonDown:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.productPageWrapper .imageCounter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  padding: 12px;
+  background-color: var(--color-white);
+}
+
+/* Old styles that need to be removed/hidden */
+.productPageWrapper .thumbnailSection,
+.productPageWrapper .thumbnailGridContainer,
+.productPageWrapper .thumbnailGrid,
+.productPageWrapper .navigationFooter,
+.productPageWrapper .navButtonLeft,
+.productPageWrapper .navButtonRight {
+  display: none;
+}
+
+/* ─── LEFT: Info Column (4 cols desktop) ──────── */
+.productPageWrapper .infoColumn {
+  position: relative;
+  padding: var(--grid-margin);
+  border-bottom: 1px solid var(--color-outline);
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Remove default gap, control with individual margins */
+  background-color: var(--color-white);
+}
+
+/* ──── STOCK BADGE ON IMAGE (Top-Right, neumorphic soft UI style) ──── */
+.productPageWrapper .stockBadgeOnImage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  background-color: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  z-index: 10;
+  height: 24px;
+  box-sizing: border-box;
+}
+
+.productPageWrapper .stockBadgeActive .stockBracket {
+  border-color: var(--color-lime); /* Lime when in stock */
+}
+
+.productPageWrapper .stockBadgeInactive .stockBracket {
+  border-color: var(--color-orange); /* Orange when out of stock */
+}
+
+.productPageWrapper .stockBracket {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+.productPageWrapper .stockDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.productPageWrapper .stockDotActive {
+  background-color: var(--color-lime); /* #ceff2f - in stock */
+}
+
+.productPageWrapper .stockDotInactive {
+  background-color: var(--color-orange); /* #ff7a2f - out of stock */
+}
+
+.productPageWrapper .stockText {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-dark); /* #1a1c1c */
+}
+
+/* ──── CATEGORY BADGE (Top-Right of Info Section, 0 gap) ──── */
+.productPageWrapper .categoryBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background-color: var(--color-dark); /* Black bg */
+  color: var(--color-orange); /* Orange text */
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px)); /* Bottom-left corner cut */
+  transition: color 0.2s ease;
+  z-index: 5;
+}
+
+.productPageWrapper .categoryBadge:hover {
+  color: var(--color-lime); /* Text changes to green on hover */
+}
+
+/* Product Title - Enhanced with top spacing */
+.productPageWrapper .productTitle {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-on-surface);
+  margin: 32px 0 20px 0;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Allow 4 lines for long product names */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ──── CONDITION & WARRANTY BADGES (Above price line, right aligned, neumorphic soft UI style) ──── */
+.productPageWrapper .metaBadges {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 0 0 0; /* 0 bottom = no gap with line */
+}
+
+.productPageWrapper .conditionBadge,
+.productPageWrapper .warrantyBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  border: none;
+  background-color: #f9f9f9;
+  box-shadow:
+    -3px -3px 6px var(--color-border),
+    3px 3px 6px var(--color-white);
+  height: 24px;
+  box-sizing: border-box;
+}
+
+/* ──── PRICE MODULE (Clean, No Label) ──── */
+.productPageWrapper .priceModule {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Removed gap to attach badges directly to the line */
+  position: relative;
+  margin: 0 0 16px 0; /* Bottom: space to delivery info */
+}
+
+/* Border Line (0 gap above and below badges) */
+.productPageWrapper .priceBorderLine {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 0; /* No margin - attached to badges */
+}
+
+/* Remove old price label styles */
+.productPageWrapper .priceLabelRow,
+.productPageWrapper .priceLabel {
+  display: none;
+}
+
+/* Price Display - Reduced 27% (from 36px to 27px mobile) */
+.productPageWrapper .priceRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 12px 0 0 0; /* Added margin to push price content below line */
+}
+
+.productPageWrapper .salePrice {
+  font-family: var(--font-display);
+  font-size: 27px; /* Reduced from 36px (25% reduction) */
+  font-weight: 800;
+  color: var(--color-dark); /* Black color for sale price */
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.productPageWrapper .mainPrice {
+  font-family: var(--font-display);
+  font-size: 27px; /* Reduced from 36px (25% reduction) */
+  font-weight: 800;
+  color: var(--color-dark); /* Black color for regular price */
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Price Down Row - WAS price with icon and percentage */
+.productPageWrapper .priceDownRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Price Down Badge - Neumorphic Split-Cell */
+.productPageWrapper .priceDownBadge {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  overflow: hidden;
+  border: none;
+  height: 24px;
+}
+
+.productPageWrapper .priceDownBadge .badgeIconCell {
+  color: var(--color-lime);
+}
+
+.productPageWrapper .wasPrice {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  text-decoration: line-through;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+.productPageWrapper .discountPercentage {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-orange);
+  letter-spacing: 0.05em;
+}
+
+/* Price Up Row - WAS price with icon and percentage */
+.productPageWrapper .priceUpRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Price Up Badge - Neumorphic Split-Cell */
+.productPageWrapper .priceUpBadge {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  overflow: hidden;
+  border: none;
+  height: 24px;
+}
+
+.productPageWrapper .priceUpBadge .badgeIconCell {
+  color: var(--color-orange);
+}
+
+.productPageWrapper .wasPriceUp {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  text-decoration: line-through; /* Same as Price Down */
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+.productPageWrapper .increasePercentage {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-orange);
+  letter-spacing: 0.05em;
+}
+
+/* Remove old discount badge and regular price styles */
+.productPageWrapper .discountBadgeNew,
+.productPageWrapper .regularPrice {
+  display: none;
+}
+
+/* ──── NEW PRICING SCENARIOS ──── */
+
+/* SCENARIO 0: HIGH FLUCTUATION (Shift Tag) */
+.productPageWrapper .shiftBadge {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  overflow: hidden;
+  border: none;
+  height: 24px;
+}
+
+.productPageWrapper .shiftBadge .badgeIconCell {
+  color: var(--color-orange);
+}
+
+/* Shared Neumorphic Badge Components */
+.productPageWrapper .badgeIconCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  background: var(--color-dark);
+  border-right: 1px solid var(--color-border);
+  box-sizing: border-box;
+}
+
+.productPageWrapper .badgeTextCell {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.productPageWrapper .tagIcon {
+  width: 11px;
+  height: 11px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.productPageWrapper .fluctuationIcon {
+  width: 11px;
+  height: 11px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.productPageWrapper .arrowIconUp,
+.productPageWrapper .arrowIconDown {
+  width: 10px;
+  height: 10px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.productPageWrapper .badgeIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.productPageWrapper .maxMinLabel {
+  font-family: var(--font-display); /* Same as price - Sora */
+  font-size: 21px; /* Reduced from 27px (22% reduction) */
+  font-weight: 400; /* Reduced from 800 to 400 (half boldness) */
+  color: var(--color-dark); /* Black - same as price */
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-right: 8px; /* Small space between label and price */
+}
+
+/* Shift scenario - custom price size for Max/Min rows */
+.productPageWrapper .shiftPrice {
+  font-family: var(--font-display);
+  font-size: 21px; /* Same as label - 21px mobile */
+  font-weight: 400; /* Reduced from 800 to 400 (half boldness) */
+  color: var(--color-dark);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.productPageWrapper .priceInfoRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* SCENARIO 3: ON SALE (Standard WooCommerce Sale) */
+.productPageWrapper .saleInfoRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.productPageWrapper .saleBadge {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  overflow: hidden;
+  border: none;
+  height: 24px;
+}
+
+.productPageWrapper .saleBadge .badgeIconCell {
+  color: var(--color-orange);
+}
+
+/* SCENARIO 4: MARKET PRICE (Stable) */
+.productPageWrapper .marketPriceRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.productPageWrapper .marketPriceBadge {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 0;
+  background: var(--color-white);
+  box-shadow:
+    3px 3px 6px var(--color-border),
+    -3px -3px 6px var(--color-white);
+  overflow: hidden;
+  border: none;
+  height: 24px;
+}
+
+.productPageWrapper .marketPriceBadge .badgeIconCell {
+  gap: 2px;
+}
+
+.productPageWrapper .marketPriceBadge .arrowIconUp {
+  color: var(--color-orange);
+}
+
+.productPageWrapper .marketPriceBadge .arrowIconDown {
+  color: var(--color-lime);
+}
+
+.productPageWrapper .priceStableText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+/* SEO-Optimized Location Note (renamed from priceNote) */
+.productPageWrapper .priceLocationNote {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--color-on-surface);
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Old priceNote - Keep for backward compatibility but hide */
+.productPageWrapper .priceNote {
+  display: none;
+}
+
+/* ──── DELIVERY INFO CELL ──── */
+.productPageWrapper .deliveryInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  margin: 0 0 16px 0; /* Bottom: space to short description */
+}
+
+.productPageWrapper .deliveryIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-dark);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.productPageWrapper .deliveryText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-on-surface);
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.productPageWrapper .deliveryText strong {
+  font-weight: 600;
+}
+
+/* ──── NOTABLE DETAILS - REMOVED (Replaced by meta badges above) ──── */
+.productPageWrapper .notableGrid,
+.productPageWrapper .notableCard,
+.productPageWrapper .notableCardBrand,
+.productPageWrapper .notableCardCondition,
+.productPageWrapper .notableCardWarranty,
+.productPageWrapper .notableCardSku,
+.productPageWrapper .notableIconBox,
+.productPageWrapper .notableContent,
+.productPageWrapper .notableLabel,
+.productPageWrapper .notableValue {
+  display: none;
+}
+
+/* Short Description */
+.productPageWrapper .shortDescription {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  margin: 0 0 20px 0; /* Bottom: space to WhatsApp button */
+}
+
+.productPageWrapper .descriptionContent {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-on-surface-variant);
+}
+
+.productPageWrapper .descriptionContent p {
+  margin: 0 0 12px 0;
+}
+
+.productPageWrapper .descriptionContent p:last-child {
+  margin-bottom: 0;
+}
+
+.productPageWrapper .descriptionContent ul {
+  margin: 0 0 12px 0;
+  padding-left: 18px;
+}
+
+.productPageWrapper .descriptionContent li {
+  margin-bottom: 6px;
+}
+
+/* ──── USP MARQUEE (Below image and info sections, green bg, black text) ──── */
+.productPageWrapper .uspMarquee {
+  grid-column: 1 / -1; /* Full width */
+  background-color: var(--color-lime);
+  padding: 8px 0; /* Reduced from 14px to 8px for slimmer look */
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+
+.productPageWrapper .uspMarqueeTrack {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  animation: marqueeScroll 40s linear infinite;
+  white-space: nowrap;
+}
+
+/* Pause animation on hover */
+.productPageWrapper .uspMarquee:hover .uspMarqueeTrack {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.productPageWrapper .uspMarqueeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400; /* Changed from 600 to 400 (regular) */
+  letter-spacing: 0.08em; /* Increased from 0.05em for more spacing */
+  text-transform: uppercase;
+  color: var(--color-dark);
+  white-space: nowrap;
+}
+
+.productPageWrapper .uspMarqueeItem a {
+  color: var(--color-dark);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.productPageWrapper .uspMarqueeItem a:hover {
+  opacity: 0.7;
+}
+
+.productPageWrapper .uspMarqueeSeparator {
+  display: inline-block;
+  margin: 0 4px;
+  color: var(--color-dark);
+  font-weight: 400;
+}
+
+/* Old USP Text - Removed */
+.productPageWrapper .uspText {
+  display: none;
+}
+
+/* ──── WHATSAPP BUTTON (Green Background, Black Text/Icon) ──── */
+.productPageWrapper .whatsappButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 18px 24px;
+  background-color: var(--color-lime); /* Green background */
+  color: var(--color-dark); /* Black text */
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none; /* No border */
+  transition: all 0.2s ease;
+  margin: 0; /* No margin */
+}
+
+.productPageWrapper .whatsappButton:hover {
+  background-color: var(--color-dark);
+  color: var(--color-lime);
+}
+
+.productPageWrapper .whatsappIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--color-dark); /* Black icon */
+}
+
+.productPageWrapper .whatsappButton:hover .whatsappIcon {
+  color: var(--color-lime); /* Green on hover */
+}
+
+.productPageWrapper .arrowIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-dark); /* Black icon */
+  stroke: currentColor;
+}
+
+.productPageWrapper .whatsappButton:hover .arrowIcon {
+  color: var(--color-lime); /* Green on hover */
+  stroke: currentColor;
+}
+
+/* ─── RIGHT: Specs Column (4 cols desktop) ──────── */
+.productPageWrapper .specsColumn {
+  padding: 0;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-white);
+}
+
+.productPageWrapper .specsContainer {
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .specsHeader {
+  padding: 16px 20px;
+  background-color: var(--color-white);
+  color: var(--color-on-surface);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .specsTable {
+  display: flex;
+  flex-direction: column;
+  margin: 0; /* Full-width brutalist style */
+}
+
+.productPageWrapper .specRow {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 0;
+  border-bottom: 1px solid var(--color-outline);
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.productPageWrapper .specRow:last-child {
+  border-bottom: none;
+}
+
+/* Accenting hover transition */
+.productPageWrapper .specRow::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-primary);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.productPageWrapper .specRow:hover::before {
+  transform: scaleY(1);
+}
+
+.productPageWrapper .specLabel {
+  padding: 12px 20px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  background-color: var(--color-off-white);
+  border-right: 1px solid var(--color-outline);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.productPageWrapper .specValue {
+  padding: 12px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-on-surface);
+  background-color: var(--color-white);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.productPageWrapper .specRow:hover .specLabel {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+}
+
+.productPageWrapper .specRow:hover .specValue {
+  background-color: var(--color-off-white);
+}
+
+.productPageWrapper .specsEmpty {
+  padding: 40px 20px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-on-surface-variant);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ─── Full Width: Long Description ──────────────── */
+.productPageWrapper .descriptionColumn {
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  padding: 0;
+}
+
+.productPageWrapper .descriptionContainer {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-outline);
+}
+
+.productPageWrapper .descriptionSection {
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  padding: 48px var(--grid-margin);
+}
+
+.productPageWrapper .descriptionHeader {
+  position: relative;
+  padding: 16px 20px;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-white);
+}
+
+.productPageWrapper .descCornerBracket {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-accent-lime);
+  border-right: 2px solid var(--color-accent-lime);
+  z-index: 1;
+}
+
+.productPageWrapper .descriptionTitle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  margin: 0;
+}
+
+.productPageWrapper .descriptionBody {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--color-on-surface);
+  padding: var(--grid-margin);
+}
+
+.productPageWrapper .descriptionBody p {
+  margin: 0 0 16px 0;
+}
+
+.productPageWrapper .descriptionBody p:last-child {
+  margin-bottom: 0;
+}
+
+.productPageWrapper .descriptionBody ul,
+.productPageWrapper .descriptionBody ol {
+  margin: 0 0 16px 20px;
+  padding: 0;
+}
+
+.productPageWrapper .descriptionBody li {
+  margin-bottom: 8px;
+}
+
+.productPageWrapper .descriptionBody h2,
+.productPageWrapper .descriptionBody h3,
+.productPageWrapper .descriptionBody h4 {
+  font-family: var(--font-display);
+  margin: 24px 0 12px 0;
+  font-weight: 700;
+}
+
+.productPageWrapper .descriptionBody h2 {
+  font-size: 18px;
+}
+
+.productPageWrapper .descriptionBody h3 {
+  font-size: 16px;
+}
+
+.productPageWrapper .descriptionBody h4 {
+  font-size: 14px;
+}
+
+/* ─── Desktop Layout (12-col grid) ──────────────── */
+@media (min-width: 769px) {
+  .productPageWrapper .productGrid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1px;
+    background-color: var(--color-outline);
+    border: 1px solid var(--color-outline);
+  }
+
+  /* Top Left: Image Gallery (6 columns) */
+  .productPageWrapper .imageColumn {
+    grid-column: span 6;
+    border-bottom: none;
+    border-right: 1px solid var(--color-outline);
+    padding: 0;
+  }
+
+  /* Desktop: Image Gallery Layout - Horizontal (thumbnails left, image center, nav right) */
+  .productPageWrapper .imageGalleryLayout {
+    display: grid;
+    grid-template-columns: 100px 1fr 60px;
+    grid-template-rows: auto;
+    gap: 12px;
+    height: 100%;
+    min-height: 500px;
+    padding: 12px;
+  }
+
+  /* Thumbnails on Left - Vertical Column */
+  .productPageWrapper .thumbnailColumnWrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--color-outline);
+    border: 1px solid var(--color-outline);
+    grid-column: 1;
+    grid-row: 1;
+    max-height: 100%;
+  }
+
+  .productPageWrapper .thumbnailColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-height: min-content;
+  }
+
+  .productPageWrapper .thumbnail {
+    flex: 0 0 100px;
+    width: 100%;
+    min-width: auto;
+    height: auto;
+    min-height: auto;
+    aspect-ratio: 1;
+  }
+
+  /* Main Image in Center */
+  .productPageWrapper .mainImageContainer {
+    grid-column: 2;
+    grid-row: 1;
+    height: 100%;
+  }
+
+  .productPageWrapper .mainImageWrapper {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  /* Navigation Bar on Right - Vertical */
+  .productPageWrapper .navigationBarWrapper {
+    grid-column: 3;
+    grid-row: 1;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-outline);
+    height: 100%;
+  }
+
+  .productPageWrapper .navigationBar {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    height: 100%;
+  }
+
+  .productPageWrapper .navButtonUp {
+    border-right: none;
+    border-bottom: 1px solid var(--color-outline);
+    padding: 16px 20px;
+    flex: 0 0 auto;
+  }
+
+  .productPageWrapper .navButtonDown {
+    border-left: none;
+    border-top: 1px solid var(--color-outline);
+    padding: 16px 20px;
+    flex: 0 0 auto;
+  }
+
+  .productPageWrapper .imageCounter {
+    font-size: 11px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    flex: 1;
+    padding: 20px 12px;
+  }
+
+  /* Top Right: Product Info (6 columns) */
+  .productPageWrapper .infoColumn {
+    grid-column: span 6;
+    border-bottom: none;
+    padding: 24px;
+    gap: 0; /* Control with individual margins */
+  }
+
+  /* Stock Badge - Not needed here, it's on image */
+
+  /* Category Badge Desktop */
+  .productPageWrapper .categoryBadge {
+    font-size: 9px;
+    padding: 7px 12px;
+  }
+
+  /* Product Title Desktop */
+  .productPageWrapper .productTitle {
+    font-size: 24px;
+    line-height: 1.2;
+    -webkit-line-clamp: 3; /* Allow 3 lines on desktop for long names */
+    margin-top: 36px;
+    margin-bottom: 24px;
+  }
+
+  /* Meta Badges Desktop */
+  .productPageWrapper .metaBadges {
+    margin-bottom: 0; /* 0 gap with line */
+  }
+
+  .productPageWrapper .conditionBadge,
+  .productPageWrapper .warrantyBadge {
+    padding: 7px 14px;
+    font-size: 10px;
+  }
+
+  /* Price Module Desktop */
+  .productPageWrapper .priceModule {
+    margin-bottom: 20px;
+  }
+
+  .productPageWrapper .salePrice,
+  .productPageWrapper .mainPrice {
+    font-size: 32px; /* Reduced from 42px (30% reduction for desktop) */
+  }
+
+  .productPageWrapper .priceDownBadge {
+    /* Padding removed to prevent gaps around icon cell */
+  }
+
+  .productPageWrapper .priceDownIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .productPageWrapper .priceDownText {
+    font-size: 10px;
+  }
+
+  .productPageWrapper .wasPrice {
+    font-size: 14px;
+  }
+
+  .productPageWrapper .discountPercentage {
+    font-size: 13px;
+  }
+
+  /* Price Up Desktop Styles */
+  .productPageWrapper .priceUpBadge {
+    /* Padding removed to prevent gaps around icon cell */
+  }
+
+  .productPageWrapper .priceUpIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .productPageWrapper .priceUpText {
+    font-size: 10px;
+  }
+
+  .productPageWrapper .wasPriceUp {
+    font-size: 14px;
+    text-decoration: line-through; /* Ensure strikethrough on desktop too */
+  }
+
+  .productPageWrapper .increasePercentage {
+    font-size: 13px;
+  }
+
+  .productPageWrapper .priceNote {
+    font-size: 11px;
+  }
+
+  /* Delivery Info Desktop */
+  .productPageWrapper .deliveryInfo {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+
+  .productPageWrapper .deliveryText {
+    font-size: 12px;
+  }
+
+  /* Short Description Desktop */
+  .productPageWrapper .shortDescription {
+    margin-bottom: 24px;
+  }
+
+  .productPageWrapper .descriptionContent {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .productPageWrapper .descriptionContent p {
+    margin: 0 0 14px 0;
+  }
+
+  .productPageWrapper .descriptionContent ul {
+    margin: 0 0 14px 0;
+  }
+
+  .productPageWrapper .descriptionContent li {
+    margin-bottom: 8px;
+  }
+
+  /* USP Text Desktop */
+  .productPageWrapper .uspText {
+    font-size: 11px;
+    margin-top: 14px;
+  }
+
+  /* USP Grid Desktop */
+  .productPageWrapper .uspGrid {
+    gap: 1px;
+  }
+
+  .productPageWrapper .uspItem {
+    padding: 14px 10px;
+  }
+
+  .productPageWrapper .uspIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .productPageWrapper .uspText {
+    font-size: 10px;
+  }
+
+  /* WhatsApp Button Desktop */
+  .productPageWrapper .whatsappButton {
+    font-size: 13px;
+    padding: 20px 28px;
+  }
+
+  .productPageWrapper .whatsappIcon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .productPageWrapper .arrowIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Bottom Left: Specifications (6 columns) */
+  .productPageWrapper .specsColumn {
+    grid-column: span 6;
+    border-bottom: none;
+    border-right: 1px solid var(--color-outline);
+    padding: 0;
+  }
+
+  .productPageWrapper .specsHeader {
+    font-size: 13px;
+    padding: 18px 20px;
+  }
+
+  .productPageWrapper .specLabel {
+    font-size: 10px;
+    padding: 14px 20px;
+  }
+
+  .productPageWrapper .specValue {
+    font-size: 14px;
+    padding: 14px 20px;
+  }
+
+  /* Bottom Right: Detailed Description (6 columns) */
+  .productPageWrapper .descriptionColumn {
+    grid-column: span 6;
+    border-bottom: none;
+    padding: 0;
+  }
+
+  .productPageWrapper .descriptionContainer {
+    background-color: var(--color-white);
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .productPageWrapper .descriptionHeader {
+    padding: 18px 20px;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--color-outline);
+    background-color: var(--color-white);
+  }
+
+  .productPageWrapper .descriptionTitle {
+    font-size: 13px;
+  }
+
+  .productPageWrapper .descriptionBody {
+    font-size: 13px;
+    padding: 20px;
+    flex: 1;
+  }
+
+  .productPageWrapper .descCornerBracket {
+    bottom: 0px;
+    right: 0px;
+  }
+
+  /* Desktop Responsive Styles for New Pricing Scenarios */
+
+  /* Shared badge scaling — desktop */
+  .productPageWrapper .shiftBadge,
+  .productPageWrapper .priceDownBadge,
+  .productPageWrapper .priceUpBadge,
+  .productPageWrapper .saleBadge,
+  .productPageWrapper .marketPriceBadge {
+    height: 32px;
+    box-shadow:
+      4px 4px 8px var(--color-border),
+      -4px -4px 8px var(--color-white);
+  }
+
+  .productPageWrapper .badgeIconCell {
+    width: 36px;
+    padding: 0;
+  }
+
+  .productPageWrapper .badgeTextCell {
+    padding: 0 12px;
+    font-size: 10px;
+  }
+
+  .productPageWrapper .tagIcon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .productPageWrapper .fluctuationIcon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .productPageWrapper .arrowIconUp,
+  .productPageWrapper .arrowIconDown {
+    width: 13px;
+    height: 13px;
+  }
+
+  .productPageWrapper .badgeIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .productPageWrapper .maxMinLabel {
+    font-size: 25px; /* Reduced from 32px (22% reduction) */
+  }
+
+  .productPageWrapper .shiftPrice {
+    font-size: 25px; /* Same as label - 25px desktop */
+  }
+
+  .productPageWrapper .priceStableText {
+    font-size: 12px;
+  }
+
+  /* Price Location Note - Desktop */
+  .productPageWrapper .priceLocationNote {
+    font-size: 11px;
+  }
+
+  /* Main Price - Desktop (Increase from 27px to 32px) */
+  .productPageWrapper .salePrice,
+  .productPageWrapper .mainPrice {
+    font-size: 32px;
+  }
+
+  .productPageWrapper .wasPrice,
+  .productPageWrapper .wasPriceUp {
+    font-size: 14px;
+  }
+
+  .productPageWrapper .discountPercentage,
+  .productPageWrapper .increasePercentage {
+    font-size: 13px;
+  }
+}
+

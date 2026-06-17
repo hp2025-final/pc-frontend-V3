@@ -1,0 +1,465 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  transition: transform 0.3s ease-in-out;
+}
+
+.headerHidden {
+  transform: translateY(-100%);
+}
+
+/* ─── Main Container: Mobile-first flex ─── */
+.container {
+  display: flex;
+  align-items: center;
+  padding: 12px var(--grid-margin);
+  position: relative;
+}
+
+.cornerBracket {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+}
+
+/* ─── Logo ─── */
+.logo {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.logoTitle {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-on-surface);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.logoSub {
+  font-size: 9px;
+  color: var(--color-primary);
+  letter-spacing: 0.2em;
+  margin-top: 2px;
+}
+
+/* ─── Embossed Column Dividers ─── */
+.divider {
+  display: none; /* hidden on mobile by default */
+}
+
+.mobileDivider {
+  width: 1px;
+  height: 24px;
+  align-self: center;
+  flex-shrink: 0;
+  background-color: var(--color-outline);
+  /* Embossed / inset effect: a soft highlight on the right side */
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.7);
+}
+
+/* ─── Desktop Nav ─── */
+.desktopNav {
+  display: none;
+}
+
+.navUl {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+.navLink {
+  color: var(--color-on-surface);
+  font-weight: 600;
+  font-size: 11px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+  border: 1px solid var(--color-surface);
+  box-sizing: border-box;
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.navUl li:not(:first-child) .navLink {
+  border-left: none;
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+}
+
+.navLinkActive {
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+  border-color: var(--color-outline);
+}
+
+.statusDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.navItemMore {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Arrow rotates when mega menu is open */
+.moreArrow {
+  display: inline-block;
+  font-size: 8px;
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+}
+
+.moreArrowOpen {
+  transform: rotate(180deg);
+}
+
+/* ─── Desktop Right Group ─── */
+.desktopRightGroup {
+  display: none;
+}
+
+/* ─── Desktop Search Area ─── */
+.desktopSearch {
+  display: none;
+}
+
+/* ─── Desktop WhatsApp Area ─── */
+.desktopWhatsapp {
+  display: none;
+}
+
+.whatsappBtn {
+  padding: 10px 16px;
+  background-color: var(--color-accent-lime);
+  color: var(--color-on-surface);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.whatsappBtn:hover {
+  background-color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
+}
+
+/* ─── Mobile Actions ─── */
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.actionBtn {
+  border: 1px solid var(--color-outline);
+  background: transparent;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-surface);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.actionBtn:hover {
+  background-color: var(--color-outline-variant);
+  border-color: var(--color-on-surface);
+}
+
+/* Mobile WhatsApp – green text button (matches desktop style but compact) */
+.mobileWaBtn {
+  padding: 8px 12px;
+  background-color: var(--color-accent-lime);
+  color: var(--color-on-surface);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  height: 36px;
+  letter-spacing: 0.05em;
+}
+
+.mobileWaBtn:hover {
+  background-color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
+}
+
+/* ─── Mega Menu: Slide Down / Fold Up Transition ─── */
+.megaMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+  padding: 0 var(--grid-margin);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  z-index: 150;
+
+  /* Slide/fold transition via max-height + opacity */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0.4s;
+}
+
+.megaMenuOpen {
+  max-height: 500px;
+  opacity: 1;
+  padding: 32px var(--grid-margin);
+  pointer-events: auto;
+  visibility: visible;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease 0.05s,
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0s;
+}
+
+.megaMenuColTitle {
+  font-size: 11px;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.megaMenuColUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.megaMenuLink {
+  color: var(--color-on-surface);
+  font-size: 13px;
+  font-family: var(--font-body);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.megaMenuLink:hover {
+  color: var(--color-primary);
+}
+
+.mobileSearchDropdown {
+  padding: 16px var(--grid-margin);
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-surface);
+}
+
+.mobileMenuDrawer {
+  padding: 20px var(--grid-margin);
+  border-bottom: 1px solid var(--color-outline);
+  background-color: var(--color-surface-container-lowest);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.mobileMenuUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobileMenuLink {
+  color: var(--color-on-surface);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobileMenuLink:hover {
+  color: var(--color-primary);
+}
+
+.mobileMenuSection {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-outline);
+}
+
+.mobileMenuSectionTitle {
+  font-size: 10px;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.mobileMenuSectionUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileMenuSubLink {
+  color: var(--color-on-surface);
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobileMenuSubLink:hover {
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════════
+   DESKTOP BREAKPOINT — 769px+
+   Logo left side, menu search and whatsappbutton right side (separated by columns)
+   ═══════════════════════════════════════════════ */
+@media (min-width: 769px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0 var(--grid-margin);
+    gap: 0;
+  }
+
+  .logo {
+    padding: 16px 0;
+    box-sizing: border-box;
+    align-self: center;
+  }
+
+  .desktopRightGroup {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    flex-grow: 1;
+    align-self: stretch;
+  }
+
+  /* Desktop dividers: visible on desktop */
+  .divider {
+    display: block;
+    width: 1px;
+    height: 28px;
+    flex-shrink: 0;
+    align-self: center;
+    background-color: var(--color-outline);
+    /* Embossed effect: subtle light-side highlight for an inset look */
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.7);
+  }
+
+  /* Desktop Nav */
+  .desktopNav {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .navUl {
+    gap: 0;
+    align-items: stretch;
+  }
+
+  /* Desktop Search */
+  .desktopSearch {
+    display: flex;
+    align-items: center;
+    width: 250px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+  }
+
+  .desktopSearch :global(.searchContainer) {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Desktop WhatsApp */
+  .desktopWhatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0 8px 16px;
+    box-sizing: border-box;
+  }
+
+  /* Hide mobile actions */
+  .mobileActions {
+    display: none;
+  }
+}
+
+/* ─── Large desktop: side-by-side with no gap ─── */
+@media (min-width: 1200px) {
+  .navUl {
+    gap: 0;
+  }
+
+  .navLink {
+    font-size: 11px;
+  }
+}

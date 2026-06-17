@@ -1,0 +1,66 @@
+/* components/BrutalistProgressBar.module.css */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-dark);
+  opacity: 0.75;
+  z-index: -1;
+}
+
+.loadingBox {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-dark);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 220px;
+  position: relative;
+  box-shadow: none;
+}
+
+/* Signature Orange Corner Bracket */
+.loadingBox::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid var(--color-orange);
+  border-right: 2px solid var(--color-orange);
+  pointer-events: none;
+}
+
+.text {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.barText {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: var(--color-orange);
+  letter-spacing: 0.1em;
+}
