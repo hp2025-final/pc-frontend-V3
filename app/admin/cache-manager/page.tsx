@@ -18,6 +18,7 @@ export default function CacheManagerPage() {
   const [homepageOption, setHomepageOption] = useState("no-change");
   const [categoriesOption, setCategoriesOption] = useState("no-change");
   const [productsOption, setProductsOption] = useState("no-change");
+  const [searchTerm, setSearchTerm] = useState("");
   
   const [loading, setLoading] = useState<string | null>(null);
   const [result, setResult] = useState<ClearResult | null>(null);
@@ -114,6 +115,26 @@ export default function CacheManagerPage() {
       setResult(data);
     } catch (err) {
       setResult({ success: false, message: "Error clearing last hour cache" });
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleSearchAndClear = async () => {
+    if (!searchTerm || searchTerm.length < 3) {
+      setResult({ success: false, message: "Please enter at least 3 characters" });
+      return;
+    }
+
+    setLoading("search");
+    setResult(null);
+    
+    try {
+      const response = await fetch(`/api/cache/clear-product-by-name?search=${encodeURIComponent(searchTerm)}`);
+      const data = await response.json();
+      setResult(data);
+    } catch (err) {
+      setResult({ success: false, message: "Error searching for products" });
     } finally {
       setLoading(null);
     }
@@ -333,6 +354,46 @@ export default function CacheManagerPage() {
               className={styles.clearButton}
             >
               {loading === "products" ? "CLEARING..." : "CLEAR PRODUCT CACHE"}
+            </button>
+          </div>
+        </div>
+
+        {/* Search & Clear Section - NEW */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>🔍</span>
+            <h2 className={styles.sectionTitle}>SEARCH & CLEAR SPECIFIC PRODUCTS</h2>
+          </div>
+          
+          <div className={styles.sectionBody}>
+            <label className={styles.optionLabel}>
+              Search for products you just updated:
+            </label>
+            
+            <div style={{ marginBottom: "16px" }}>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Type product name (e.g., 'Gamemax Leader')"
+                className={styles.searchInput}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearchAndClear();
+                  }
+                }}
+              />
+              <p className={styles.searchHint}>
+                💡 Tip: Type part of the product name you just updated
+              </p>
+            </div>
+            
+            <button
+              onClick={handleSearchAndClear}
+              disabled={!searchTerm || searchTerm.length < 3 || loading === "search"}
+              className={styles.clearButton}
+            >
+              {loading === "search" ? "SEARCHING..." : "SEARCH & CLEAR CACHE"}
             </button>
           </div>
         </div>
