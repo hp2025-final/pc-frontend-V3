@@ -6,7 +6,7 @@ import styles from "../static.module.css";
 export const metadata: Metadata = {
   title: "About Us | PC Wala Online",
   description:
-    "Pakistan's retro-cool PC parts store. Genuine hardware, WhatsApp ordering, real humans. Based in Saddar, Karachi.",
+    "Trusted since 2010. Started in Saddar, expanded to wholesale in 2012, served major corporations including national media houses and software companies. Now bringing authentic hardware and transparent pricing to every PC builder in Pakistan.",
 };
 
 export default function AboutPage() {
@@ -33,11 +33,43 @@ export default function AboutPage() {
               first-time builders come to gear up — without the usual headaches.
             </p>
 
+            <h2 className={styles.sectionTitle}>// Our Journey — 2010 to Today</h2>
             <p>
-              Based out of Saddar, Karachi, we&apos;ve been helping people build
-              everything from budget sleeper rigs to insane RGB battlestations.
-              Whether you know exactly what chipset you need or you&apos;re still
-              figuring out what a motherboard does — we&apos;ve got you.
+              <strong>2010: The Beginning</strong><br />
+              We opened our first physical store at <strong>Regal Trade Square, Saddar, Karachi</strong> — 
+              right in the heart of Pakistan&apos;s computer hardware hub. From day one, our focus was simple: 
+              genuine parts, fair pricing, and honest advice.
+            </p>
+            <p>
+              <strong>2012: Wholesale Expansion</strong><br />
+              Word spread fast. Within two years, we launched our wholesale division, supplying computer 
+              shops across Karachi and eventually throughout Pakistan. We became the trusted source for 
+              retailers who needed reliable stock and competitive pricing.
+            </p>
+            <p>
+              <strong>Serving Pakistan&apos;s Corporate Sector</strong><br />
+              As our reputation grew, we started serving major corporations — <strong>national news channels and media houses</strong>, 
+              <strong>software development companies</strong>, multiple <strong>3D studios and animation production houses</strong>, and other large 
+              enterprises across Pakistan. These partnerships taught us what professional buyers demand: authenticity, 
+              consistency, and zero-tolerance for substandard hardware.
+            </p>
+            <p>
+              <strong>2020s: Why We Went Online</strong><br />
+              After a decade of wholesale operations, we noticed a painful pattern: <strong>individual buyers were 
+              struggling</strong>. Fake products sold as genuine. No clear warranty policies. Wildly inconsistent 
+              pricing — some customers paying 30-40% more than fair value. And worst of all, non-existent after-sales 
+              support. Once the sale was done, customers were on their own.
+            </p>
+            <p>
+              We realized our wholesale expertise could solve these problems. So we launched <strong>PC Wala Online</strong> — 
+              bringing the same authentic hardware, transparent pricing, and professional service we&apos;ve provided 
+              to corporations for years, directly to gamers, content creators, students, and PC enthusiasts.
+            </p>
+            <p>
+              <strong>Today: Your Direct Line to Wholesale Quality</strong><br />
+              Now, whether you&apos;re building your first gaming rig or upgrading a workstation for 3D rendering, 
+              you get the same hardware and pricing we&apos;ve supplied to Pakistan&apos;s biggest companies — 
+              backed by <strong>16+ years of market expertise</strong> and a physical store you can actually walk into.
             </p>
 
             <h2 className={styles.sectionTitle}>// WhatsApp = Our Checkout</h2>
@@ -69,12 +101,37 @@ export default function AboutPage() {
               // 100% Genuine. Zero Fakes.
             </h2>
             <p>
-              Every component we sell is authentic and verified. We don&apos;t do
-              knockoffs, counterfeits, or &quot;compatible alternatives&quot; that die in
-              two weeks. We source from international and local distributors, and
-              every product comes with clearly defined warranty coverage — from
-              full international warranty down to as-is items. No guessing games.
+              Every component we sell is authentic and verified — the same standard we maintain for our 
+              corporate clients. We don&apos;t do knockoffs, counterfeits, or &quot;compatible alternatives&quot; 
+              that die in two weeks. We source from international and local distributors, and every product 
+              comes with clearly defined warranty coverage — from full international warranty down to as-is items. 
+              No guessing games.
             </p>
+
+            <h2 className={styles.sectionTitle}>// What We Solved</h2>
+            <p>
+              When we launched PC Wala Online, we set out to fix the biggest problems plaguing Pakistan&apos;s 
+              hardware market:
+            </p>
+            <ul>
+              <li>
+                <strong>Authenticity Issues:</strong> Too many stores sell fake products as genuine. Every 
+                part we sell is verified authentic — same as what we supply to media houses and software companies.
+              </li>
+              <li>
+                <strong>Price Manipulation:</strong> Without transparent pricing, customers often pay 30-40% 
+                above fair market value. We display real-time market pricing and explain fluctuations openly.
+              </li>
+              <li>
+                <strong>Warranty Confusion:</strong> Vague warranty claims like &quot;company warranty&quot; mean 
+                nothing. We define 5 clear warranty tiers so you know exactly what&apos;s covered before you buy.
+              </li>
+              <li>
+                <strong>After-Sales Abandonment:</strong> Most stores disappear once they&apos;ve made the sale. 
+                We provide WhatsApp support, compatibility checks, and genuine after-sales service — because we&apos;re 
+                not going anywhere.
+              </li>
+            </ul>
 
             <h2 className={styles.sectionTitle}>// Built for Builders</h2>
             <p>

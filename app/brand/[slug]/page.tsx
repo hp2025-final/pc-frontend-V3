@@ -7,8 +7,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import CategoryControls from "@/components/CategoryControls";
 import styles from "./brand.module.css";
 
-// ISR — revalidate every 2 hours (7200 seconds)
-export const revalidate = 7200;
+// ISR — revalidate every 12 hours (43200 seconds)
+export const revalidate = 43200;
 
 interface BrandPageProps {
   params: Promise<{ slug: string }>;
@@ -22,10 +22,10 @@ interface BrandPageProps {
 
 // ─── Price range map ────────────────────────────────────────────────────────
 const PRICE_RANGES: Record<string, { min: string; max: string }> = {
-  "1000-25000":    { min: "1000",   max: "25000" },
-  "25000-50000":   { min: "25000",  max: "50000" },
-  "50000-75000":   { min: "50000",  max: "75000" },
-  "75000-100000":  { min: "75000",  max: "100000" },
+  "1000-25000": { min: "1000", max: "25000" },
+  "25000-50000": { min: "25000", max: "50000" },
+  "50000-75000": { min: "50000", max: "75000" },
+  "75000-100000": { min: "75000", max: "100000" },
   "100000-150000": { min: "100000", max: "150000" },
   "150000-200000": { min: "150000", max: "200000" },
   "200000-300000": { min: "200000", max: "300000" },
@@ -51,8 +51,8 @@ function generatePageNumbers(current: number, total: number): (number | "…")[]
 // ─── Metadata ───────────────────────────────────────────────────────────────
 export async function generateMetadata({ params }: BrandPageProps): Promise<Metadata> {
   const { slug } = await params;
-  
-  const brandName = slug.split('-').map(word => 
+
+  const brandName = slug.split('-').map(word =>
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');
 
@@ -68,7 +68,7 @@ export default async function BrandPage({ params, searchParams }: BrandPageProps
   const { page, sort, price, search } = await searchParams;
 
   // Format brand name for display (slug is already clean, no /page suffix)
-  const brandName = slug.split('-').map(word => 
+  const brandName = slug.split('-').map(word =>
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');
 
@@ -84,13 +84,13 @@ export default async function BrandPage({ params, searchParams }: BrandPageProps
 
   switch (currentSort) {
     case "oldest":
-      orderby = "date";  order = "asc";  break;
+      orderby = "date"; order = "asc"; break;
     case "price_high":
       orderby = "price"; order = "desc"; break;
     case "price_low":
-      orderby = "price"; order = "asc";  break;
+      orderby = "price"; order = "asc"; break;
     default: // latest
-      orderby = "date";  order = "desc"; break;
+      orderby = "date"; order = "desc"; break;
   }
 
   // ── Price mapping ────────────────────────────────────────────────────────
@@ -138,9 +138,9 @@ export default async function BrandPage({ params, searchParams }: BrandPageProps
       return words.map((word, idx) => {
         const isLast = idx === words.length - 1;
         return (
-          <span 
-            key={idx} 
-            style={{ 
+          <span
+            key={idx}
+            style={{
               display: "block",
               color: isLast ? "var(--color-orange)" : "var(--color-dark)"
             }}
@@ -175,7 +175,7 @@ export default async function BrandPage({ params, searchParams }: BrandPageProps
         {/* Title + Count Badge (inline on mobile) */}
         <div className={styles.titleCountWrapper}>
           <h1 className={styles.sectionTitle}>{renderTitle(brandName)}</h1>
-          
+
           {/* Total Count Badge */}
           <div className={styles.countBadge} id="brand-item-count">
             <span className={styles.countBadgeNumber}>

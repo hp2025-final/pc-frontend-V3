@@ -4,8 +4,8 @@ const BASE_URL = process.env.WOOCOMMERCE_BASE_URL || "https://api.pcwalaonline.c
 const CONSUMER_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY;
 const CONSUMER_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET;
 
-// Cache duration: 2 hours (7200 seconds)
-const CACHE_REVALIDATE = 7200;
+// Cache duration: 12 hours (43200 seconds)
+const CACHE_REVALIDATE = 43200;
 
 function getAuthParams(): string {
   if (!CONSUMER_KEY || !CONSUMER_SECRET) {
@@ -53,6 +53,8 @@ export async function getProducts(params: {
   min_price?: string;
   max_price?: string;
   brand?: string;
+  tag?: string;
+  on_sale?: boolean;
 } = {}): Promise<WooCommerceProduct[]> {
   try {
     const queryParts: string[] = [getAuthParams()];
@@ -69,6 +71,8 @@ export async function getProducts(params: {
     if (params.min_price) queryParts.push(`min_price=${params.min_price}`);
     if (params.max_price) queryParts.push(`max_price=${params.max_price}`);
     if (params.brand) queryParts.push(`brand=${params.brand}`);
+    if (params.tag) queryParts.push(`tag=${params.tag}`);
+    if (params.on_sale !== undefined) queryParts.push(`on_sale=${params.on_sale}`);
     
     // Only query publicly published products
     queryParts.push(`status=publish`);
@@ -103,6 +107,8 @@ export async function getProductsWithCount(params: {
   min_price?: string;
   max_price?: string;
   brand?: string;
+  tag?: string;
+  on_sale?: boolean;
 } = {}): Promise<{ products: WooCommerceProduct[]; totalCount: number; totalPages: number }> {
   try {
     const queryParts: string[] = [getAuthParams()];
@@ -119,6 +125,8 @@ export async function getProductsWithCount(params: {
     if (params.min_price) queryParts.push(`min_price=${params.min_price}`);
     if (params.max_price) queryParts.push(`max_price=${params.max_price}`);
     if (params.brand) queryParts.push(`brand=${params.brand}`);
+    if (params.tag) queryParts.push(`tag=${params.tag}`);
+    if (params.on_sale !== undefined) queryParts.push(`on_sale=${params.on_sale}`);
     
     // Only query publicly published products
     queryParts.push(`status=publish`);
@@ -245,6 +253,28 @@ export async function getCategoryBySlug(slug: string): Promise<WooCommerceCatego
     return categories.length > 0 ? categories[0] : null;
   } catch (error) {
     console.error(`Error fetching category by slug ${slug}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch a tag from WooCommerce by its slug.
+ */
+export async function getTagBySlug(slug: string): Promise<{ id: number; name: string; slug: string } | null> {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/wp-json/wc/v3/products/tags?slug=${slug}&${getAuthParams()}`,
+      {
+        next: { revalidate: CACHE_REVALIDATE },
+      }
+    );
+    if (!res.ok) {
+      throw new Error(`Failed to fetch tag by slug: ${slug}. Status: ${res.status}`);
+    }
+    const tags = await res.json();
+    return tags.length > 0 ? tags[0] : null;
+  } catch (error) {
+    console.error(`Error fetching tag by slug ${slug}:`, error);
     return null;
   }
 }

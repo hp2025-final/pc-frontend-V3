@@ -99,8 +99,9 @@ export default function ContactPage() {
             <div className={styles.contactLabel}>// VISIT THE HQ</div>
             <p className={styles.contactValue}>
               Saddar is the hardware hub of Karachi, and we&apos;ve been right in
-              the middle of it <strong>since 2010</strong>. Walk in, check out
-              our inventory, poke at the latest GPUs, and talk shop with the
+              the middle of it <strong>since 2010</strong> — over 16 years of serving the tech community. 
+              What began as a wholesale operation has grown into Karachi&apos;s trusted destination for 
+              genuine computer hardware. Walk in, check out our inventory, poke at the latest GPUs, and talk shop with the
               team. No appointment needed — just show up.
             </p>
             <p className={styles.contactNote}>

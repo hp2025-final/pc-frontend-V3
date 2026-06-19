@@ -1,0 +1,278 @@
+.heroSection {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+/* 12-column grid: 4 + 4 + 4 (Hero + Market Tracker + Banners) */
+.heroGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+/* === LEFT COLUMN: HERO IMAGE (4 columns, 4:4 ratio) === */
+.heroImageColumn {
+  grid-column: span 4;
+  border: 1px solid #dadada;
+}
+
+.heroImageWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* 4:4 aspect ratio (1:1 square) */
+  background: var(--color-black);
+  overflow: hidden;
+}
+
+/* === CENTER COLUMN: MARKET TRACKER (4 columns) === */
+.marketTrackerColumn {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dadada;
+  background: var(--color-white);
+  height: 100%;
+}
+
+.trackerHeading {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  padding: 1.5rem;
+  border-bottom: 1px solid #dadada;
+  margin: 0;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.trackerCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1px;
+  background-color: #dadada;
+  flex: 1;
+  height: 100%;
+}
+
+.trackerCard {
+  position: relative;
+  background: var(--color-white);
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: visible;
+}
+
+.trackerCard:hover {
+  background-color: var(--color-surface-container-lowest);
+}
+
+.cornerBracket {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--color-outline);
+  border-bottom: 2px solid var(--color-outline);
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+}
+
+.trackerCard:hover .cornerBracket {
+  border-color: var(--color-accent-lime);
+}
+
+.trackerCardInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.trackerIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-outline);
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.trackerCard:hover .trackerIcon {
+  color: var(--color-accent-lime);
+}
+
+.trackerLabel {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  text-align: center;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* === RIGHT COLUMN: OFFER BANNERS (4 columns, 2 stacked at 4:2 each) === */
+.offerBannersColumn {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  border: 1px solid #dadada;
+  padding: var(--spacing-md);
+}
+
+.offerBanner {
+  position: relative;
+  flex: 1;
+}
+
+.offerBannerPlaceholder {
+  position: relative;
+  width: 100%;
+  padding-bottom: 50%; /* 4:2 aspect ratio (2/4 = 0.5) */
+  background: var(--color-light-gray);
+  border: 1px solid #dadada;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.offerBannerPlaceholder .placeholderText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.25rem;
+}
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 1024px) {
+  .heroGrid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .heroImageColumn {
+    grid-column: span 12;
+  }
+
+  .marketTrackerColumn {
+    grid-column: span 12;
+  }
+
+  .offerBannersColumn {
+    grid-column: span 12;
+  }
+
+  .trackerHeading {
+    font-size: 0.75rem;
+    padding: 1rem;
+  }
+
+  .trackerCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .trackerCard {
+    padding: 12px;
+  }
+
+  .trackerIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .countNumber {
+    font-size: 18px;
+  }
+
+  .countLabel {
+    font-size: 8px;
+  }
+
+  .trackerLabel {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  .heroGrid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .heroImageColumn,
+  .offerBannersColumn,
+  .marketTrackerColumn {
+    width: 100%;
+  }
+
+  .trackerHeading {
+    font-size: 0.7rem;
+    padding: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .trackerCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1px;
+  }
+
+  .trackerCard {
+    padding: 12px;
+    min-height: 100px;
+  }
+
+  .trackerIcon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .countNumber {
+    font-size: 16px;
+  }
+
+  .countLabel {
+    font-size: 7px;
+  }
+
+  .trackerLabel {
+    font-size: 10px;
+    line-height: 1.1;
+  }
+
+  .cornerBracket {
+    width: 10px;
+    height: 10px;
+  }
+
+  .placeholderText {
+    font-size: 1rem;
+  }
+}

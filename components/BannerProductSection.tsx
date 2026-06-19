@@ -113,36 +113,50 @@ export default function BannerProductSection({
           <div className={styles.header}>
             <span className={styles.cornerBracket} />
             <h2 className={styles.title}>
-              {(() => {
-                const uppercaseText = title.toUpperCase();
-                if (uppercaseText.includes(" ")) {
-                  const words = uppercaseText.split(" ");
-                  return words.map((word, idx) => {
-                    const isLast = idx === words.length - 1;
+              {title === "On Sale" ? (
+                // Special case: Keep "ON SALE" on same line with different colors
+                <>
+                  <span style={{ color: "var(--color-dark)" }}>ON </span>
+                  <span style={{ color: "var(--color-orange)" }}>SALE</span>
+                </>
+              ) : title === "Trending Laptop" ? (
+                // Special case: Keep "TRENDING LAPTOP" on same line with different colors
+                <>
+                  <span style={{ color: "var(--color-dark)" }}>TRENDING </span>
+                  <span style={{ color: "var(--color-orange)" }}>LAPTOP</span>
+                </>
+              ) : (
+                (() => {
+                  const uppercaseText = title.toUpperCase();
+                  if (uppercaseText.includes(" ")) {
+                    const words = uppercaseText.split(" ");
+                    return words.map((word, idx) => {
+                      const isLast = idx === words.length - 1;
+                      return (
+                        <span 
+                          key={idx} 
+                          style={{ 
+                            display: "block",
+                            color: isLast ? "var(--color-orange)" : "var(--color-dark)"
+                          }}
+                        >
+                          {word}
+                        </span>
+                      );
+                    });
+                  }
+                  if (uppercaseText.length >= 6) {
+                    const mid = Math.ceil(uppercaseText.length / 2);
                     return (
-                      <span 
-                        key={idx} 
-                        style={{ 
-                          display: "block",
-                          color: isLast ? "var(--color-orange)" : "var(--color-dark)"
-                        }}
-                      >
-                        {word}
-                      </span>
+                      <>
+                        <span style={{ display: "block", color: "var(--color-dark)" }}>{uppercaseText.substring(0, mid)}</span>
+                        <span style={{ display: "block", color: "var(--color-orange)" }}>{uppercaseText.substring(mid)}</span>
+                      </>
                     );
-                  });
-                }
-                if (uppercaseText.length >= 6) {
-                  const mid = Math.ceil(uppercaseText.length / 2);
-                  return (
-                    <>
-                      <span style={{ display: "block", color: "var(--color-dark)" }}>{uppercaseText.substring(0, mid)}</span>
-                      <span style={{ display: "block", color: "var(--color-orange)" }}>{uppercaseText.substring(mid)}</span>
-                    </>
-                  );
-                }
-                return <span style={{ color: "var(--color-orange)" }}>{uppercaseText}</span>;
-              })()}
+                  }
+                  return <span style={{ color: "var(--color-orange)" }}>{uppercaseText}</span>;
+                })()
+              )}
             </h2>
           </div>
 

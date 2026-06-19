@@ -64,10 +64,14 @@ export default function SocialMediaSection({ reels }: SocialMediaSectionProps) {
       {/* Section Header */}
       <div className={styles.header}>
         <span className={styles.cornerBracket} />
-        <h2 className={`${styles.title} brutalist-section-title`}>
-          <span style={{ display: "block", color: "var(--color-dark)" }}>SOCIAL</span>
-          <span style={{ display: "block", color: "var(--color-orange)" }}>MEDIA</span>
-        </h2>
+        <div className={styles.headerContent}>
+          <h2 className={styles.title}>
+            MADE FOR PROFESSIONALS, GAMERS & CREATORS.
+          </h2>
+          <p className={styles.subtitle}>
+            Real PC builds, honest hardware reviews, and benchmarks that help you choose better gear.
+          </p>
+        </div>
       </div>
 
       {/* Reels Container */}

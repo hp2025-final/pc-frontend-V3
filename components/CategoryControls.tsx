@@ -57,8 +57,8 @@ export default function CategoryControls({
     if (brand && brand !== "all") params.set("brand", brand);
     if (search.trim()) params.set("search", search.trim());
     params.set("page", "1");
-    // Support both category and brand pages
-    const basePath = slug.startsWith('/brand/') ? slug : `/category/${slug}`;
+    // Support category, brand, and collection pages
+    const basePath = slug.startsWith('/brand/') || slug.startsWith('/collection/') ? slug : `/category/${slug}`;
     return `${basePath}?${params.toString()}`;
   };
 

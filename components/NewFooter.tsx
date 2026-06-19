@@ -22,6 +22,13 @@ export default function NewFooter() {
       { name: "Privacy Policy", slug: "/privacy" },
       { name: "Warranty Policy", slug: "/warranty" },
     ],
+    tracker: [
+      { name: "Price Drops", slug: "/collection/price-drops" },
+      { name: "Price Increases", slug: "/collection/price-increases" },
+      { name: "On Sale", slug: "/collection/on-sale" },
+      { name: "Market Fluctuation", slug: "/collection/high-fluctuation" },
+      { name: "Market Price", slug: "/collection/market-price" },
+    ],
   };
 
   return (
@@ -49,7 +56,7 @@ export default function NewFooter() {
         <div className={`${styles.col} ${styles.brandCol}`}>
           <span className={styles.moduleNumber}>01 // PROFILE</span>
           <p className={styles.brandDesc}>
-            Karachi's premium destination for high-end custom computer builds, graphics cards, gaming setups, and productivity laptops. Engineered for extreme performance.
+            Trusted since 2010 — 16+ years serving Karachi's tech community and Pakistan's leading corporations. Started as Saddar Market's first retail-to-wholesale operation, now delivering authentic hardware with transparent pricing. Engineered for gamers, creators, and enterprises.
           </p>
           <div className={styles.cornerBracket} />
         </div>
@@ -86,9 +93,25 @@ export default function NewFooter() {
           <div className={styles.cornerBracket} />
         </div>
 
+        {/* Market Tracker Module */}
+        <div className={styles.col}>
+          <span className={styles.moduleNumber}>04 // NAV_TRACKER</span>
+          <h3 className={`${styles.colTitle} label-mono`}>MARKET TRACKER</h3>
+          <ul className={styles.linkList}>
+            {footerLinks.tracker.map((link) => (
+              <li key={link.slug}>
+                <Link href={link.slug} className={styles.link}>
+                  <span className={styles.linkDot}>■</span> {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.cornerBracket} />
+        </div>
+
         {/* Contact Module */}
         <div className={`${styles.col} ${styles.contactCol}`}>
-          <span className={styles.moduleNumber}>04 // NODE_DETAILS</span>
+          <span className={styles.moduleNumber}>05 // NODE_DETAILS</span>
           <h3 className={`${styles.colTitle} label-mono`}>CONTACT</h3>
           
           <div className={styles.contactSection}>
@@ -151,7 +174,7 @@ export default function NewFooter() {
           © {currentYear} PC WALA ONLINE. ALL RIGHTS RESERVED.
         </div>
         <div className={`${styles.systemLabel} label-mono`}>
-          SYSTEM // V3.0.0_FUTURISM
+          SYSTEM // V3.0.0_FUTURISM // DEVELOPED BY <a href="https://www.mainweb.store" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: "inherit" }}>MAIN WEB</a> // WA: <a href="https://wa.me/923162694747?text=Hello%20Main%20Web" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: "inherit" }}>+92 316 2694747</a>
         </div>
       </div>
     </footer>

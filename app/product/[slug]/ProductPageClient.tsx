@@ -37,6 +37,32 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
     ? Math.round(((parseFloat(regularPrice) - parseFloat(salePrice)) / parseFloat(regularPrice)) * 100)
     : 0;
 
+  const getAiPriceExplanation = () => {
+    const brand = brandName || "PC WALA";
+    const name = product.name;
+    const cond = condition.toLowerCase();
+    const warr = warranty;
+    const cleanPrice = formatPrice(priceInfo.displayPrice);
+
+    if (priceInfo.tagType === "shift") {
+      const minP = priceInfo.priceMin ? formatPrice(priceInfo.priceMin) : "";
+      const maxP = priceInfo.priceMax ? formatPrice(priceInfo.priceMax) : "";
+      return `The market price of ${brand} ${name} in Pakistan is currently fluctuating. We expect rates to range between ${minP} and ${maxP} depending on dollar volatility. Condition is ${cond} with ${warr} warranty coverage. We recommend checking availability directly via WhatsApp to lock in today's best price before visiting our Saddar, Karachi shop.`;
+    } else if (priceInfo.tagType === "price-down") {
+      const pct = priceInfo.percentage;
+      const oldP = priceInfo.wasPrice ? formatPrice(priceInfo.wasPrice) : "";
+      return `Good news for tech buyers: the price of ${brand} ${name} in Pakistan has gone down by ${pct}%! It is now available at a discounted rate of ${cleanPrice} (reduced from ${oldP}). This item is ${cond} with ${warr} warranty. Buy now or visit our retail store in Saddar, Karachi to secure it before stock runs out.`;
+    } else if (priceInfo.tagType === "price-up") {
+      const pct = priceInfo.percentage;
+      const oldP = priceInfo.wasPrice ? formatPrice(priceInfo.wasPrice) : "";
+      return `Due to import duties and dollar rate shifts in Pakistan, the price of ${brand} ${name} has increased by ${pct}%, moving to ${cleanPrice} from ${oldP} previously. Despite the market increase, we guarantee genuine ${cond} stock with ${warr} warranty. Contact us on WhatsApp for real-time rates.`;
+    } else if (onSale && discountPercentage > 0) {
+      return `Get ${brand} ${name} at a special sale price of ${cleanPrice} in Pakistan (save ${discountPercentage}% off regular retail). Certified ${cond} condition with ${warr} warranty. Secure your build via WhatsApp or pick up directly from our retail outlet in Saddar, Karachi.`;
+    } else {
+      return `Buy original ${brand} ${name} in Pakistan at the current market price of ${cleanPrice}. This hardware is in ${cond} condition, backed by a ${warr} warranty tier. Local pickup is available at Store G41, Regal Trade Square, Saddar, Karachi, with nationwide shipping across Pakistan.`;
+    }
+  };
+
   const breadcrumbs = [
     // Show only the deepest child category (last category in the array)
     // If no categories, show a default
@@ -409,6 +435,14 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
+
+          {/* AI-Optimized Market & Pricing Context (GEO) */}
+          <div className={styles.aiContextBox}>
+            <div className={styles.aiContextTitle}>// MARKET CONTEXT & VERIFICATION</div>
+            <p className={styles.aiContextText}>
+              {getAiPriceExplanation()}
+            </p>
+          </div>
         </div>
 
         {/* USP Marquee - Full Width Below Image and Info Sections */}
@@ -417,6 +451,11 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
             {/* Duplicate content for seamless loop */}
             {[...Array(2)].map((_, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
+                <span className={styles.uspMarqueeItem}>
+                  Trusted Since 2010 — 16+ Years in Saddar Market
+                </span>
+                <span className={styles.uspMarqueeSeparator}>·</span>
+
                 <span className={styles.uspMarqueeItem}>
                   Get Human Support in 5 Min
                 </span>
@@ -431,6 +470,11 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
                 
                 <span className={styles.uspMarqueeItem}>
                   Genuine & Tested Parts
+                </span>
+                <span className={styles.uspMarqueeSeparator}>·</span>
+
+                <span className={styles.uspMarqueeItem}>
+                  Wholesale Background — Competitive Pricing
                 </span>
                 <span className={styles.uspMarqueeSeparator}>·</span>
                 
@@ -509,6 +553,42 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
             </div>
           </div>
         )}
+
+        {/* Dynamic FAQ / Q&A Section (AEO / GEO) */}
+        <div className={styles.faqSection}>
+          <div className={styles.faqContainer}>
+            <div className={styles.faqHeader}>
+              <span className={styles.faqCornerBracket} />
+              FAQ & HARDWARE GUIDE
+            </div>
+            <div className={styles.faqGrid}>
+              <div className={styles.faqItem}>
+                <h4 className={styles.faqQuestion}>Is PC Wala located in Karachi?</h4>
+                <p className={styles.faqAnswer}>
+                  Yes, our retail store is located at Store G41, Ground Floor, Regal Trade Square, Regal Chowk, Saddar, Karachi. You can visit us to buy directly, pick up orders, or discuss custom PC builds with our technicians.
+                </p>
+              </div>
+              <div className={styles.faqItem}>
+                <h4 className={styles.faqQuestion}>What warranty tier does this {brandName} product carry?</h4>
+                <p className={styles.faqAnswer}>
+                  This product has a <strong>{warranty}</strong> policy. PC Wala offers 5 transparent warranty tiers (International, Brand, Local, Limited, No Warranty) so you know exactly what is covered before you purchase.
+                </p>
+              </div>
+              <div className={styles.faqItem}>
+                <h4 className={styles.faqQuestion}>How does shipping work across Pakistan?</h4>
+                <p className={styles.faqAnswer}>
+                  We ship computer hardware nationwide within 1 to 4 business days. Karachi customers can request same-day courier delivery or select self-pickup at our Saddar store.
+                </p>
+              </div>
+              <div className={styles.faqItem}>
+                <h4 className={styles.faqQuestion}>Why do hardware prices fluctuate on your site?</h4>
+                <p className={styles.faqAnswer}>
+                  Pakistan's tech market pricing shifts due to currency exchange rates and import clearance duties. We use indicators like "Price Down", "Price Up", and "High Fluctuation" to keep pricing 100% transparent for buyers.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Related Products */}

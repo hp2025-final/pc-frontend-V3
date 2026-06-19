@@ -311,6 +311,58 @@ export default function Header() {
             ))}
           </ul>
         </div>
+
+        {/* Market Tracker */}
+        <div>
+          <h3 className={`${styles.megaMenuColTitle} label-mono`}>MARKET TRACKER</h3>
+          <ul className={styles.megaMenuColUl}>
+            <li>
+              <Link
+                href="/collection/price-drops"
+                className={styles.megaMenuLink}
+                onClick={() => setMegaMenuOpen(false)}
+              >
+                Price Drops
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/collection/price-increases"
+                className={styles.megaMenuLink}
+                onClick={() => setMegaMenuOpen(false)}
+              >
+                Price Increases
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/collection/on-sale"
+                className={styles.megaMenuLink}
+                onClick={() => setMegaMenuOpen(false)}
+              >
+                On Sale
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/collection/high-fluctuation"
+                className={styles.megaMenuLink}
+                onClick={() => setMegaMenuOpen(false)}
+              >
+                Market Fluctuation
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/collection/market-price"
+                className={styles.megaMenuLink}
+                onClick={() => setMegaMenuOpen(false)}
+              >
+                Market Price
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
 
       {/* Mobile Search Dropdown */}
@@ -396,6 +448,37 @@ export default function Header() {
                       </Link>
                     </li>
                   ))}
+                </ul>
+              </li>
+
+              <li className={styles.mobileMenuSection}>
+                <div className={styles.mobileMenuSectionTitle}>MARKET TRACKER</div>
+                <ul className={styles.mobileMenuSectionUl}>
+                  <li>
+                    <Link href="/collection/price-drops" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
+                      Price Drops
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/collection/price-increases" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
+                      Price Increases
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/collection/on-sale" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
+                      On Sale
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/collection/high-fluctuation" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
+                      Market Fluctuation
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/collection/market-price" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
+                      Market Price
+                    </Link>
+                  </li>
                 </ul>
               </li>
             </ul>

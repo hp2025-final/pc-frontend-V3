@@ -1,17 +1,18 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getProductsWithCount, getCategoryBySlug } from "@/lib/woocommerce";
-import { CATEGORY_BRANDS } from "@/lib/brands";
+import { getProductsWithCount, getTagBySlug, getBrands } from "@/lib/woocommerce";
+import { getPriceTagInfo } from "@/lib/utils";
+import { WooCommerceProduct } from "@/lib/types";
 import PCD_2 from "@/components/PCD_2";
 import Breadcrumb from "@/components/Breadcrumb";
 import CategoryControls from "@/components/CategoryControls";
-import styles from "./category.module.css";
+import styles from "./collection.module.css";
 
-// ISR — revalidate every 12 hours (43200 seconds)
+// ISR — revalidate every 12 hours
 export const revalidate = 43200;
 
-interface CategoryPageProps {
+interface CollectionPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{
     page?: string;
@@ -22,7 +23,7 @@ interface CategoryPageProps {
   }>;
 }
 
-// ─── Price range map ────────────────────────────────────────────────────────
+// ─── Price mapping ────────────────────────────────────────────────────────
 const PRICE_RANGES: Record<string, { min: string; max: string }> = {
   "1000-25000": { min: "1000", max: "25000" },
   "25000-50000": { min: "25000", max: "50000" },
@@ -33,6 +34,40 @@ const PRICE_RANGES: Record<string, { min: string; max: string }> = {
   "200000-300000": { min: "200000", max: "300000" },
   "300000-400000": { min: "300000", max: "400000" },
   "400000-500000": { min: "400000", max: "500000" },
+};
+
+// Supported dynamic collections mapping
+const COLLECTION_MAPPING: Record<string, { tagSlug: string; title: string; description: string }> = {
+  "price-drops": {
+    tagSlug: "price-down",
+    title: "Price Drops",
+    description: "Explore the latest computer hardware and gaming PC components price drops at PC Wala Online. Authentic tech items with transparent pricing and warranty."
+  },
+  "high-fluctuation": {
+    tagSlug: "shift",
+    title: "Market Fluctuation",
+    description: "Track the real-time volatile computer hardware prices in Karachi. View minimum and maximum price ranges and secure rates directly on WhatsApp."
+  },
+  "price-increases": {
+    tagSlug: "price-up",
+    title: "Price Increases",
+    description: "Track the recent price increases and market updates for computer hardware and PC components in Pakistan."
+  },
+  "price-up": {
+    tagSlug: "price-up",
+    title: "Price Increases",
+    description: "Track the recent price increases and market updates for computer hardware and PC components in Pakistan."
+  },
+  "market-price": {
+    tagSlug: "",
+    title: "Market Price",
+    description: "Explore computer hardware and PC components available at stable market rates in Karachi."
+  },
+  "on-sale": {
+    tagSlug: "",
+    title: "On Sale",
+    description: "Check out the latest discounted deals and promotional sales on computer hardware at PC Wala Online."
+  }
 };
 
 // ─── Pagination helper ───────────────────────────────────────────────────────
@@ -51,27 +86,35 @@ function generatePageNumbers(current: number, total: number): (number | "…")[]
 }
 
 // ─── Metadata ───────────────────────────────────────────────────────────────
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CollectionPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const category = await getCategoryBySlug(slug);
+  const config = COLLECTION_MAPPING[slug];
 
-  if (!category) return { title: "Category Not Found" };
+  if (!config) return { title: "Collection Not Found" };
 
   return {
-    title: `${category.name} — Buy in Pakistan`,
-    description:
-      category.description ||
-      `Browse original ${category.name} at PC Wala Online. High performance hardware units.`,
+    title: `${config.title} in Pakistan | PC Wala Online`,
+    description: config.description,
   };
 }
 
-// ─── Page ───────────────────────────────────────────────────────────────────
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+// ─── Page Component ────────────────────────────────────────────────────────
+export default async function CollectionPage({ params, searchParams }: CollectionPageProps) {
   const { slug } = await params;
   const { page, sort, price, brand, search } = await searchParams;
 
-  const category = await getCategoryBySlug(slug);
-  if (!category) notFound();
+  const config = COLLECTION_MAPPING[slug];
+  if (!config) notFound();
+
+  // Fetch all brands to populate the brand filter dropdown
+  const brands = await getBrands();
+
+  // Fetch the dynamic tag object from WooCommerce by slug if defined
+  const tag = config.tagSlug ? await getTagBySlug(config.tagSlug) : null;
+  if (config.tagSlug && !tag) {
+    // If the tag doesn't exist in WooCommerce yet, show empty state gracefully
+    console.warn(`WooCommerce tag "${config.tagSlug}" not found for collection: ${slug}`);
+  }
 
   const PER_PAGE = 30;
   const currentPage = Math.max(1, parseInt(page || "1", 10));
@@ -79,6 +122,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const currentPrice = price || "all";
   const currentBrand = brand || "all";
   const currentSearch = search || "";
+
+  // Resolve brand numeric ID for API querying
+  const selectedBrandObj = brands.find((b) => b.slug === currentBrand);
+  const brandIdParam = selectedBrandObj ? String(selectedBrandObj.id) : undefined;
 
   // ── Sort mapping ────────────────────────────────────────────────────────
   let orderby: "date" | "price" | "title" | "popularity" = "date";
@@ -98,27 +145,78 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   // ── Price mapping ────────────────────────────────────────────────────────
   const priceRange = currentPrice !== "all" ? PRICE_RANGES[currentPrice] : null;
 
-  // Get static brands for this category
-  const allBrands = CATEGORY_BRANDS[slug] || [];
+  // ── Fetch products filtered by tag and search inputs ──────────────────────
+  let products: WooCommerceProduct[] = [];
+  let totalCount = 0;
+  let totalPages = 1;
 
-  // WooCommerce API requires the numeric ID for brand filtering, but searchParams has the slug.
-  const selectedBrandObj = allBrands.find(b => b.slug === currentBrand);
-  const brandIdParam = selectedBrandObj ? String(selectedBrandObj.id) : undefined;
+  if (tag) {
+    const res = await getProductsWithCount({
+      tag: String(tag.id),
+      page: currentPage,
+      per_page: PER_PAGE,
+      orderby,
+      order,
+      ...(priceRange ? { min_price: priceRange.min, max_price: priceRange.max } : {}),
+      ...(brandIdParam ? { brand: brandIdParam } : {}),
+      ...(currentSearch ? { search: currentSearch } : {}),
+    });
+    products = res.products;
+    totalCount = res.totalCount;
+    totalPages = Math.max(1, res.totalPages);
+  } else {
+    // If the WooCommerce tag doesn't exist, or it is the "market-price" / "on-sale" page (which does not use a pricing tag by definition),
+    // fetch products and filter them in memory based on the pricing scenarios.
+    const res = await getProductsWithCount({
+      page: 1,
+      per_page: 100, // Fetch a large batch to filter
+      orderby,
+      order,
+      ...(slug === "on-sale" ? { on_sale: true } : {}),
+      ...(priceRange ? { min_price: priceRange.min, max_price: priceRange.max } : {}),
+      ...(brandIdParam ? { brand: brandIdParam } : {}),
+      ...(currentSearch ? { search: currentSearch } : {}),
+    });
 
-  // ── Fetch products in parallel ─────────────────────────────────
-  const { products, totalCount, totalPages: apiTotalPages } = await getProductsWithCount({
-    category: String(category.id),
-    page: currentPage,
-    per_page: PER_PAGE,
-    orderby,
-    order,
-    ...(priceRange ? { min_price: priceRange.min, max_price: priceRange.max } : {}),
-    ...(brandIdParam ? { brand: brandIdParam } : {}),
-    ...(currentSearch ? { search: currentSearch } : {}),
-  });
+    console.log(`[Collection fallback: ${slug}] Fetched ${res.products.length} products from WooCommerce API.`);
+
+    const filtered = res.products.filter((product) => {
+      const priceInfo = getPriceTagInfo(product);
+
+      // Check if product has any of the tags: price-up, price-down, or shift
+      const hasSpecialTag = priceInfo.tagType !== null;
+
+      const hasRegularPrice = product.regular_price && parseFloat(product.regular_price) > 0;
+      const hasSalePrice = product.sale_price && parseFloat(product.sale_price) > 0;
+
+      if (slug === "market-price") {
+        // Market Price: Only Regular Price, NO Sale Price, NO Special Tags
+        return !hasSpecialTag && hasRegularPrice && !hasSalePrice;
+      }
+      if (slug === "on-sale") {
+        // On Sale: Both Regular Price and Sale Price, NO Special Tags
+        return !hasSpecialTag && hasRegularPrice && hasSalePrice;
+      }
+      if (slug === "price-drops") {
+        return priceInfo.tagType === "price-down";
+      }
+      if (slug === "price-increases" || slug === "price-up") {
+        return priceInfo.tagType === "price-up";
+      }
+      if (slug === "high-fluctuation") {
+        return priceInfo.tagType === "shift";
+      }
+      return false;
+    });
+
+    console.log(`[Collection fallback: ${slug}] Filtered down to ${filtered.length} matching products.`);
+
+    totalCount = filtered.length;
+    totalPages = Math.max(1, Math.ceil(totalCount / PER_PAGE));
+    products = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+  }
 
   // ── Pagination ───────────────────────────────────────────────────────────
-  const totalPages = Math.max(1, apiTotalPages);
   const pageNumbers = generatePageNumbers(currentPage, totalPages);
   const hasPrev = currentPage > 1;
   const hasNext = currentPage < totalPages;
@@ -130,16 +228,17 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     if (currentBrand !== "all") params.set("brand", currentBrand);
     if (currentSearch) params.set("search", currentSearch);
     params.set("page", String(p));
-    return `/category/${slug}?${params.toString()}`;
+    return `/collection/${slug}?${params.toString()}`;
   };
 
   // ── Breadcrumb ───────────────────────────────────────────────────────────
   const breadcrumbs = [
     { label: "CATALOG", url: "/#categories" },
-    { label: category.name },
+    { label: "COLLECTIONS" },
+    { label: config.title.toUpperCase() },
   ];
 
-  // ── Split title for brutalist stacked display ────────────────────────────
+  // ── Split title for stacked brutalist styling ─────────────────────────────
   const renderTitle = (text: string) => {
     const upper = text.toUpperCase();
     const words = upper.split(" ");
@@ -171,49 +270,67 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     return <span style={{ color: "var(--color-orange)" }}>{upper}</span>;
   };
 
+  // ── Dynamic Collection Schema (AEO / SEO) ─────────────────────────────────
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": `${config.title} in Pakistan | PC Wala Online`,
+    "description": config.description,
+    "url": `${siteUrl}/collection/${slug}`,
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": products.length,
+      "itemListElement": products.map((prod, idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "url": `${siteUrl}/product/${prod.slug}`
+      }))
+    }
+  };
+
   return (
     <div className={styles.pageWrapper}>
+      {/* Dynamic SEO JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+
       {/* Breadcrumb */}
       <Breadcrumb items={breadcrumbs} />
 
-      {/* ── Category Header ── */}
-      <section className={styles.categoryHeader}>
+      {/* ── Collection Header ── */}
+      <section className={styles.collectionHeader}>
         {/* Lime corner bracket */}
         <span className={styles.cornerBracket} />
 
-        {/* Title + Count Badge (inline on mobile) */}
+        {/* Title + Count Badge */}
         <div className={styles.titleCountWrapper}>
-          <h1 className={styles.sectionTitle}>{renderTitle(category.name)}</h1>
+          <h1 className={styles.sectionTitle}>{renderTitle(config.title)}</h1>
 
-          {/* Total Count Badge */}
-          <div className={styles.countBadge} id="category-item-count">
+          <div className={styles.countBadge} id="collection-item-count">
             <span className={styles.countBadgeNumber}>
               {totalCount}
             </span>
             <span className={styles.countBadgeLabel}>ITEMS</span>
           </div>
         </div>
-
-        {/* Description below on separate line */}
-        {category.description && (
-          <p className={styles.categoryDesc}>{category.description}</p>
-        )}
       </section>
 
-      {/* ── Sort + Price + Brand + Search Controls ── */}
+      {/* ── Controls (Sort + Price + Search + Brand) ── */}
       <CategoryControls
-        slug={slug}
+        slug={`/collection/${slug}`}
         currentSort={currentSort}
         currentPrice={currentPrice}
         currentBrand={currentBrand}
         currentSearch={currentSearch}
-        brands={allBrands}
+        brands={brands}
       />
 
       {/* ── Product Grid ── */}
       {products.length > 0 ? (
         <div className={styles.gridWrapper}>
-          {/* 12-col blueprint grid: each card spans 2 = 6 per row desktop, 2-col mobile */}
           <div className="blueprint-grid grid-2-col-mobile">
             {products.map((product) => (
               <div key={product.id} style={{ gridColumn: "span 2" }}>
@@ -228,7 +345,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             // NO PRODUCTS IN THIS SEGMENT.
           </p>
           <p className={styles.emptyStateSubtext}>
-            Try a different price range, brand, or search term.
+            We currently have no active listings here or filters returned empty results.
           </p>
         </div>
       )}

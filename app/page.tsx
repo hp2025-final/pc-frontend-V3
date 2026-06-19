@@ -1,9 +1,9 @@
-import { getCategories, getProducts, getCategoryBySlug } from "@/lib/woocommerce";
+import { getProducts, getCategoryBySlug } from "@/lib/woocommerce";
 import PCD_2 from "@/components/PCD_2";
 import GridSection from "@/components/GridSection";
 import NotablesSection from "@/components/NotablesSection";
-import HeroSlider from "@/components/HeroSlider";
-import WhyChooseUs from "@/components/WhyChooseUs";
+import HeroSection from "@/components/HeroSection";
+import TrustCards from "@/components/TrustCards";
 import CategoriesGrid from "@/components/CategoriesGrid";
 import BrandMarquee from "@/components/BrandMarquee";
 import BannerProductSection from "@/components/BannerProductSection";
@@ -11,13 +11,12 @@ import SocialMediaSection from "@/components/SocialMediaSection";
 import CustomBuildBanners from "@/components/CustomBuildBanners";
 import type { SocialMediaReel } from "@/lib/types";
 
-// Enable ISR - Revalidate every 2 hours (7200 seconds)
-export const revalidate = 7200;
+// Enable ISR - Revalidate every 12 hours (43200 seconds)
+export const revalidate = 43200;
 
 export default async function Home() {
-  // Fetch categories and category slugs
+  // Fetch only the specific categories we need (12 for CategoriesGrid + 3 for product sections)
   const [
-    categories,
     latestArrivalCategory,
     motherboardsCategory,
     powerSuppliesCategory,
@@ -30,12 +29,9 @@ export default async function Home() {
     cpusCategory,
     pcCoolingSystemsCategory,
     appleProductsCategory,
-    printersScannerCategory,
     gamingMouseCategory,
-    macbookCategory,
     onSaleCategory,
   ] = await Promise.all([
-    getCategories(),
     getCategoryBySlug("latest-arrival"),
     getCategoryBySlug("motherboards"),
     getCategoryBySlug("power-supplies"),
@@ -48,36 +44,28 @@ export default async function Home() {
     getCategoryBySlug("cpus"),
     getCategoryBySlug("pc-cooling-systems"),
     getCategoryBySlug("apple-products"),
-    getCategoryBySlug("printers-scanners"),
     getCategoryBySlug("gaming-mouse"),
-    getCategoryBySlug("macbook"),
     getCategoryBySlug("on-sale"),
   ]);
 
-  // Fetch products for each category in parallel
+  // Fetch products for each section in parallel
   const [
     motherboards,
     powerSupplies,
     gamingKeyboards,
-    heroLaptops,
     latestArrivalProducts,
-    gamingMouseProducts,
+    trendingLaptops,
     onSaleProducts,
   ] = await Promise.all([
     motherboardsCategory ? getProducts({ category: String(motherboardsCategory.id), per_page: 4 }) : Promise.resolve([]),
     powerSuppliesCategory ? getProducts({ category: String(powerSuppliesCategory.id), per_page: 4 }) : Promise.resolve([]),
     gamingKeyboardsCategory ? getProducts({ category: String(gamingKeyboardsCategory.id), per_page: 4 }) : Promise.resolve([]),
-    macbookCategory 
-      ? getProducts({ category: String(macbookCategory.id), per_page: 5 }) 
-      : laptopsCategory 
-        ? getProducts({ category: String(laptopsCategory.id), per_page: 5 }) 
-        : getProducts({ per_page: 5 }), // For hero - get Macbook/Laptops up to 5
     getProducts({
       category: latestArrivalCategory ? String(latestArrivalCategory.id) : undefined,
       per_page: 6,
     }),
-    gamingMouseCategory ? getProducts({ category: String(gamingMouseCategory.id), per_page: 8 }) : Promise.resolve([]),
-    onSaleCategory ? getProducts({ category: String(onSaleCategory.id), per_page: 100 }) : Promise.resolve([]),
+    laptopsCategory ? getProducts({ category: String(laptopsCategory.id), per_page: 6 }) : Promise.resolve([]),
+    onSaleCategory ? getProducts({ category: String(onSaleCategory.id), per_page: 6 }) : Promise.resolve([]),
   ]);
 
   // Fallback: if latest-arrival category is empty, try featured products
@@ -140,8 +128,11 @@ export default async function Home() {
 
   return (
     <div>
-      {/* 1. Hero Slider */}
-      <HeroSlider laptopProducts={heroLaptops} />
+      {/* 1. Hero Slider - COMMENTED OUT - NEW HERO SECTION IN DEVELOPMENT */}
+      {/* <HeroSlider laptopProducts={heroLaptops} /> */}
+
+      {/* 1. NEW Hero Section - 3 Column Layout */}
+      <HeroSection />
 
       {/* 2. Categories Grid */}
       <CategoriesGrid 
@@ -165,8 +156,8 @@ export default async function Home() {
       {onSaleProducts.length > 0 && (
         <BannerProductSection
           title="On Sale"
-          bannerImageSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/on_sale_banner_desktop.png"
-          bannerImageMobileSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/on_sale_banner_mobile.png"
+          bannerImageSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/on-sale-banner-desktop-3x4-1.png"
+          bannerImageMobileSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/on-sale-banner-mobile-4x3-1.png"
           bannerImageAlt="On Sale Products"
           products={onSaleProducts}
           viewAllLink="/category/on-sale"
@@ -207,20 +198,21 @@ export default async function Home() {
         />
       )}
 
-      {/* 8. Gaming Mouse Banner + Products Section */}
-      {gamingMouseProducts.length > 0 && (
+      {/* 8. Trending Laptop Banner + Products Section */}
+      {trendingLaptops.length > 0 && (
         <BannerProductSection
-          title="Gaming Mouse"
-          bannerImageSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/mouse_banner.png"
-          bannerImageMobileSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/mouse_banner1_mobile.png"
-          bannerImageAlt="Gaming Mouse Collection"
-          products={gamingMouseProducts}
-          viewAllLink="/category/gaming-mouse"
+          title="Trending Laptop"
+          bannerImageSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/tranding-laptop-banner-desktop-3x4-1.png"
+          bannerImageMobileSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/tranding-laptop-banner-mobile-4x3-1.png"
+          bannerImageAlt="Trending Laptop Collection"
+          products={trendingLaptops}
+          viewAllLink="/category/laptops"
+          usePCD2={true}
         />
       )}
 
-      {/* 9. Why Choose Us Section */}
-      <WhyChooseUs />
+      {/* 9. Trust Cards Section */}
+      <TrustCards />
 
       {/* 10. Social Media Reels Section */}
       {socialMediaReels.length > 0 && (

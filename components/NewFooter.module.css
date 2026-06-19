@@ -300,7 +300,7 @@
    ═══════════════════════════════════════════════ */
 @media (min-width: 769px) {
   .grid {
-    grid-template-columns: 1.5fr 1fr 1fr 1.2fr; /* asymmetric columns */
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr; /* 5 columns layout */
     gap: 2px;
   }
 
