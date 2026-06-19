@@ -3,7 +3,7 @@ import { getCategories, getBrands } from "@/lib/woocommerce";
 
 // Force dynamic rendering - NOT generated at build time
 export const dynamic = "force-dynamic";
-export const revalidate = 43200; // Cache for 12 hours after first request
+export const revalidate = 604800; // Cache for 7 days after first request
 
 export async function GET() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
@@ -47,7 +47,7 @@ ${allRoutes
     return new Response(sitemap, {
       headers: {
         "Content-Type": "application/xml",
-        "Cache-Control": "public, max-age=43200, s-maxage=43200",
+        "Cache-Control": "public, max-age=604800, s-maxage=604800",
       },
     });
   } catch (error) {
