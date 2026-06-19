@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
 
-// Revalidate every 12 hours
-export const revalidate = 43200;
+// Force dynamic rendering - NOT generated at build time
+export const dynamic = "force-dynamic";
+export const revalidate = 43200; // Cache for 12 hours after first request
 
 export async function GET() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
