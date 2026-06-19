@@ -1,7 +1,7 @@
 .footer {
-  background-color: var(--color-outline); /* Gray #dadada background */
-  color: var(--color-on-surface); /* Near black #1a1c1c text */
-  border-top: 2px solid var(--color-on-surface);
+  background-color: #1a1c1c; /* Dark background */
+  color: var(--color-surface-container-lowest); /* White #ffffff text */
+  border-top: 2px solid var(--color-surface-container-lowest);
   margin-top: auto;
   position: relative;
   font-family: var(--font-body);
@@ -15,8 +15,8 @@
   flex-wrap: wrap;
   gap: 16px;
   padding: 24px var(--grid-margin);
-  background-color: var(--color-surface-container-lowest); /* White #ffffff cells */
-  border-bottom: 2px solid var(--color-on-surface);
+  background-color: #2a2c2c; /* Dark gray cells */
+  border-bottom: 2px solid var(--color-surface-container-lowest);
 }
 
 .bannerLeft {
@@ -35,7 +35,7 @@
   font-family: var(--font-display);
   font-size: 28px;
   font-weight: 800;
-  color: var(--color-on-surface); /* Near black text */
+  color: var(--color-surface-container-lowest); /* White text */
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -52,10 +52,10 @@
   align-items: center;
   gap: 8px;
   font-size: 10px;
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   padding: 6px 12px;
-  border: 1.5px solid var(--color-on-surface);
-  background-color: var(--color-surface); /* Off-white #f9f9f9 */
+  border: 1.5px solid var(--color-surface-container-lowest);
+  background-color: #1a1c1c; /* Dark background */
 }
 
 .statusDot {
@@ -68,7 +68,7 @@
 
 .bannerRight {
   font-size: 10px;
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   font-weight: 700;
   letter-spacing: 0.05em;
 }
@@ -77,19 +77,19 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2px; /* thick gray border gaps between white blocks */
-  background-color: var(--color-outline); /* #dadada */
+  gap: 2px; /* thick dark border gaps between dark blocks */
+  background-color: #1a1c1c; /* Dark background */
 }
 
 .col {
-  background-color: var(--color-surface-container-lowest); /* White #ffffff cells */
+  background-color: #2a2c2c; /* Dark gray cells */
   padding: 32px var(--grid-margin);
   position: relative;
   transition: background-color 0.2s ease;
 }
 
 .col:hover {
-  background-color: var(--color-surface); /* Off-white #f9f9f9 on cell hover */
+  background-color: #3a3c3c; /* Slightly lighter dark gray on cell hover */
 }
 
 .moduleNumber {
@@ -103,18 +103,18 @@
 
 .colTitle {
   font-size: 11px;
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   margin-bottom: 20px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  border-bottom: 1.5px solid var(--color-on-surface);
+  border-bottom: 1.5px solid var(--color-surface-container-lowest);
   padding-bottom: 4px;
   display: inline-block;
 }
 
 .brandDesc {
   font-size: 13px;
-  color: #4a4a4a; /* legible gray text on white */
+  color: #c4c4c4; /* Light gray text on dark */
   line-height: 1.7;
   margin: 0;
 }
@@ -148,7 +148,7 @@
 }
 
 .link {
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   font-size: 13px;
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
@@ -189,14 +189,14 @@
 
 .contactText {
   font-size: 13px;
-  color: #4a4a4a;
+  color: #c4c4c4;
   line-height: 1.6;
   margin: 0;
 }
 
 .whatsappCTA {
-  background-color: var(--color-surface); /* Off-white #f9f9f9 container */
-  border: 1.5px solid var(--color-on-surface);
+  background-color: #1a1c1c; /* Dark container */
+  border: 1.5px solid var(--color-surface-container-lowest);
   padding: 16px;
   position: relative;
 }
@@ -204,7 +204,7 @@
 .phoneLink {
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   font-weight: 700;
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
@@ -215,7 +215,7 @@
 }
 
 .waIcon {
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   transition: transform 0.2s ease;
 }
 
@@ -233,14 +233,14 @@
   height: 4px;
   background-color: var(--color-accent-lime); /* Lime green #ceff2f strip */
   width: 100%;
-  border-top: 2px solid var(--color-on-surface);
-  border-bottom: 2px solid var(--color-on-surface);
+  border-top: 2px solid var(--color-surface-container-lowest);
+  border-bottom: 2px solid var(--color-surface-container-lowest);
 }
 
 /* ─── Footer Bottom Row ─── */
 .bottomRow {
   padding: 24px var(--grid-margin);
-  background-color: var(--color-surface-container-lowest); /* White #ffffff cell */
+  background-color: #2a2c2c; /* Dark gray cell */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -250,7 +250,7 @@
 
 .copyright {
   font-size: 10px;
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   letter-spacing: 0.05em;
 }
 
@@ -262,8 +262,8 @@
 
 /* ─── Wholesale CTA ─── */
 .wholesaleCTA {
-  background-color: var(--color-surface);
-  border: 1.5px solid var(--color-on-surface);
+  background-color: #1a1c1c;
+  border: 1.5px solid var(--color-surface-container-lowest);
   border-top: none;
   padding: 16px;
   position: relative;
@@ -280,14 +280,14 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-on-surface);
+  color: var(--color-surface-container-lowest);
   text-decoration: none;
   padding: 10px 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   transition: color 0.2s ease;
-  border-bottom: 1px solid var(--color-outline);
+  border-bottom: 1px solid #4a4a4a;
 }
 
 .ntnLink:hover {
