@@ -21,6 +21,17 @@ const nextConfig: NextConfig = {
   },
   // Enable output: 'standalone' for optimized Docker/production builds
   output: 'standalone',
+  
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: '/category/on-sale',
+        destination: '/collection/on-sale',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
 };
 
 export default nextConfig;
