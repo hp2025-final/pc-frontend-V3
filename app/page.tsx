@@ -1,4 +1,4 @@
-import { getProducts, getCategoryBySlug } from "@/lib/woocommerce";
+import { getProducts, getCategoryBySlug, getTagBySlug } from "@/lib/woocommerce";
 import PCD_2 from "@/components/PCD_2";
 import GridSection from "@/components/GridSection";
 import NotablesSection from "@/components/NotablesSection";
@@ -30,6 +30,7 @@ export default async function Home() {
     pcCoolingSystemsCategory,
     appleProductsCategory,
     gamingMouseCategory,
+    saleTag,
   ] = await Promise.all([
     getCategoryBySlug("latest-arrival"),
     getCategoryBySlug("motherboards"),
@@ -44,6 +45,7 @@ export default async function Home() {
     getCategoryBySlug("pc-cooling-systems"),
     getCategoryBySlug("apple-products"),
     getCategoryBySlug("gaming-mouse"),
+    getTagBySlug("sale"),
   ]);
 
   // Fetch products for each section in parallel
@@ -53,7 +55,7 @@ export default async function Home() {
     gamingKeyboards,
     latestArrivalProducts,
     trendingLaptops,
-    onSaleRaw,
+    onSaleProducts,
   ] = await Promise.all([
     motherboardsCategory ? getProducts({ category: String(motherboardsCategory.id), per_page: 4 }) : Promise.resolve([]),
     powerSuppliesCategory ? getProducts({ category: String(powerSuppliesCategory.id), per_page: 4 }) : Promise.resolve([]),
@@ -63,17 +65,8 @@ export default async function Home() {
       per_page: 6,
     }),
     laptopsCategory ? getProducts({ category: String(laptopsCategory.id), per_page: 6 }) : Promise.resolve([]),
-    getProducts({ on_sale: true, per_page: 30, orderby: "price", order: "asc" }),
+    saleTag ? getProducts({ tag: String(saleTag.id), per_page: 8, orderby: "price", order: "asc" }) : Promise.resolve([]),
   ]);
-
-  // Filter on-sale products: must have valid regular_price, sale_price, and NO tags
-  const onSaleProducts = onSaleRaw
-    .filter(p => 
-      p.regular_price && parseFloat(p.regular_price) > 0 &&
-      p.sale_price && parseFloat(p.sale_price) > 0 &&
-      (!p.tags || p.tags.length === 0)
-    )
-    .slice(0, 8);  // Take first 8 products (already sorted low to high)
 
   // Fallback: if latest-arrival category is empty, try featured products
   let featuredProducts = latestArrivalProducts;

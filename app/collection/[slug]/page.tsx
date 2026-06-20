@@ -59,12 +59,12 @@ const COLLECTION_MAPPING: Record<string, { tagSlug: string; title: string; descr
     description: "Track the recent price increases and market updates for computer hardware and PC components in Pakistan."
   },
   "market-price": {
-    tagSlug: "",
+    tagSlug: "market",
     title: "Market Price",
     description: "Explore computer hardware and PC components available at stable market rates in Karachi."
   },
   "on-sale": {
-    tagSlug: "",
+    tagSlug: "sale",
     title: "On Sale",
     description: "Check out the latest discounted deals and promotional sales on computer hardware at PC Wala Online."
   }
