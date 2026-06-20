@@ -167,20 +167,39 @@ export default async function CollectionPage({ params, searchParams }: Collectio
   } else {
     // If the WooCommerce tag doesn't exist, or it is the "market-price" / "on-sale" page (which does not use a pricing tag by definition),
     // fetch products and filter them in memory based on the pricing scenarios.
-    const res = await getProductsWithCount({
-      page: 1,
-      per_page: 100, // Fetch a large batch to filter
-      orderby,
-      order,
-      ...(slug === "on-sale" ? { on_sale: true } : {}),
-      ...(priceRange ? { min_price: priceRange.min, max_price: priceRange.max } : {}),
-      ...(brandIdParam ? { brand: brandIdParam } : {}),
-      ...(currentSearch ? { search: currentSearch } : {}),
-    });
+    
+    // Fetch all products (multiple pages if needed) for client-side filtering
+    let allProducts: WooCommerceProduct[] = [];
+    let currentFetchPage = 1;
+    let hasMore = true;
+    const fetchPerPage = 100;
 
-    console.log(`[Collection fallback: ${slug}] Fetched ${res.products.length} products from WooCommerce API.`);
+    // Keep fetching until we have all products
+    while (hasMore) {
+      const res = await getProductsWithCount({
+        page: currentFetchPage,
+        per_page: fetchPerPage,
+        orderby,
+        order,
+        ...(slug === "on-sale" ? { on_sale: true } : {}),
+        ...(priceRange ? { min_price: priceRange.min, max_price: priceRange.max } : {}),
+        ...(brandIdParam ? { brand: brandIdParam } : {}),
+        ...(currentSearch ? { search: currentSearch } : {}),
+      });
 
-    const filtered = res.products.filter((product) => {
+      allProducts = allProducts.concat(res.products);
+
+      // Check if there are more pages
+      if (res.products.length < fetchPerPage || currentFetchPage >= res.totalPages) {
+        hasMore = false;
+      } else {
+        currentFetchPage++;
+      }
+    }
+
+    console.log(`[Collection fallback: ${slug}] Fetched ${allProducts.length} products from WooCommerce API.`);
+
+    const filtered = allProducts.filter((product) => {
       const priceInfo = getPriceTagInfo(product);
 
       const hasRegularPrice = product.regular_price && parseFloat(product.regular_price) > 0;
