@@ -167,7 +167,7 @@ export default async function Home() {
           bannerImageMobileSrc="https://api.pcwalaonline.com/wp-content/uploads/2026/06/on-sale-banner-mobile-4x3-1.png"
           bannerImageAlt="On Sale Products"
           products={onSaleProducts}
-          viewAllLink="/category/on-sale"
+          viewAllLink="/collection/on-sale"
           usePCD2={true}
         />
       )}
