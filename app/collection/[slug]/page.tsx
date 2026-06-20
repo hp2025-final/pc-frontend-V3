@@ -183,21 +183,16 @@ export default async function CollectionPage({ params, searchParams }: Collectio
     const filtered = res.products.filter((product) => {
       const priceInfo = getPriceTagInfo(product);
 
-      // Check if product has any of the pricing tags: price-up, price-down, or shift
-      const hasPricingTag = product.tags && product.tags.some((t) => 
-        t.slug === "price-up" || t.slug === "price-down" || t.slug === "shift"
-      );
-
       const hasRegularPrice = product.regular_price && parseFloat(product.regular_price) > 0;
       const hasSalePrice = product.sale_price && parseFloat(product.sale_price) > 0;
 
       if (slug === "market-price") {
-        // Market Price: Only Regular Price, NO Sale Price, NO Pricing Tags
-        return !hasPricingTag && hasRegularPrice && !hasSalePrice;
+        // Market Price: Only Regular Price, NO Sale Price, NO Tags
+        return (!product.tags || product.tags.length === 0) && hasRegularPrice && !hasSalePrice;
       }
       if (slug === "on-sale") {
-        // On Sale: Both Regular Price and Sale Price, NO Pricing Tags
-        return !hasPricingTag && hasRegularPrice && hasSalePrice;
+        // On Sale: Both Regular Price and Sale Price, NO Tags at all
+        return (!product.tags || product.tags.length === 0) && hasRegularPrice && hasSalePrice;
       }
       if (slug === "price-drops") {
         return priceInfo.tagType === "price-down";
