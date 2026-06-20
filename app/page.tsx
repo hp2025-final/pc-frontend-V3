@@ -15,7 +15,7 @@ import type { SocialMediaReel } from "@/lib/types";
 export const revalidate = 43200;
 
 export default async function Home() {
-  // Fetch only the specific categories we need (12 for CategoriesGrid + 3 for product sections)
+  // Fetch only the specific categories we need (12 for CategoriesGrid + 1 for product sections)
   const [
     latestArrivalCategory,
     motherboardsCategory,
@@ -30,7 +30,6 @@ export default async function Home() {
     pcCoolingSystemsCategory,
     appleProductsCategory,
     gamingMouseCategory,
-    onSaleCategory,
   ] = await Promise.all([
     getCategoryBySlug("latest-arrival"),
     getCategoryBySlug("motherboards"),
@@ -45,7 +44,6 @@ export default async function Home() {
     getCategoryBySlug("pc-cooling-systems"),
     getCategoryBySlug("apple-products"),
     getCategoryBySlug("gaming-mouse"),
-    getCategoryBySlug("on-sale"),
   ]);
 
   // Fetch products for each section in parallel
@@ -55,7 +53,7 @@ export default async function Home() {
     gamingKeyboards,
     latestArrivalProducts,
     trendingLaptops,
-    onSaleProducts,
+    onSaleRaw,
   ] = await Promise.all([
     motherboardsCategory ? getProducts({ category: String(motherboardsCategory.id), per_page: 4 }) : Promise.resolve([]),
     powerSuppliesCategory ? getProducts({ category: String(powerSuppliesCategory.id), per_page: 4 }) : Promise.resolve([]),
@@ -65,8 +63,17 @@ export default async function Home() {
       per_page: 6,
     }),
     laptopsCategory ? getProducts({ category: String(laptopsCategory.id), per_page: 6 }) : Promise.resolve([]),
-    onSaleCategory ? getProducts({ category: String(onSaleCategory.id), per_page: 6 }) : Promise.resolve([]),
+    getProducts({ on_sale: true, per_page: 30, orderby: "price", order: "asc" }),
   ]);
+
+  // Filter on-sale products: must have valid regular_price, sale_price, and NO tags
+  const onSaleProducts = onSaleRaw
+    .filter(p => 
+      p.regular_price && parseFloat(p.regular_price) > 0 &&
+      p.sale_price && parseFloat(p.sale_price) > 0 &&
+      (!p.tags || p.tags.length === 0)
+    )
+    .slice(0, 8);  // Take first 8 products (already sorted low to high)
 
   // Fallback: if latest-arrival category is empty, try featured products
   let featuredProducts = latestArrivalProducts;
