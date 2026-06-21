@@ -1,7 +1,7 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000; /* Increased to ensure header and all its children are above page content */
   background-color: var(--color-surface-container-lowest);
   border-bottom: 1px solid var(--color-outline);
   transition: transform 0.3s ease-in-out;
@@ -247,7 +247,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 32px;
-  z-index: 150;
+  z-index: 1050; /* Higher than header but lower than search dropdown */
 
   /* Slide/fold transition via max-height + opacity */
   max-height: 0;
@@ -383,7 +383,7 @@
     padding: 0 var(--grid-margin);
     gap: 0;
     max-width: 100%;
-    overflow: hidden;
+    overflow: visible; /* Changed from hidden to visible to allow dropdown to show */
   }
 
   .logo {
@@ -398,6 +398,7 @@
     justify-content: flex-end;
     flex-grow: 1;
     align-self: stretch;
+    overflow: visible; /* Ensure dropdown isn't clipped */
   }
 
   /* Desktop dividers: visible on desktop */
@@ -437,6 +438,8 @@
     flex: 1;
     padding: 8px 16px;
     box-sizing: border-box;
+    position: relative; /* Add position relative to contain dropdown */
+    overflow: visible; /* Ensure dropdown isn't clipped */
   }
 
   .desktopSearch :global(.searchContainer) {

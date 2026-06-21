@@ -9,7 +9,11 @@ import { WooCommerceProduct } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import styles from "./SearchBar.module.css";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  dropdownPosition?: "top" | "bottom"; // New prop to control dropdown position
+}
+
+export default function SearchBar({ dropdownPosition = "bottom" }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<WooCommerceProduct[]>([]);
   const [loading, setLoading] = useState(false);
@@ -108,7 +112,7 @@ export default function SearchBar() {
 
       {/* Live Search Brutalist Dropdown Popover */}
       {showDropdown && results.length > 0 && (
-        <div className={styles.dropdownPopover}>
+        <div className={`${styles.dropdownPopover} ${dropdownPosition === "top" ? styles.dropdownTop : ""}`}>
           {/* Headline header inside dropdown */}
           <div className={`${styles.dropdownHeader} label-mono`}>
             // MATCHING DATABASE HARDWARE

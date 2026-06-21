@@ -49,6 +49,8 @@
   margin: 0;
   width: 100%;
   flex-shrink: 0;
+  text-align: center; /* Center the heading */
+  background-color: #dadada; /* Heading background color */
 }
 
 .trackerCardsGrid {
@@ -63,7 +65,7 @@
 
 .trackerCard {
   position: relative;
-  background: var(--color-white);
+  background: #f9f9f9; /* Card background color */
   transition: background-color 0.2s ease;
   text-decoration: none;
   display: flex;
@@ -71,27 +73,10 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  overflow: visible;
 }
 
 .trackerCard:hover {
-  background-color: var(--color-surface-container-lowest);
-}
-
-.cornerBracket {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 12px;
-  height: 12px;
-  border-right: 2px solid var(--color-outline);
-  border-bottom: 2px solid var(--color-outline);
-  transition: border-color 0.3s ease;
-  pointer-events: none;
-}
-
-.trackerCard:hover .cornerBracket {
-  border-color: var(--color-accent-lime);
+  background-color: #ffffff; /* Card hover background color */
 }
 
 .trackerCardInner {
@@ -111,8 +96,28 @@
   flex-shrink: 0;
 }
 
-.trackerCard:hover .trackerIcon {
-  color: var(--color-accent-lime);
+/* Price Drop card hover - orange icon */
+.trackerCard:nth-child(1):hover .trackerIcon {
+  color: var(--color-orange); /* #ff7a2f */
+}
+
+/* Price Up card hover - lime green icon */
+.trackerCard:nth-child(2):hover .trackerIcon {
+  color: var(--color-lime); /* #ceff2f */
+}
+
+/* Market Fluctuation card hover - orange icon */
+.trackerCard:nth-child(3):hover .trackerIcon {
+  color: var(--color-orange); /* #ff7a2f */
+}
+
+/* Market Price card hover - up icon lime green, down icon orange */
+.trackerCard:nth-child(4):hover .trackerIcon path:first-child {
+  stroke: var(--color-lime); /* Up arrow lime green #ceff2f */
+}
+
+.trackerCard:nth-child(4):hover .trackerIcon path:last-child {
+  stroke: var(--color-orange); /* Down arrow orange #ff7a2f */
 }
 
 .trackerLabel {
@@ -265,11 +270,6 @@
   .trackerLabel {
     font-size: 10px;
     line-height: 1.1;
-  }
-
-  .cornerBracket {
-    width: 10px;
-    height: 10px;
   }
 
   .placeholderText {

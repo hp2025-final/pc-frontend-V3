@@ -6,8 +6,13 @@ import Link from "next/link";
 import { Search, Menu, X } from "lucide-react";
 import SearchBar from "./SearchBar";
 import styles from "./Header.module.css";
+import type { MenuData } from "@/lib/menuData";
 
-export default function Header() {
+interface HeaderProps {
+  menuData: MenuData;
+}
+
+export default function Header({ menuData }: HeaderProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
@@ -73,43 +78,6 @@ export default function Header() {
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/";
     return pathname.startsWith(path);
-  };
-
-  const megaMenuData = {
-    components: [
-      { name: "Graphic Card", slug: "gpus" },
-      { name: "PC Case", slug: "pc-cases" },
-      { name: "PC Cooling", slug: "pc-cooling-systems" },
-      { name: "Motherboard", slug: "motherboards" },
-      { name: "PSU", slug: "power-supplies" },
-      { name: "Storage", slug: "storage" },
-      { name: "PC RAM", slug: "ram" },
-      { name: "Gaming Keyboard", slug: "gaming-keyboards" },
-      { name: "Gaming Mouse", slug: "gaming-mouse" },
-    ],
-    pcAndLaptop: [
-      { name: "Laptop", slug: "laptops" },
-      { name: "Gaming PC", slug: "gaming-pc" },
-      { name: "Custom Builds", slug: "custom-builds" },
-      { name: "High-end PC", slug: "high-end-pc" },
-      { name: "Servers", slug: "servers" },
-      { name: "Branded PC", slug: "branded-pc" },
-    ],
-    appleProducts: [
-      { name: "Macbook", slug: "macbook" },
-      { name: "iPad", slug: "ipad" },
-      { name: "iMac", slug: "imac" },
-      { name: "Apple Accessories", slug: "apple-accessories" },
-    ],
-    accessories: [
-      { name: "Wifi Router", slug: "wifi-router" },
-      { name: "Speaker", slug: "speaker" },
-      { name: "Headset", slug: "headset" },
-      { name: "Podcast Setup", slug: "podcast-setup" },
-      { name: "PC Cables", slug: "pc-cables" },
-      { name: "Network Cables", slug: "network-cables" },
-      { name: "Printer and Scanner", slug: "printers-scanners" },
-    ],
   };
 
   const bracketStyle = (path: string) => ({

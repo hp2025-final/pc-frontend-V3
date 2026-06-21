@@ -10,8 +10,8 @@ export async function GET(request: Request) {
   }
   
   try {
-    // Query 5 matching products using the server-side WooCommerce client
-    const products = await getProducts({ search: query, per_page: 6 });
+    // Query 4 matching products using the server-side WooCommerce client
+    const products = await getProducts({ search: query, per_page: 4 });
     return NextResponse.json(products);
   } catch (error) {
     console.error("API search handler error:", error);

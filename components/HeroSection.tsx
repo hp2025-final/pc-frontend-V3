@@ -44,7 +44,6 @@ export default function HeroSection() {
                 href={`/collection/${card.collectionSlug}`}
                 className={styles.trackerCard}
               >
-                <span className={styles.cornerBracket} />
                 <div className={styles.trackerCardInner}>
                   {/* SVG Icons matching PCD_2 design */}
                   {card.icon === "price-down" && (
@@ -64,8 +63,8 @@ export default function HeroSection() {
                   )}
                   {card.icon === "market-price" && (
                     <svg className={styles.trackerIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M12 19V5M5 12l7-7 7 7" />
-                      <path d="M12 5v14M19 12l-7 7-7-7" />
+                      <path d="M12 2V10M5 5l7-3 7 3" />
+                      <path d="M12 14v10M19 19l-7 3-7-3" />
                     </svg>
                   )}
                   <span className={`${styles.trackerLabel} label-mono`}>

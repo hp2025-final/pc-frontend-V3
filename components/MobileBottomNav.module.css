@@ -7,10 +7,11 @@
   align-items: center;
   justify-content: space-around;
   background-color: var(--color-surface-container-lowest);
-  border-top: 1px solid var(--color-outline);
-  padding: 8px 0;
+  border-top: 2px solid var(--color-on-surface);
+  padding: 0;
   z-index: 99;
   transition: transform 0.3s ease-in-out;
+  height: 65px;
 }
 
 .bottomNavHidden {
@@ -23,46 +24,151 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 8px 12px;
+  padding: 12px 8px;
   color: var(--color-on-surface);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
   position: relative;
   flex: 1;
   min-width: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 100%;
 }
 
 .navItem:hover {
-  color: var(--color-primary);
+  background-color: var(--color-surface);
 }
 
 .navItemActive {
   color: var(--color-primary);
+  background-color: var(--color-surface);
 }
 
-.navItemActive::before {
+.navItemActive::after {
   content: '';
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 2px;
+  left: 0;
+  right: 0;
+  height: 3px;
   background-color: var(--color-accent-lime);
 }
 
 .navLabel {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* Menu Drawer - Same as Header Mobile Menu */
+.menuDrawer {
+  position: fixed;
+  bottom: 65px; /* Above bottom nav (updated height) */
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface-container-lowest);
+  border-top: 2px solid var(--color-on-surface);
+  z-index: 98;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 20px var(--grid-margin);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobileMenuUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobileMenuLink {
+  color: var(--color-on-surface);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobileMenuLink:hover {
+  color: var(--color-primary);
+}
+
+.mobileMenuSection {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-outline);
+}
+
+.mobileMenuSectionTitle {
+  font-size: 10px;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.mobileMenuSectionUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileMenuSubLink {
+  color: var(--color-on-surface);
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobileMenuSubLink:hover {
+  color: var(--color-primary);
+}
+
+/* Search Drawer - Same as Header Mobile Search */
+.searchDrawer {
+  position: fixed;
+  bottom: 65px; /* Above bottom nav (updated height) */
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  border-top: 2px solid var(--color-on-surface);
+  z-index: 98;
+  padding: 16px var(--grid-margin);
+  animation: slideUp 0.3s ease-out;
 }
 
 /* Hide on desktop */
 @media (min-width: 769px) {
   .bottomNav {
+    display: none;
+  }
+  
+  .menuDrawer {
+    display: none;
+  }
+  
+  .searchDrawer {
     display: none;
   }
 }

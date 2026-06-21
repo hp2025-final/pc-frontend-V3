@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import BrutalistProgressBar from "@/components/BrutalistProgressBar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import NewFooter from "@/components/NewFooter";
+import { getFilteredMenuData } from "@/lib/menuData";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -42,6 +43,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch filtered menu data (only categories with products)
+  const menuData = await getFilteredMenuData();
+  
   return (
     <html lang="en" className={`${sora.variable} ${ibmPlexSans.variable} ${spaceMono.variable}`}>
       <head>
@@ -156,12 +160,12 @@ export default async function RootLayout({
           </noscript>
         )}
         <AnnouncementBar />
-        <Header />
+        <Header menuData={menuData} />
         <Suspense fallback={null}>
           <BrutalistProgressBar />
         </Suspense>
         <main style={{ flexGrow: 1 }}>{children}</main>
-        <MobileBottomNav />
+        <MobileBottomNav menuData={menuData} />
         <NewFooter />
       </body>
     </html>
