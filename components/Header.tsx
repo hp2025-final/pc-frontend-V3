@@ -212,7 +212,7 @@ export default function Header({ menuData }: HeaderProps) {
         <div>
           <h3 className={`${styles.megaMenuColTitle} label-mono`}>COMPONENTS</h3>
           <ul className={styles.megaMenuColUl}>
-            {megaMenuData.components.map((item) => (
+            {menuData.components.map((item) => (
               <li key={item.slug}>
                 <Link
                   href={`/category/${item.slug}`}
@@ -230,7 +230,7 @@ export default function Header({ menuData }: HeaderProps) {
         <div>
           <h3 className={`${styles.megaMenuColTitle} label-mono`}>PC AND LAPTOP</h3>
           <ul className={styles.megaMenuColUl}>
-            {megaMenuData.pcAndLaptop.map((item) => (
+            {menuData.pcAndLaptop.map((item) => (
               <li key={item.slug}>
                 <Link
                   href={`/category/${item.slug}`}
@@ -248,7 +248,7 @@ export default function Header({ menuData }: HeaderProps) {
         <div>
           <h3 className={`${styles.megaMenuColTitle} label-mono`}>APPLE PRODUCTS</h3>
           <ul className={styles.megaMenuColUl}>
-            {megaMenuData.appleProducts.map((item) => (
+            {menuData.appleProducts.map((item) => (
               <li key={item.slug}>
                 <Link
                   href={`/category/${item.slug}`}
@@ -266,7 +266,7 @@ export default function Header({ menuData }: HeaderProps) {
         <div>
           <h3 className={`${styles.megaMenuColTitle} label-mono`}>ACCESSORIES</h3>
           <ul className={styles.megaMenuColUl}>
-            {megaMenuData.accessories.map((item) => (
+            {menuData.accessories.map((item) => (
               <li key={item.slug}>
                 <Link
                   href={`/category/${item.slug}`}
@@ -370,7 +370,7 @@ export default function Header({ menuData }: HeaderProps) {
               <li className={styles.mobileMenuSection}>
                 <div className={styles.mobileMenuSectionTitle}>COMPONENTS</div>
                 <ul className={styles.mobileMenuSectionUl}>
-                  {megaMenuData.components.map((item) => (
+                  {menuData.components.map((item) => (
                     <li key={item.slug}>
                       <Link href={`/category/${item.slug}`} onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
                         {item.name}
@@ -383,7 +383,7 @@ export default function Header({ menuData }: HeaderProps) {
               <li className={styles.mobileMenuSection}>
                 <div className={styles.mobileMenuSectionTitle}>PC AND LAPTOP</div>
                 <ul className={styles.mobileMenuSectionUl}>
-                  {megaMenuData.pcAndLaptop.map((item) => (
+                  {menuData.pcAndLaptop.map((item) => (
                     <li key={item.slug}>
                       <Link href={`/category/${item.slug}`} onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
                         {item.name}
@@ -396,7 +396,7 @@ export default function Header({ menuData }: HeaderProps) {
               <li className={styles.mobileMenuSection}>
                 <div className={styles.mobileMenuSectionTitle}>APPLE PRODUCTS</div>
                 <ul className={styles.mobileMenuSectionUl}>
-                  {megaMenuData.appleProducts.map((item) => (
+                  {menuData.appleProducts.map((item) => (
                     <li key={item.slug}>
                       <Link href={`/category/${item.slug}`} onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
                         {item.name}
@@ -409,7 +409,7 @@ export default function Header({ menuData }: HeaderProps) {
               <li className={styles.mobileMenuSection}>
                 <div className={styles.mobileMenuSectionTitle}>ACCESSORIES</div>
                 <ul className={styles.mobileMenuSectionUl}>
-                  {megaMenuData.accessories.map((item) => (
+                  {menuData.accessories.map((item) => (
                     <li key={item.slug}>
                       <Link href={`/category/${item.slug}`} onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuSubLink}>
                         {item.name}
