@@ -11,6 +11,18 @@ import styles from "./category.module.css";
 // ISR — revalidate every 12 hours (43200 seconds)
 export const revalidate = 43200;
 
+/**
+ * All category slugs (parent + children) that use the Pre-Built PC product template.
+ * Add any new child category slugs here when they are created in WooCommerce.
+ */
+const PRE_BUILT_PC_SLUGS = new Set([
+  "pre-built-pcs",
+  "prebuilt-pcs",
+  "pre-built-pc",
+  "prebuilt-pc",
+  "lizard-series",
+]);
+
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{
@@ -211,27 +223,38 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       />
 
       {/* ── Product Grid ── */}
-      {products.length > 0 ? (
-        <div className={styles.gridWrapper}>
-          {/* 12-col blueprint grid: each card spans 2 = 6 per row desktop, 2-col mobile */}
-          <div className="blueprint-grid grid-2-col-mobile">
-            {products.map((product) => (
-              <div key={product.id} style={{ gridColumn: "span 2" }}>
-                <PCD_2 product={product} />
-              </div>
-            ))}
+      {/* Determine product page template based on category */}
+      {(() => {
+        const usePreBuiltTemplate = PRE_BUILT_PC_SLUGS.has(slug);
+        return products.length > 0 ? (
+          <div className={styles.gridWrapper}>
+            {/* 12-col blueprint grid: each card spans 2 = 6 per row desktop, 2-col mobile */}
+            <div className="blueprint-grid grid-2-col-mobile">
+              {products.map((product) => (
+                <div key={product.id} style={{ gridColumn: "span 2" }}>
+                  <PCD_2
+                    product={product}
+                    productHref={
+                      usePreBuiltTemplate
+                        ? `/pre-built-pc/${product.slug}`
+                        : undefined
+                    }
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className={styles.emptyState}>
-          <p className={styles.emptyStateText}>
-            // NO PRODUCTS IN THIS SEGMENT.
-          </p>
-          <p className={styles.emptyStateSubtext}>
-            Try a different price range, brand, or search term.
-          </p>
-        </div>
-      )}
+        ) : (
+          <div className={styles.emptyState}>
+            <p className={styles.emptyStateText}>
+              // NO PRODUCTS IN THIS SEGMENT.
+            </p>
+            <p className={styles.emptyStateSubtext}>
+              Try a different price range, brand, or search term.
+            </p>
+          </div>
+        );
+      })()}
 
       {/* ── Pagination ── */}
       {totalPages > 1 && (

@@ -120,9 +120,9 @@ export default function Header({ menuData }: HeaderProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/category/custom-builds" className={`${styles.navLink} ${isActive("/category/custom-builds") ? styles.navLinkActive : ""}`}>
-                  CUSTOM BUILDS
-                  {isActive("/category/custom-builds") && <span className={styles.statusDot} />}
+                <Link href="/category/pre-built-pcs" className={`${styles.navLink} ${isActive("/category/pre-built-pcs") ? styles.navLinkActive : ""}`}>
+                  PRE-BUILT PCS
+                  {isActive("/category/pre-built-pcs") && <span className={styles.statusDot} />}
                 </Link>
               </li>
 
@@ -361,8 +361,8 @@ export default function Header({ menuData }: HeaderProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/category/custom-builds" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuLink}>
-                  CUSTOM BUILDS
+                <Link href="/category/pre-built-pcs" onClick={() => setMobileMenuOpen(false)} className={styles.mobileMenuLink}>
+                  PRE-BUILT PCS
                 </Link>
               </li>
 

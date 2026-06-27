@@ -8,9 +8,11 @@ import styles from "./PCD_2.module.css";
 
 interface PCD2Props {
   product: WooCommerceProduct;
+  /** Optional override for the product detail URL. Defaults to /product/[slug] */
+  productHref?: string;
 }
 
-export default function PCD_2({ product }: PCD2Props) {
+export default function PCD_2({ product, productHref }: PCD2Props) {
   const stock = getStockLabel(product.stock_status);
   const mainImage = product.images?.[0]?.src || "/placeholder-product.png";
   const isOutOfStock = product.stock_status === "outofstock";
@@ -45,10 +47,14 @@ export default function PCD_2({ product }: PCD2Props) {
 
   const hasFluctuation = tagType && percentage > 0 && !isScenarioShift;
 
+  // Resolve the destination URL for this product card
+  const cardHref = productHref ?? `/product/${product.slug}`;
+
   return (
     <div className={`${styles.card} pcd2-on-sale-card`}>
       {/* Invisible link overlay covering the entire card */}
-      <Link href={`/product/${product.slug}`} className={styles.linkOverlay} />
+      <Link href={cardHref} className={styles.linkOverlay} />
+
 
       {/* Visual Area: Product Image */}
       <div className={styles.imageArea}>
