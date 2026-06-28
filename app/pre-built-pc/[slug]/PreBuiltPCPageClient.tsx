@@ -15,9 +15,10 @@ import styles from "./prebuilt.module.css";
 interface PreBuiltPCPageClientProps {
   product: WooCommerceProduct;
   relatedProducts: WooCommerceProduct[];
+  children: React.ReactNode; // Expert & Why sections passed from server component
 }
 
-export default function PreBuiltPCPageClient({ product, relatedProducts }: PreBuiltPCPageClientProps) {
+export default function PreBuiltPCPageClient({ product, relatedProducts, children }: PreBuiltPCPageClientProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
@@ -779,41 +780,8 @@ export default function PreBuiltPCPageClient({ product, relatedProducts }: PreBu
               })()}
             </section>
 
-            {/* Expert Assessment Section - Flat Grid */}
-            {expertItems.length > 0 && (
-              <section className={styles.flatSection} id="expert-assessment">
-                <div className={styles.flatSectionHeader}>EXPERT ASSESSMENT</div>
-                <div className={styles.flatGrid}>
-                  {expertItems.map((item, idx) => (
-                    <div key={idx} className={styles.flatCard} id={`expert-${item.key}`}>
-                      <h3 className={styles.flatCardTitle}>{item.title}</h3>
-                      <div
-                        className={styles.flatCardContent}
-                        dangerouslySetInnerHTML={{ __html: String(item.value) }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Why Section - Flat Grid */}
-            {whyItems.length > 0 && (
-              <section className={styles.flatSection} id="why-chosen">
-                <div className={styles.flatSectionHeader}>WHY WE CHOSE THESE COMPONENTS?</div>
-                <div className={styles.flatGrid}>
-                  {whyItems.map((item, idx) => (
-                    <div key={idx} className={`${styles.flatCard} ${styles.whyCard}`} id={`why-${item.key}`}>
-                      <h3 className={styles.flatCardTitle}>{item.title}?</h3>
-                      <div
-                        className={styles.flatCardContent}
-                        dangerouslySetInnerHTML={{ __html: String(item.value) }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
+            {/* Expert Assessment & Why Sections - Server-rendered for SEO */}
+            {children}
 
           </section>
         </div>

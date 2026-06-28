@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, getProductsByIds, getProducts } from "@/lib/woocommerce";
 import { stripHtml, getPriceTagInfo, getProductMeta, formatPrice } from "@/lib/utils";
 import PreBuiltPCPageClient from "./PreBuiltPCPageClient";
+import ExpertAndWhySections from "./ExpertAndWhySections";
 
 interface PreBuiltPCPageProps {
   params: Promise<{ slug: string }>;
@@ -333,7 +334,9 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <PreBuiltPCPageClient product={product} relatedProducts={relatedProducts} />
+      <PreBuiltPCPageClient product={product} relatedProducts={relatedProducts}>
+        <ExpertAndWhySections product={product} />
+      </PreBuiltPCPageClient>
     </>
   );
 }
