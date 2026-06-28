@@ -327,6 +327,116 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
     }
   });
 
+  // Add more FAQ questions from assessment fields
+  const additionalFAQs = [
+    { key: "can_this_play_every_game_on_ultra", title: "Can this PC play every game on ultra settings?" },
+    { key: "where_you_should_avoid_ultra_settings", title: "Where should you avoid ultra settings on this PC?" },
+  ];
+
+  additionalFAQs.forEach((field) => {
+    const content = getMetaValue(field.key);
+    if (content) {
+      const cleanAnswer = stripHtml(content).trim();
+      if (cleanAnswer && cleanAnswer.length > 20) {
+        faqEntities.push({
+          "@type": "Question",
+          "name": field.title,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": cleanAnswer
+          }
+        });
+      }
+    }
+  });
+
+  // ─── BUILD EXPERT REVIEW BODY (800-1200 chars) ───────────────────────
+  let reviewBody = "";
+  const reviewParts: string[] = [];
+
+  // Part 1: Assessment Summary
+  const assessmentSummary = getMetaValue("assessment_summary");
+  if (assessmentSummary) {
+    const cleanSummary = stripHtml(assessmentSummary).trim();
+    if (cleanSummary) {
+      reviewParts.push(cleanSummary);
+    }
+  }
+
+  // Part 2: Value Rating
+  const valueRating = getMetaValue("acf_value_rating");
+  if (valueRating) {
+    reviewParts.push(`Expert rating: ${valueRating}/10.`);
+  }
+
+  // Part 3: Performance Analysis
+  const performanceParts: string[] = [];
+  
+  const competitiveGames = getMetaValue("competitive_games");
+  if (competitiveGames) {
+    const clean = stripHtml(competitiveGames).trim().slice(0, 200);
+    if (clean) performanceParts.push(clean);
+  }
+
+  const modernAAA = getMetaValue("modern_aaa_games");
+  if (modernAAA) {
+    const clean = stripHtml(modernAAA).trim().slice(0, 200);
+    if (clean) performanceParts.push(clean);
+  }
+
+  const rayTracing = getMetaValue("ray_tracing_reality");
+  if (rayTracing) {
+    const clean = stripHtml(rayTracing).trim().slice(0, 150);
+    if (clean) performanceParts.push(clean);
+  }
+
+  if (performanceParts.length > 0) {
+    reviewParts.push(`Performance: ${performanceParts.join(' ')}`);
+  }
+
+  // Part 4: AI Capabilities
+  const aiReality = getMetaValue("ai_reality");
+  if (aiReality) {
+    const clean = stripHtml(aiReality).trim().slice(0, 200);
+    if (clean) {
+      reviewParts.push(`AI Capabilities: ${clean}`);
+    }
+  }
+
+  // Part 5: Component Selection Reasoning
+  const componentReasons: string[] = [];
+  
+  whyFields.forEach((field) => {
+    const content = getMetaValue(field.key);
+    if (content && field.component) {
+      const clean = stripHtml(content).trim().slice(0, 120);
+      if (clean) {
+        componentReasons.push(`${field.component}: ${clean}`);
+      }
+    }
+  });
+
+  if (componentReasons.length > 0) {
+    // Use top 2-3 most important (GPU, CPU, RAM)
+    const topReasons = componentReasons.slice(0, 3).join(' ');
+    reviewParts.push(`Component selection: ${topReasons}`);
+  }
+
+  // Part 6: Value Proposition
+  if (badgesExpanded) {
+    reviewParts.push(`${badgesExpanded} build.`);
+  }
+
+  // Combine all parts
+  if (reviewParts.length > 0) {
+    reviewBody = reviewParts.join(' ');
+    
+    // Ensure it doesn't exceed 1200 chars
+    if (reviewBody.length > 1200) {
+      reviewBody = reviewBody.slice(0, 1197) + "...";
+    }
+  }
+
   // Extract model/series for schema
   const seriesAttr = product.attributes?.find(
     (a) => a.name.toLowerCase() === "series" || 
@@ -485,6 +595,29 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
     "mainEntity": faqEntities
   } : null;
 
+  // 5. Review Schema (Expert Assessment with Rating)
+  const reviewSchema = reviewBody && valueRating ? {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "itemReviewed": {
+      "@type": "Product",
+      "@id": `${siteUrl}/pre-built-pc/${product.slug}`,
+      "name": product.name
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "PC Wala Expert Team",
+      "url": siteUrl
+    },
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": valueRating,
+      "bestRating": "10"
+    },
+    "reviewBody": reviewBody,
+    "datePublished": new Date().toISOString().split('T')[0]
+  } : null;
+
   // Pass all data to client component for interactivity, and inject JSON-LD schemas
   return (
     <>
@@ -500,6 +633,12 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {reviewSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
         />
       )}
       <PreBuiltPCPageClient product={product} relatedProducts={relatedProducts}>
