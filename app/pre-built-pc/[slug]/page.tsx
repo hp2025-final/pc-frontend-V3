@@ -214,6 +214,126 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   const { brandName, condition } = getProductMeta(product);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
 
+  // ─── EXTRACT SPECIFICATIONS FOR additionalProperty ───────────────────
+  const getMetaValue = (key: string) => {
+    const found = product.meta_data?.find((m) => m.key === key);
+    return found ? String(found.value).trim() : "";
+  };
+
+  const additionalProperties: any[] = [];
+  
+  // Core PC Specs
+  const processor = getMetaValue("acf_processor");
+  const gpu = getMetaValue("acf_graphics_card");
+  const ram = getMetaValue("acf_ram");
+  const storage = getMetaValue("acf_storage");
+  const motherboard = getMetaValue("acf_motherboard");
+  const psu = getMetaValue("acf_power_supply");
+  const pcCase = getMetaValue("acf_pc_case");
+  const cooler = getMetaValue("acf_pc_coolers_fans");
+
+  if (processor) additionalProperties.push({ "@type": "PropertyValue", "name": "Processor", "value": processor });
+  if (gpu) additionalProperties.push({ "@type": "PropertyValue", "name": "Graphics Card", "value": gpu });
+  if (ram) additionalProperties.push({ "@type": "PropertyValue", "name": "RAM", "value": ram });
+  if (storage) additionalProperties.push({ "@type": "PropertyValue", "name": "Storage", "value": storage });
+  if (motherboard) additionalProperties.push({ "@type": "PropertyValue", "name": "Motherboard", "value": motherboard });
+  if (psu) additionalProperties.push({ "@type": "PropertyValue", "name": "Power Supply", "value": psu });
+  if (pcCase) additionalProperties.push({ "@type": "PropertyValue", "name": "Case", "value": pcCase });
+  if (cooler) additionalProperties.push({ "@type": "PropertyValue", "name": "Cooler", "value": cooler });
+
+  // Add warranty and condition as properties
+  additionalProperties.push({ 
+    "@type": "PropertyValue", 
+    "name": "Warranty", 
+    "value": "1 Year Limited Manufacturer Warranty" 
+  });
+  additionalProperties.push({ 
+    "@type": "PropertyValue", 
+    "name": "Condition", 
+    "value": "Brand New" 
+  });
+
+  // Add all other attributes as additional properties
+  product.attributes?.forEach((attr) => {
+    if (attr.options && attr.options.length > 0 && attr.visible) {
+      const attrName = attr.name;
+      const attrValue = attr.options.join(", ");
+      
+      // Skip if already added above
+      const isDuplicate = additionalProperties.some(p => 
+        p.name.toLowerCase() === attrName.toLowerCase()
+      );
+      
+      if (!isDuplicate && attrValue) {
+        additionalProperties.push({
+          "@type": "PropertyValue",
+          "name": attrName,
+          "value": attrValue
+        });
+      }
+    }
+  });
+
+  // ─── EXTRACT FAQ DATA FROM "WHY WE CHOSE" SECTIONS ───────────────────
+  const whyFields = [
+    { key: "why_section_why_we_selected_the_gpu", component: gpu, componentType: "GPU" },
+    { key: "why_section_why_we_selected_the_cpu", component: processor, componentType: "CPU" },
+    { key: "why_section_why_we_selected_the_motherboard", component: motherboard, componentType: "Motherboard" },
+    { key: "why_section_why_we_selected_the_ram", component: ram, componentType: "RAM" },
+    { key: "why_section_why_we_selected_the_storage", component: storage, componentType: "Storage" },
+    { key: "why_section_why_we_selected_the_cooler", component: cooler, componentType: "Cooler" },
+    { key: "why_section_why_we_selected_the_psu", component: psu, componentType: "PSU" },
+    { key: "why_section_why_we_selected_the_pc_case", component: pcCase, componentType: "PC Case" },
+  ];
+
+  const faqEntities: any[] = [];
+  
+  whyFields.forEach((field) => {
+    const content = getMetaValue(field.key);
+    if (content && field.component) {
+      // Strip HTML and get clean text for FAQ answer
+      const cleanAnswer = stripHtml(content).trim();
+      
+      if (cleanAnswer && cleanAnswer.length > 20) {
+        faqEntities.push({
+          "@type": "Question",
+          "name": `Why did PC Wala choose ${field.component} for this build?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": cleanAnswer
+          }
+        });
+      }
+    }
+  });
+
+  // Add expert assessment FAQs
+  const expertFields = [
+    { key: "assessment_summary", title: "What is the expert assessment of this pre-built PC?" },
+    { key: "competitive_games", title: "Can this PC run competitive games?" },
+    { key: "modern_aaa_games", title: "How does this PC perform in modern AAA games?" },
+    { key: "ray_tracing_reality", title: "Can this PC handle ray tracing?" },
+    { key: "ai_reality", title: "Is this PC suitable for AI and machine learning workloads?" },
+  ];
+
+  expertFields.forEach((field) => {
+    const content = getMetaValue(field.key);
+    if (content) {
+      const cleanAnswer = stripHtml(content).trim();
+      
+      if (cleanAnswer && cleanAnswer.length > 20) {
+        faqEntities.push({
+          "@type": "Question",
+          "name": field.title,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": cleanAnswer
+          }
+        });
+      }
+    }
+  });
+
   // Extract model/series for schema
   const seriesAttr = product.attributes?.find(
     (a) => a.name.toLowerCase() === "series" || 
@@ -246,9 +366,14 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
       "price": priceInfo.displayPrice,
       "priceCurrency": "PKR",
       "priceValidUntil": "2027-12-31",
-      "itemCondition": condition === "Used" ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition",
+      "itemCondition": "https://schema.org/NewCondition",
       "availability": product.stock_status === "instock" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       "url": `${siteUrl}/pre-built-pc/${product.slug}`,
+      "seller": {
+        "@type": "Organization",
+        "name": "PC Wala Online",
+        "url": siteUrl
+      },
       "shippingDetails": {
         "@type": "OfferShippingDetails",
         "shippingRate": {
@@ -264,37 +389,52 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
           "@type": "ShippingDeliveryTime",
           "handlingTime": {
             "@type": "QuantitativeValue",
-            "minValue": "0",
-            "maxValue": "1",
+            "minValue": 0,
+            "maxValue": 1,
             "unitCode": "DAY"
           },
           "transitTime": {
             "@type": "QuantitativeValue",
-            "minValue": "1",
-            "maxValue": "4",
+            "minValue": 1,
+            "maxValue": 4,
             "unitCode": "DAY"
           }
         }
+      },
+      "warranty": {
+        "@type": "WarrantyPromise",
+        "durationOfWarranty": {
+          "@type": "QuantitativeValue",
+          "value": 1,
+          "unitCode": "ANN"
+        },
+        "warrantyScope": "Limited manufacturer warranty covering defects in materials and workmanship for 1 year from date of purchase"
       }
     };
   }
 
-  // 2. Product Schema
+  // 2. Enhanced Product Schema with additionalProperty
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": product.name,
-    "model": modelNumber || undefined,
-    "mpn": product.sku || product.id.toString(),
-    "category": category?.name || "Pre-Built PC",
+    "description": stripHtml(product.short_description || product.description).slice(0, 500),
     "image": product.images?.map((img) => img.src) || [],
-    "description": stripHtml(product.short_description || product.description).slice(0, 300),
     "sku": product.sku || product.id.toString(),
+    "mpn": product.sku || product.id.toString(),
+    "gtin": product.sku || undefined,
     "brand": {
       "@type": "Brand",
-      "name": brandName
+      "name": brandName || "PC Wala"
     },
-    "offers": offersObj
+    "manufacturer": {
+      "@type": "Organization",
+      "name": brandName || "PC Wala"
+    },
+    "model": modelNumber || undefined,
+    "category": category?.name || "Pre-Built Gaming PC",
+    "offers": offersObj,
+    "additionalProperty": additionalProperties.length > 0 ? additionalProperties : undefined
   };
 
   // 3. Breadcrumb Schema
@@ -323,6 +463,13 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
     ]
   };
 
+  // 4. FAQ Schema (from "Why We Chose" and Expert Assessment sections)
+  const faqSchema = faqEntities.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqEntities
+  } : null;
+
   // Pass all data to client component for interactivity, and inject JSON-LD schemas
   return (
     <>
@@ -334,6 +481,12 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <PreBuiltPCPageClient product={product} relatedProducts={relatedProducts}>
         <ExpertAndWhySections product={product} />
       </PreBuiltPCPageClient>
