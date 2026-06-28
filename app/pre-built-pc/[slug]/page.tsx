@@ -25,111 +25,95 @@ export async function generateMetadata({ params }: PreBuiltPCPageProps): Promise
 
   const priceInfo = getPriceTagInfo(product);
   
-  // ─── EXTRACT ATTRIBUTES ───────────────────────────────────────────
-  
-  // 1. Brand
-  const brandAttr = product.attributes?.find((a) => a.name.toLowerCase() === "brand");
-  const brand = brandAttr?.options?.[0] || null;
-  
-  // 2. Series/Model
-  const seriesAttr = product.attributes?.find(
-    (a) => a.name.toLowerCase() === "series" || 
-           a.name.toLowerCase() === "model" ||
-           a.name.toLowerCase().includes("series") ||
-           a.name.toLowerCase().includes("model")
-  );
-  const series = seriesAttr?.options?.[0] || null;
-  
-  // 3. Warranty
-  const warrantyAttr = product.attributes?.find((a) => 
-    a.name.toLowerCase().includes("warranty")
-  );
-  const warranty = warrantyAttr?.options?.[0] || null;
-  
-  // 4. Condition
-  const conditionAttr = product.attributes?.find((a) => 
-    a.name.toLowerCase().includes("condition")
-  );
-  const condition = conditionAttr?.options?.[0] || null;
+  // ─── EXTRACT ACF FIELDS FOR METADATA ───────────────────────────────
+  const getMetaVal = (key: string) => {
+    const found = product.meta_data?.find((m) => m.key === key);
+    return found ? String(found.value).trim() : "";
+  };
 
-  // ─── BUILD META TITLE ──────────────────────────────────────────────
-  
+  const heading = getMetaVal("acf_heading");
+  const processor = getMetaVal("acf_processor");
+  const gpu = getMetaVal("acf_graphics_card");
+  const ram = getMetaVal("acf_ram");
+  const storage = getMetaVal("acf_storage");
+  const motherboard = getMetaVal("acf_motherboard");
+  const psu = getMetaVal("acf_power_supply");
+  const pcCase = getMetaVal("acf_pc_case");
+  const cooler = getMetaVal("acf_pc_coolers_fans");
+  const badges = getMetaVal("acf_badges");
+
+  // Shorten GPU/CPU for title (remove brand details in parentheses)
+  const gpuShort = gpu.replace(/\s*\([^)]*\)/g, '').trim();
+  const cpuShort = processor
+    .replace('Intel Core ', '')
+    .replace('AMD Ryzen ', 'R')
+    .replace(/\s*\([^)]*\)/g, '')
+    .trim();
+
+  // Format price for display
+  const priceDisplay = formatPrice(priceInfo.displayPrice);
+
+  // Split badges (take first 2 for description)
+  const badgeList = badges ? badges.split(',').map(b => b.trim()).filter(b => b) : [];
+  const badgesShort = badgeList.slice(0, 2).join(', ');
+  const badgesExpanded = badgeList.join('. ');
+
+  // ─── BUILD META TITLE (55-64 chars) ──────────────────────────────────
   let metaTitle = "";
   
-  if (brand && series) {
-    // Both available: Brand Series/Model Price in Pakistan | PC Wala Karachi
-    metaTitle = `${brand} ${series} Price in Pakistan | PC Wala Karachi`;
+  if (heading && gpuShort && cpuShort) {
+    // Option 1: With heading (preferred if short enough)
+    const titleWithHeading = `${heading}: ${gpuShort} ${cpuShort} PC Price Pakistan | PC Wala`;
+    if (titleWithHeading.length <= 64) {
+      metaTitle = titleWithHeading;
+    } else {
+      // Option 2: Without heading if too long
+      metaTitle = `${gpuShort} ${cpuShort} Pre-Built PC Price Pakistan | PC Wala`;
+    }
+  } else if (gpuShort && cpuShort) {
+    metaTitle = `${gpuShort} ${cpuShort} Pre-Built PC Price Pakistan | PC Wala`;
   } else {
-    // Missing either: Product Name Price in Pakistan | PC Wala Karachi
-    metaTitle = `${product.name} Price in Pakistan | PC Wala Karachi`;
-  }
-  
-  // Truncate if too long (keep under 60 chars)
-  if (metaTitle.length > 60) {
-    metaTitle = metaTitle.slice(0, 57) + "...";
+    // Fallback to product name
+    metaTitle = `${product.name} Price in Pakistan | PC Wala`;
   }
 
-  // ─── BUILD META DESCRIPTION (SCENARIO-AWARE) ───────────────────────
-  
-  let description = "";
-  
-  // Product reference for description
-  const productRef = (brand && series) ? `${brand} ${series}` : product.name;
-  
-  // Warranty & Condition text (with fallback)
-  let metaDetails = "";
-  if (warranty && condition) {
-    metaDetails = `${condition}, ${warranty}.`;
-  } else if (warranty) {
-    metaDetails = `${warranty}. Tested product, free WhatsApp support for hardware compatibility.`;
-  } else if (condition) {
-    metaDetails = `${condition}. Tested product, free WhatsApp support for hardware compatibility.`;
+  // Ensure title doesn't exceed 64 chars
+  if (metaTitle.length > 64) {
+    metaTitle = metaTitle.slice(0, 61) + "...";
+  }
+
+  // ─── BUILD META DESCRIPTION (155-160 chars) ───────────────────────────
+  let metaDescription = "";
+
+  if (heading && gpuShort && cpuShort && ram && storage) {
+    // Complete description with all key components
+    const descParts = [
+      `Buy ${heading} pre-built PC in Pakistan:`,
+      `${gpuShort}, ${cpuShort}, ${ram}, ${storage}.`,
+      badgesShort ? `${badgesShort}.` : '',
+      `Price: ${priceDisplay}.`,
+      `1-year warranty. PC Wala Online Karachi delivery.`
+    ];
+    metaDescription = descParts.filter(p => p).join(' ');
+  } else if (gpuShort && cpuShort) {
+    // Minimal description
+    metaDescription = `Buy pre-built gaming PC in Pakistan: ${gpuShort}, ${cpuShort}. Price: ${priceDisplay}. 1-year warranty. PC Wala Online Karachi with nationwide delivery.`;
   } else {
-    // No warranty or condition
-    metaDetails = `Tested product, free WhatsApp support for hardware compatibility.`;
+    // Fallback
+    metaDescription = `Buy ${product.name} in Pakistan. Gaming PC with genuine components. Price: ${priceDisplay}. 1-year warranty. PC Wala Online Karachi delivery.`;
   }
-  
-  // SCENARIO 0: HIGH FLUCTUATION (Shift Tag)
-  if (priceInfo.tagType === "shift") {
-    const maxP = priceInfo.priceMax ? formatPrice(priceInfo.priceMax) : "";
-    const minP = priceInfo.priceMin ? formatPrice(priceInfo.priceMin) : "";
-    description = `${productRef} price fluctuating in Pakistan (${minP} - ${maxP}). ${metaDetails} Buy at PC Wala Karachi.`;
-  }
-  
-  // SCENARIO 1: PRICE DOWN
-  else if (priceInfo.tagType === "price-down") {
-    const currentP = formatPrice(priceInfo.displayPrice);
-    const wasP = priceInfo.wasPrice ? formatPrice(priceInfo.wasPrice) : "";
-    description = `${productRef} price dropped ${priceInfo.percentage}% in Pakistan! Now ${currentP} (was ${wasP}). ${metaDetails} Shop at PC Wala Karachi.`;
-  }
-  
-  // SCENARIO 2: PRICE UP
-  else if (priceInfo.tagType === "price-up") {
-    const currentP = formatPrice(priceInfo.displayPrice);
-    const wasP = priceInfo.wasPrice ? formatPrice(priceInfo.wasPrice) : "";
-    description = `${productRef} price increased +${priceInfo.percentage}% in Pakistan. Now ${currentP} (was ${wasP}). ${metaDetails} Available at PC Wala Karachi.`;
-  }
-  
-  // SCENARIO 3: ON SALE (Standard WooCommerce Sale)
-  else if (product.on_sale && product.sale_price && product.regular_price) {
-    const saleP = formatPrice(product.sale_price);
-    const regP = formatPrice(product.regular_price);
-    const discount = Math.round(((parseFloat(product.regular_price) - parseFloat(product.sale_price)) / parseFloat(product.regular_price)) * 100);
-    description = `${productRef} on SALE in Pakistan! Save ${discount}%: ${saleP} (was ${regP}). ${metaDetails} Shop at PC Wala Karachi.`;
-  }
-  
-  // SCENARIO 4: MARKET PRICE (Stable)
-  else {
-    const currentP = formatPrice(priceInfo.displayPrice);
-    description = `Buy ${productRef} in Pakistan at ${currentP}. ${metaDetails} Available at PC Wala Karachi with nationwide delivery.`;
+
+  // Ensure description doesn't exceed 160 chars
+  if (metaDescription.length > 160) {
+    metaDescription = metaDescription.slice(0, 157) + "...";
   }
 
   return {
     title: metaTitle,
-    description: description.slice(0, 160), // Google displays ~155-160 chars
+    description: metaDescription,
     openGraph: {
       title: metaTitle,
-      description: description.slice(0, 160),
+      description: metaDescription,
       images: product.images?.[0]?.src ? [product.images[0].src] : [],
     },
   };
@@ -213,6 +197,9 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   const priceInfo = getPriceTagInfo(product);
   const { brandName, condition } = getProductMeta(product);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
+  
+  // Format price for display
+  const priceDisplay = formatPrice(priceInfo.displayPrice);
 
   // ─── EXTRACT SPECIFICATIONS FOR additionalProperty ───────────────────
   const getMetaValue = (key: string) => {
@@ -231,6 +218,12 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   const psu = getMetaValue("acf_power_supply");
   const pcCase = getMetaValue("acf_pc_case");
   const cooler = getMetaValue("acf_pc_coolers_fans");
+  const heading = getMetaValue("acf_heading");
+  const badges = getMetaValue("acf_badges");
+
+  // Process badges for schema description
+  const badgeList = badges ? badges.split(',').map(b => b.trim()).filter(b => b) : [];
+  const badgesExpanded = badgeList.join('. ');
 
   if (processor) additionalProperties.push({ "@type": "PropertyValue", "name": "Processor", "value": processor });
   if (gpu) additionalProperties.push({ "@type": "PropertyValue", "name": "Graphics Card", "value": gpu });
@@ -414,11 +407,33 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   }
 
   // 2. Enhanced Product Schema with additionalProperty
+  // Build comprehensive description for schema (400-600 chars)
+  let schemaDescription = "";
+  
+  if (heading && gpu && processor) {
+    const componentsList = [
+      gpu ? `${gpu} graphics card` : '',
+      processor ? `${processor} processor` : '',
+      ram ? `${ram} RAM` : '',
+      storage ? `${storage} storage` : '',
+      motherboard ? `${motherboard} motherboard` : '',
+      psu ? `${psu} power supply` : '',
+      pcCase ? `${pcCase} case` : ''
+    ].filter(c => c).join(', ');
+
+    const badgesText = badgesExpanded ? `${badgesExpanded} build. ` : '';
+    
+    schemaDescription = `Complete ${heading} pre-built gaming PC from PC Wala Online Pakistan featuring ${componentsList}. ${badgesText}Optimized for high-performance gaming at 1080p and 1440p resolutions, local AI workloads, machine learning tasks, and content creation. All genuine components with 1-year limited manufacturer warranty. Price: ${priceDisplay} in Pakistan. Available at PC Wala store in Saddar, Karachi with fast nationwide delivery across Pakistan including Lahore, Islamabad, and Faisalabad.`;
+  } else {
+    // Fallback description
+    schemaDescription = stripHtml(product.short_description || product.description).slice(0, 500);
+  }
+
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": product.name,
-    "description": stripHtml(product.short_description || product.description).slice(0, 500),
+    "description": schemaDescription,
     "image": product.images?.map((img) => img.src) || [],
     "sku": product.sku || product.id.toString(),
     "mpn": product.sku || product.id.toString(),
