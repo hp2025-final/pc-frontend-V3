@@ -2027,22 +2027,32 @@
   color: var(--color-on-surface-variant);
 }
 
-/* ─── COLLAPSIBLE SECTIONS (Expert Assessment & Why Section) ───────── */
-.productPageWrapper .collapsibleSection {
+/* ─── FLAT OPEN SECTIONS (Expert Assessment & Why Chose These Components) ─── */
+.productPageWrapper .flatSection {
   grid-column: 1 / -1;
   padding: 32px var(--grid-margin);
   background-color: var(--color-white);
   border-bottom: 2px solid #dadada;
-  border-top: none;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
-  margin: 0;
 }
 
-.productPageWrapper .collapsibleSectionHeader {
+/* Desktop: Side by side layout for Expert Assessment and Why Sections */
+@media (min-width: 769px) {
+  .productPageWrapper .flatSection {
+    grid-column: span 6; /* Each section takes 6 columns (half width) */
+    padding: 32px 24px;
+    border-right: 1px solid var(--color-outline);
+  }
+  
+  .productPageWrapper .flatSection:last-of-type {
+    border-right: none; /* Remove right border from last section */
+  }
+}
+
+.productPageWrapper .flatSectionHeader {
   font-family: var(--font-display); /* Sora */
-  font-size: 18px;
+  font-size: 23px; /* Increased 30% from 18px */
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-dark);
@@ -2050,99 +2060,92 @@
   border-left: 3px solid var(--color-accent-lime);
   padding-left: 12px;
   line-height: 1;
+  text-transform: uppercase;
 }
 
-.productPageWrapper .collapsibleList {
+.productPageWrapper .flatGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .productPageWrapper .flatGrid {
+    grid-template-columns: 1fr; /* Changed from 2 columns to 1 column */
+  }
+}
+
+.productPageWrapper .flatCard {
+  background: linear-gradient(to bottom right, rgba(249, 249, 249, 0.25), rgba(218, 218, 218, 0.25)); /* Gradient with 25% opacity */
+  border: 1px solid var(--color-outline);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  border: 1px solid var(--color-outline);
-}
-
-.productPageWrapper .collapsibleItem {
-  border-bottom: 1px solid var(--color-outline);
-}
-
-.productPageWrapper .collapsibleItem:last-child {
-  border-bottom: none;
-}
-
-.productPageWrapper .collapsibleToggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 16px 20px;
-  background-color: var(--color-off-white);
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
   gap: 12px;
+  position: relative;
+  box-sizing: border-box;
 }
 
-.productPageWrapper .collapsibleToggle:hover {
-  background-color: var(--color-white);
+/* Hover accent: subtle border highlight */
+.productPageWrapper .flatCard:hover {
+  border-color: var(--color-accent-lime);
 }
 
-/* When open: black bg + lime text, NO hover color change */
-.productPageWrapper .collapsibleToggleOpen,
-.productPageWrapper .collapsibleToggleOpen:hover {
-  background-color: var(--color-dark);
-}
-
-.productPageWrapper .collapsibleToggleOpen .collapsibleTitle,
-.productPageWrapper .collapsibleToggleOpen:hover .collapsibleTitle {
-  color: var(--color-accent-lime);
-}
-
-.productPageWrapper .collapsibleToggleOpen .collapsibleChevron,
-.productPageWrapper .collapsibleToggleOpen:hover .collapsibleChevron {
-  color: var(--color-accent-lime);
-  transform: rotate(180deg);
-}
-
-.productPageWrapper .collapsibleTitle {
+.productPageWrapper .flatCardTitle {
   font-family: var(--font-display); /* Sora */
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--color-dark);
-  text-align: left;
-}
-
-.productPageWrapper .collapsibleChevron {
-  color: var(--color-on-surface-variant);
-  flex-shrink: 0;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.productPageWrapper .collapsibleContent {
-  padding: 24px 20px;
-  background-color: var(--color-white);
-  border-top: 1px solid var(--color-outline);
-  font-family: var(--font-body); /* IBM Plex Sans */
   font-size: 14px;
-  line-height: 1.7;
-  color: var(--color-on-surface);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  margin: 0;
 }
 
-/* Force all tables inside collapsible content to full-width with equal columns */
-.productPageWrapper .collapsibleContent table {
+/* Why We Selected hardware card title */
+.productPageWrapper .whyCard .flatCardTitle {
+  color: var(--color-dark);
+}
+
+.productPageWrapper .flatCardContent {
+  font-family: var(--font-body); /* IBM Plex Sans */
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-on-surface-variant);
+}
+
+/* Styles for lists and tables in the flat card content */
+.productPageWrapper .flatCardContent p {
+  margin: 0 0 12px 0;
+}
+
+.productPageWrapper .flatCardContent p:last-child {
+  margin-bottom: 0;
+}
+
+.productPageWrapper .flatCardContent strong {
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+/* Force all tables inside flat content to full-width with equal columns */
+.productPageWrapper .flatCardContent table {
   width: 100% !important;
   max-width: 100% !important;
   border-collapse: collapse;
   margin: 16px 0;
   font-family: var(--font-body);
   font-size: 13px;
-  table-layout: fixed; /* Equal-width columns: 2 cols=50%, 3 cols=33%, 4 cols=25% */
+  table-layout: fixed;
 }
 
-.productPageWrapper .collapsibleContent thead {
-  background-color: var(--color-dark);
-  color: var(--color-white);
+.productPageWrapper .flatCardContent thead {
+  background-color: #f9f9f9; /* Changed from var(--color-dark) to #f9f9f9 */
+  color: var(--color-dark); /* Changed from var(--color-white) to black */
 }
 
-.productPageWrapper .collapsibleContent thead th {
+.productPageWrapper .flatCardContent thead th {
   padding: 10px 14px;
   font-family: var(--font-display);
   font-size: 11px;
@@ -2151,10 +2154,10 @@
   text-transform: uppercase;
   text-align: left;
   border: 1px solid var(--color-outline);
-  color: var(--color-orange); /* Orange text on black header */
+  color: var(--color-dark); /* Changed from var(--color-orange) to black */
 }
 
-.productPageWrapper .collapsibleContent tbody td {
+.productPageWrapper .flatCardContent tbody td {
   padding: 10px 14px;
   border: 1px solid var(--color-outline);
   font-size: 13px;
@@ -2162,63 +2165,368 @@
   background-color: var(--color-white);
 }
 
-.productPageWrapper .collapsibleContent tbody tr:nth-child(even) td {
+.productPageWrapper .flatCardContent tbody tr:nth-child(even) td {
   background-color: var(--color-off-white);
 }
 
-.productPageWrapper .collapsibleContent p {
-  margin: 0 0 12px 0;
+/* Brackets for Why cards */
+/* Mobile responsive overrides */
+@media (max-width: 768px) {
+  .productPageWrapper .flatSection {
+    padding: 24px var(--grid-margin);
+  }
+
+  .productPageWrapper .flatCard {
+    padding: 16px;
+  }
+
+  .productPageWrapper .flatCardTitle {
+    font-size: 12px;
+  }
+
+  .productPageWrapper .flatCardContent {
+    font-size: 12px;
+  }
+
+  .productPageWrapper .flatCardContent table {
+    font-size: 11px;
+  }
+
+  .productPageWrapper .flatCardContent thead th,
+  .productPageWrapper .flatCardContent tbody td {
+    padding: 8px 10px;
+  }
 }
 
-.productPageWrapper .collapsibleContent p:last-child {
-  margin-bottom: 0;
+/* ─── MAIN LAYOUT GRID (Desktop 10-col / 2-col split layout) ───────── */
+@media (min-width: 769px) {
+  .productPageWrapper .mainLayoutGrid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .productPageWrapper .leftContentColumn {
+    grid-column: span 10;
+    padding: 0;
+  }
+
+  .productPageWrapper .rightJumpColumn {
+    grid-column: span 2;
+    position: relative;
+    padding: 0;
+  }
 }
 
-.productPageWrapper .collapsibleContent strong {
+/* ─── DESKTOP STICKY NAVIGATOR DRAWER ────────────────────────────────── */
+.productPageWrapper .stickyJumpContainer {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .productPageWrapper .stickyJumpContainer {
+    display: block;
+    position: sticky;
+    top: 100px;
+    width: 100%; /* Full width - always open */
+    height: auto;
+    max-height: calc(100vh - 150px);
+    background-color: var(--color-white);
+    border-left: 1px solid var(--color-outline);
+    padding: 16px 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 100;
+    box-sizing: border-box;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+  }
+
+  .productPageWrapper .stickyJumpContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .productPageWrapper .stickyJumpHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--color-outline);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-orange);
+    white-space: nowrap;
+  }
+
+  .productPageWrapper .stickyJumpHeaderNum {
+    width: 24px;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .productPageWrapper .stickyJumpHeaderTitle {
+    opacity: 1; /* Always visible */
+  }
+
+  .productPageWrapper .stickyJumpList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .productPageWrapper .stickyJumpItem {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .productPageWrapper .stickyJumpLink {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    color: var(--color-dark);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    transition: color 0.2s ease;
+  }
+
+  .productPageWrapper .stickyJumpLink:hover {
+    color: var(--color-orange);
+  }
+
+  .productPageWrapper .stickyJumpNum {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-on-surface-variant);
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--color-outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .productPageWrapper .stickyJumpLink:hover .stickyJumpNum {
+    border-color: var(--color-orange);
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .productPageWrapper .stickyJumpLabel {
+    opacity: 1; /* Always visible */
+    white-space: nowrap;
+  }
+
+  .productPageWrapper .stickyJumpSubList {
+    list-style: none;
+    padding: 4px 0 0 36px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 300px; /* Always visible */
+    opacity: 1; /* Always visible */
+    overflow: hidden;
+  }
+
+  .productPageWrapper .stickyJumpSubItem {
+    display: flex;
+  }
+
+  .productPageWrapper .stickyJumpSubLink {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--color-on-surface-variant);
+    text-align: left;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .productPageWrapper .stickyJumpSubLink:hover {
+    color: var(--color-orange);
+  }
+}
+
+/* ─── MOBILE STICKY FLOATING DRAWER ─────────────────────────────────── */
+.productPageWrapper .mobileFloatTrigger {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--color-orange);
+  color: var(--color-white);
+  border: 1px solid var(--color-dark);
+  border-right: none;
+  padding: 16px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  cursor: pointer;
+  z-index: 1001;
+  display: block;
+  box-shadow: -2px 2px 0 var(--color-dark);
+  border-radius: 0;
+}
+
+.productPageWrapper .mobileDrawerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(26, 28, 28, 0.6);
+  z-index: 1002;
+}
+
+.productPageWrapper .mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  max-width: 320px;
+  height: 100%;
+  background-color: var(--color-white);
+  border-left: 1px solid var(--color-outline);
+  z-index: 1003;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.productPageWrapper .mobileDrawerOpen {
+  transform: translateX(0);
+}
+
+.productPageWrapper .mobileDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-outline);
+  padding-bottom: 12px;
+}
+
+.productPageWrapper .mobileDrawerHeaderTitle {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-dark);
+  letter-spacing: -0.01em;
+}
+
+.productPageWrapper .mobileDrawerClose {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--color-dark);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.productPageWrapper .mobileDrawerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.productPageWrapper .mobileDrawerItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.productPageWrapper .mobileDrawerLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-dark);
+  width: 100%;
+}
+
+.productPageWrapper .mobileDrawerNum {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-on-surface-variant);
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.productPageWrapper .mobileDrawerLabel {
+  font-family: var(--font-display);
+  font-size: 13px;
   font-weight: 700;
   color: var(--color-dark);
 }
 
-/* Strip external WordPress/ChatGPT editor classes */
-.productPageWrapper .collapsibleContent div[class] {
-  all: unset;
-  display: block;
-  width: 100% !important;
+.productPageWrapper .mobileDrawerSubList {
+  list-style: none;
+  padding: 8px 0 0 34px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Ensure overflow scrolling for wide tables on mobile */
-.productPageWrapper .collapsibleContent .tableWrapper,
-.productPageWrapper .collapsibleContent div {
-  overflow-x: auto;
-  max-width: 100%;
+.productPageWrapper .mobileDrawerSubLink {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  text-align: left;
 }
 
-/* Mobile responsive for collapsible */
-@media (max-width: 768px) {
-  .productPageWrapper .collapsibleSection {
-    padding: 24px var(--grid-margin);
-  }
-
-  .productPageWrapper .collapsibleToggle {
-    padding: 14px 16px;
-  }
-
-  .productPageWrapper .collapsibleTitle {
-    font-size: 12px;
-  }
-
-  .productPageWrapper .collapsibleContent {
-    padding: 16px;
-    font-size: 13px;
-  }
-
-  .productPageWrapper .collapsibleContent table {
-    font-size: 11px;
-  }
-
-  .productPageWrapper .collapsibleContent thead th,
-  .productPageWrapper .collapsibleContent tbody td {
-    padding: 8px 10px;
+@media (min-width: 769px) {
+  .productPageWrapper .mobileFloatTrigger,
+  .productPageWrapper .mobileDrawer {
+    display: none;
   }
 }
 
