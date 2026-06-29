@@ -468,6 +468,11 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
       "offerCount": "1",
       "availability": product.stock_status === "instock" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       "url": `${siteUrl}/pre-built-pc/${product.slug}`,
+      "seller": {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        "name": "PC Wala Online"
+      }
     };
   } else {
     offersObj = {
@@ -480,8 +485,8 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
       "url": `${siteUrl}/pre-built-pc/${product.slug}`,
       "seller": {
         "@type": "Organization",
-        "name": "PC Wala Online",
-        "url": siteUrl
+        "@id": `${siteUrl}/#organization`,
+        "name": "PC Wala Online"
       },
       "shippingDetails": {
         "@type": "OfferShippingDetails",
@@ -516,8 +521,7 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
           "@type": "QuantitativeValue",
           "value": 1,
           "unitCode": "ANN"
-        },
-        "warrantyScope": "Limited manufacturer warranty covering defects in materials and workmanship for 1 year from date of purchase"
+        }
       }
     };
   }
@@ -548,48 +552,51 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   // Extract brand from heading (e.g., "Lizard Z1" -> "Lizard")
   const productBrand = heading ? heading.split(' ')[0] : "PC Wala";
 
-  // Build hasPart for components (GPU, CPU, RAM, Storage, Motherboard)
-  const hasPart: any[] = [];
+  // Brand should be the series name (e.g., "Lizard"), not category
+  const schemaBrandName = productBrand;
+
+  // Build isRelatedTo for components (replacing hasPart to avoid Google errors)
+  const isRelatedTo: any[] = [];
   
   if (processor) {
-    const cpuBrand = processor.includes('Intel') ? 'Intel' : processor.includes('AMD') ? 'AMD' : undefined;
-    hasPart.push({
-      "@type": "Product",
-      "name": processor,
-      "brand": cpuBrand ? { "@type": "Brand", "name": cpuBrand } : undefined
+    isRelatedTo.push({
+      "@type": "Thing",
+      "name": processor
     });
   }
 
   if (gpu) {
-    const gpuBrand = gpu.includes('RTX') || gpu.includes('GTX') ? 'NVIDIA' : gpu.includes('RX') || gpu.includes('Radeon') ? 'AMD' : undefined;
-    hasPart.push({
-      "@type": "Product",
-      "name": gpu,
-      "brand": gpuBrand ? { "@type": "Brand", "name": gpuBrand } : undefined
-    });
-  }
-
-  if (ram) {
-    hasPart.push({
-      "@type": "Product",
-      "name": ram,
-      "category": "Computer Memory"
-    });
-  }
-
-  if (storage) {
-    hasPart.push({
-      "@type": "Product",
-      "name": storage,
-      "category": "Computer Storage"
+    isRelatedTo.push({
+      "@type": "Thing",
+      "name": gpu
     });
   }
 
   if (motherboard) {
-    hasPart.push({
-      "@type": "Product",
-      "name": motherboard,
-      "category": "Computer Motherboard"
+    isRelatedTo.push({
+      "@type": "Thing",
+      "name": motherboard
+    });
+  }
+
+  if (storage) {
+    isRelatedTo.push({
+      "@type": "Thing",
+      "name": storage
+    });
+  }
+
+  if (ram) {
+    isRelatedTo.push({
+      "@type": "Thing",
+      "name": ram
+    });
+  }
+
+  if (cooler) {
+    isRelatedTo.push({
+      "@type": "Thing",
+      "name": cooler
     });
   }
 
@@ -600,23 +607,23 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
     "description": schemaDescription,
     "image": product.images?.map((img) => img.src) || [],
     "sku": product.sku || product.id.toString(),
-    "mpn": product.sku || product.id.toString(),
-    "gtin": product.sku || undefined,
     "brand": {
       "@type": "Brand",
-      "name": productBrand
+      "name": schemaBrandName
     },
     "manufacturer": {
-      "@id": `${siteUrl}/#organization`
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      "name": "PC Wala Online"
     },
-    "seller": {
-      "@id": `${siteUrl}/#organization`
-    },
-    "model": modelNumber || undefined,
+    "model": heading || undefined,
     "category": category?.name || "Pre-Built Gaming PC",
     "offers": offersObj,
     "additionalProperty": additionalProperties.length > 0 ? additionalProperties : undefined,
-    "hasPart": hasPart.length > 0 ? hasPart : undefined
+    "isRelatedTo": isRelatedTo.length > 0 ? isRelatedTo : undefined,
+    "review": {
+      "@id": `${siteUrl}/pre-built-pc/${product.slug}#review`
+    }
   };
 
   // 3. Breadcrumb Schema
@@ -656,15 +663,11 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   const reviewSchema = reviewBody && cleanRating ? {
     "@context": "https://schema.org",
     "@type": "Review",
-    "itemReviewed": {
-      "@type": "Product",
-      "@id": `${siteUrl}/pre-built-pc/${product.slug}`,
-      "name": product.name
-    },
+    "@id": `${siteUrl}/pre-built-pc/${product.slug}#review`,
     "author": {
       "@type": "Organization",
-      "name": "PC Wala Expert Team",
-      "url": siteUrl
+      "@id": `${siteUrl}/#organization`,
+      "name": "PC Wala Online"
     },
     "reviewRating": {
       "@type": "Rating",
