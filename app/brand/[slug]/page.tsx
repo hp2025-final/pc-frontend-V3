@@ -56,9 +56,14 @@ export async function generateMetadata({ params }: BrandPageProps): Promise<Meta
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
+
   return {
     title: `${brandName} Products — PC Wala Online`,
     description: `Browse all ${brandName} products at PC Wala Online. High quality computer hardware and components.`,
+    alternates: {
+      canonical: `${siteUrl}/brand/${slug}`,
+    },
   };
 }
 

@@ -6,11 +6,11 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
+      allow: ["/", "/_next/static/"],
       disallow: [
         "/search",    // Search queries consume crawl budget and lead to index bloat
         "/api/",      // Next.js API directory should not be crawled
-        "/_next/",    // Next.js static asset paths
+        "/_next/",    // Next.js build files (but static assets are allowed above)
       ],
     },
     sitemap: `${siteUrl}/sitemap.xml`,

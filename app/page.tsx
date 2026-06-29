@@ -14,6 +14,19 @@ import type { SocialMediaReel } from "@/lib/types";
 // Enable ISR - Revalidate every 12 hours (43200 seconds)
 export const revalidate = 43200;
 
+// Metadata for homepage
+export async function generateMetadata() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
+  
+  return {
+    title: "PC Wala Online — Premium Computer Hardware in Pakistan",
+    description: "Karachi's ultimate hub for customized desktop gaming computers, workstation rigs, high-end graphic cards, processors, accessories & premium laptops.",
+    alternates: {
+      canonical: siteUrl,
+    },
+  };
+}
+
 export default async function Home() {
   // Fetch only the specific categories we need (12 for CategoriesGrid + 1 for product sections)
   const [

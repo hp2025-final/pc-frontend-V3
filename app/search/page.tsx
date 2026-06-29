@@ -21,6 +21,10 @@ interface SearchPageProps {
 export const metadata: Metadata = {
   title: "Search Results — PC Wala Online",
   description: "Search premium computer components, gaming parts, and custom laptop configurations.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 // ─── Price range map ────────────────────────────────────────────────────────

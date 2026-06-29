@@ -126,6 +126,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   return {
     title: metaTitle,
     description: description.slice(0, 160), // Google displays ~155-160 chars
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com"}/product/${slug}`,
+    },
     openGraph: {
       title: metaTitle,
       description: description.slice(0, 160),

@@ -69,11 +69,16 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
   if (!category) return { title: "Category Not Found" };
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
+
   return {
     title: `${category.name} — Buy in Pakistan`,
     description:
       category.description ||
       `Browse original ${category.name} at PC Wala Online. High performance hardware units.`,
+    alternates: {
+      canonical: `${siteUrl}/category/${slug}`,
+    },
   };
 }
 

@@ -104,6 +104,9 @@ export async function generateMetadata({ params }: PreBuiltPCPageProps): Promise
   return {
     title: metaTitle,
     description: metaDescription,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com"}/pre-built-pc/${slug}`,
+    },
     openGraph: {
       title: metaTitle,
       description: metaDescription,

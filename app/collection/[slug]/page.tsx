@@ -92,9 +92,14 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
 
   if (!config) return { title: "Collection Not Found" };
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
+
   return {
     title: `${config.title} in Pakistan | PC Wala Online`,
     description: config.description,
+    alternates: {
+      canonical: `${siteUrl}/collection/${slug}`,
+    },
   };
 }
 
