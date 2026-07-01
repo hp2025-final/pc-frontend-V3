@@ -88,8 +88,6 @@ export default function Header({ menuData }: HeaderProps) {
     <header className={`${styles.header} ${!isVisible ? styles.headerHidden : ""}`}>
       {/* Desktop & Mobile Main Header Row */}
       <div className={styles.container}>
-        {/* Orange bracket corner - bottom right */}
-        <span className={styles.cornerBracket} />
 
         {/* Logo */}
         <Link href="/" className={styles.logo}>
