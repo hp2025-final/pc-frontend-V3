@@ -6,8 +6,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import SearchControls from "@/components/SearchControls";
 import styles from "./search.module.css";
 
-// ISR — revalidate every 12 hours (43200 seconds)
-export const revalidate = 43200;
+// ISR — revalidate every 30 days (2592000 seconds)
+export const revalidate = 2592000;
 
 interface SearchPageProps {
   searchParams: Promise<{

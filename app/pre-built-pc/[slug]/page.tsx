@@ -9,8 +9,8 @@ interface PreBuiltPCPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// ISR: Revalidate every 12 hours (43200 seconds)
-export const revalidate = 43200;
+// ISR: Revalidate every 30 days (2592000 seconds)
+export const revalidate = 2592000;
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PreBuiltPCPageProps): Promise<Metadata> {

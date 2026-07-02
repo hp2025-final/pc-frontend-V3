@@ -9,8 +9,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import CategoryControls from "@/components/CategoryControls";
 import styles from "./collection.module.css";
 
-// ISR — revalidate every 12 hours
-export const revalidate = 43200;
+// ISR — revalidate every 30 days (2592000 seconds)
+export const revalidate = 2592000;
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;

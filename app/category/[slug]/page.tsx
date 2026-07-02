@@ -8,8 +8,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import CategoryControls from "@/components/CategoryControls";
 import styles from "./category.module.css";
 
-// ISR — revalidate every 12 hours (43200 seconds)
-export const revalidate = 43200;
+// ISR — revalidate every 30 days (2592000 seconds)
+export const revalidate = 2592000;
 
 /**
  * All category slugs (parent + children) that use the Pre-Built PC product template.

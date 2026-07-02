@@ -11,8 +11,8 @@ import SocialMediaSection from "@/components/SocialMediaSection";
 import CustomBuildBanners from "@/components/CustomBuildBanners";
 import type { SocialMediaReel } from "@/lib/types";
 
-// Enable ISR - Revalidate every 12 hours (43200 seconds)
-export const revalidate = 43200;
+// Enable ISR - Revalidate every 30 days (2592000 seconds)
+export const revalidate = 2592000;
 
 // Metadata for homepage
 export async function generateMetadata() {
