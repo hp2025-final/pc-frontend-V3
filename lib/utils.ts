@@ -138,6 +138,45 @@ ${priceMessage}
 }
 
 /**
+ * Generate WhatsApp link for pre-built PC with full configuration.
+ */
+export function generatePreBuiltWhatsAppLink(build: {
+  model: string;
+  sku: string;
+  platform: string;
+  gpu: string;
+  cpu: string;
+  ram: string;
+  storage: string;
+  motherboard: string;
+  case: string;
+  cooler: string;
+  psu: string;
+}): string {
+  const waNumber = process.env.NEXT_PUBLIC_WA_NUMBER || "+923423355119";
+  const cleanNumber = waNumber.replace(/[^\d+]/g, "");
+  
+  const text = `Hello PC Wala!
+
+I'm interested in: *${build.model}* (${build.sku})
+Platform: *${build.platform}*
+
+*Configuration:*
+• GPU: ${build.gpu}
+• CPU: ${build.cpu}
+• RAM: ${build.ram}
+• Storage: ${build.storage}
+• Motherboard: ${build.motherboard}
+• Case: ${build.case}
+• Cooler: ${build.cooler}
+• PSU: ${build.psu}
+
+Please send me pricing and availability!`;
+
+  return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(text)}`;
+}
+
+/**
  * Get visual classes or text for stock status.
  */
 export function getStockLabel(status: string): { text: string; active: boolean } {

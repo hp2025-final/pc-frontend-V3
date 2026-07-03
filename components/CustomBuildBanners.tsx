@@ -1,229 +1,57 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { generatePreBuiltWhatsAppLink } from "@/lib/utils";
+import { LIZARD_BUILDS, FALCON_BUILDS, APEX_BUILDS, PreBuiltPC } from "@/lib/prebuiltData";
 import styles from "./CustomBuildBanners.module.css";
-
-interface Build {
-  id: number;
-  name: string;
-  model: string;
-  image: string;
-  badge: string;
-  specs: string[];
-}
 
 interface ColumnData {
   title: string;
-  builds: Build[];
-  viewAllLink: string;
+  builds: PreBuiltPC[];
   intervalMs?: number;
 }
 
+// Seeded random number generator for consistent shuffling
+function seededRandom(seed: number) {
+  const x = Math.sin(seed++) * 10000;
+  return x - Math.floor(x);
+}
+
+// Shuffle array with seed for consistent results on server and client
+function shuffleArrayWithSeed<T>(array: T[], seed: number): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(seededRandom(seed + i) * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default function CustomBuildBanners() {
-  // Data for each column - 4 builds per column with staggered slide times
+  // Use seeded shuffle for consistent ordering on both server and client
+  // Seed based on current date (changes daily) - same for all users on same day
+  const dailySeed = new Date().setHours(0, 0, 0, 0);
+  
+  const lizardShuffled = useMemo(() => shuffleArrayWithSeed(LIZARD_BUILDS, dailySeed), [dailySeed]);
+  const falconShuffled = useMemo(() => shuffleArrayWithSeed(FALCON_BUILDS, dailySeed + 1), [dailySeed]);
+  const apexShuffled = useMemo(() => shuffleArrayWithSeed(APEX_BUILDS, dailySeed + 2), [dailySeed]);
+
   const columns: ColumnData[] = [
     {
       title: "LIZARD SERIES",
-      viewAllLink: "/category/custom-build-lizard",
-      intervalMs: 3000, // Left slide 3.0s
-      builds: [
-        {
-          id: 1,
-          name: "LIZARD Z5",
-          model: "LZD-ELITE-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-02-mobile.webp",
-          badge: "GAMING BUILD",
-          specs: [
-            "AMD Ryzen 9 7950X CPU",
-            "MSI MPG B650 Motherboard",
-            "RTX 4080 16GB GPU",
-            "32GB DDR5 5600MHz RAM",
-            "Lian Li O11 Dynamic Case",
-            "Thermaltake 850W PSU"
-          ]
-        },
-        {
-          id: 2,
-          name: "LIZARD Z3",
-          model: "LZD-PRO-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-02-mobile.webp",
-          badge: "PERFORMANCE",
-          specs: [
-            "AMD Ryzen 7 7700X CPU",
-            "ASUS TUF B650 Motherboard",
-            "RTX 4070 12GB GPU",
-            "16GB DDR5 5200MHz RAM",
-            "Corsair 4000D Case",
-            "EVGA 750W PSU"
-          ]
-        },
-        {
-          id: 3,
-          name: "LIZARD Z2",
-          model: "LZD-PLUS-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-02-mobile.webp",
-          badge: "ESSENTIAL",
-          specs: [
-            "AMD Ryzen 5 7600 CPU",
-            "MSI B650M Motherboard",
-            "RTX 4060 Ti 8GB GPU",
-            "16GB DDR5 5200MHz RAM",
-            "Antec AX90 Case",
-            "Corsair 650W PSU"
-          ]
-        },
-        {
-          id: 4,
-          name: "LIZARD Z1",
-          model: "LZD-ENTRY-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-02-mobile.webp",
-          badge: "BUDGET BUILD",
-          specs: [
-            "AMD Ryzen 5 5600 CPU",
-            "Gigabyte B550 Motherboard",
-            "RX 6600 8GB GPU",
-            "16GB DDR4 3200MHz RAM",
-            "1STPLAYER Case",
-            "Deepcool 550W PSU"
-          ]
-        }
-      ]
+      builds: lizardShuffled,
+      intervalMs: 3000,
     },
     {
-      title: "TRANSFORMER SERIES",
-      viewAllLink: "/category/custom-build-transformer",
-      intervalMs: 3250, // Center slide 3.25s
-      builds: [
-        {
-          id: 1,
-          name: "TRANSFORMER X1",
-          model: "TRX-PRO-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-01-mobile.webp",
-          badge: "PREMIUM BUILD",
-          specs: [
-            "Intel i9-14900K CPU",
-            "ASUS ROG Strix Z790 Motherboard",
-            "RTX 4090 24GB GPU",
-            "64GB DDR5 6000MHz RAM",
-            "NZXT H9 Flow Case",
-            "Corsair 1000W PSU"
-          ]
-        },
-        {
-          id: 2,
-          name: "TRANSFORMER X2",
-          model: "TRX-ULTRA-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-01-mobile.webp",
-          badge: "WORKSTATION",
-          specs: [
-            "Intel i7-14700K CPU",
-            "MSI Z790 Motherboard",
-            "RTX 4080 16GB GPU",
-            "32GB DDR5 5600MHz RAM",
-            "Fractal Design Case",
-            "Seasonic 850W PSU"
-          ]
-        },
-        {
-          id: 3,
-          name: "TRANSFORMER X3",
-          model: "TRX-ELITE-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-01-mobile.webp",
-          badge: "GAMING PRO",
-          specs: [
-            "Intel i5-14600K CPU",
-            "ASUS Prime Z790 Motherboard",
-            "RTX 4070 Super GPU",
-            "32GB DDR5 5200MHz RAM",
-            "Lian Li 216 Case",
-            "Thermaltake 750W PSU"
-          ]
-        },
-        {
-          id: 4,
-          name: "TRANSFORMER X4",
-          model: "TRX-PLUS-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-01-mobile.webp",
-          badge: "STARTER BUILD",
-          specs: [
-            "Intel i5-13400F CPU",
-            "MSI B760M Motherboard",
-            "RTX 4060 8GB GPU",
-            "16GB DDR4 3200MHz RAM",
-            "Deepcool CC560 Case",
-            "FSP 600W PSU"
-          ]
-        }
-      ]
+      title: "FALCON SERIES",
+      builds: falconShuffled,
+      intervalMs: 3250,
     },
     {
       title: "APEX SERIES",
-      viewAllLink: "/category/custom-build-apex",
-      intervalMs: 3500, // Right slide 3.5s
-      builds: [
-        {
-          id: 1,
-          name: "APEX A9",
-          model: "APX-ULTRA-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-03-mobile.webp",
-          badge: "PERFORMANCE BUILD",
-          specs: [
-            "AMD Ryzen 7 7800X3D CPU",
-            "Gigabyte X670E Motherboard",
-            "RTX 4070 Ti 12GB GPU",
-            "32GB DDR5 6400MHz RAM",
-            "Fractal Design Torrent Case",
-            "Be Quiet! 850W PSU"
-          ]
-        },
-        {
-          id: 2,
-          name: "APEX A7",
-          model: "APX-PRO-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-03-mobile.webp",
-          badge: "CREATOR BUILD",
-          specs: [
-            "AMD Ryzen 9 7900X CPU",
-            "ASRock X670E Motherboard",
-            "RTX 4070 12GB GPU",
-            "64GB DDR5 5600MHz RAM",
-            "Lian Li Lancool III Case",
-            "Corsair 850W PSU"
-          ]
-        },
-        {
-          id: 3,
-          name: "APEX A5",
-          model: "APX-PLUS-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-03-mobile.webp",
-          badge: "STREAMER BUILD",
-          specs: [
-            "AMD Ryzen 7 7700 CPU",
-            "Gigabyte B650 Motherboard",
-            "RTX 4060 Ti 16GB GPU",
-            "32GB DDR5 5200MHz RAM",
-            "Montech SKY TWO Case",
-            "EVGA 700W PSU"
-          ]
-        },
-        {
-          id: 4,
-          name: "APEX A3",
-          model: "APX-ENTRY-2026",
-          image: "https://api.pcwalaonline.com/wp-content/uploads/2026/06/home-custom-build-banner-03-mobile.webp",
-          badge: "GAMER BASE",
-          specs: [
-            "AMD Ryzen 5 7600 CPU",
-            "ASRock A620M Motherboard",
-            "RX 7600 XT 16GB GPU",
-            "16GB DDR5 5200MHz RAM",
-            "Silverstone Fara Case",
-            "Antec 650W PSU"
-          ]
-        }
-      ]
+      builds: apexShuffled,
+      intervalMs: 3500,
     }
   ];
 
@@ -233,8 +61,8 @@ export default function CustomBuildBanners() {
       <div className={styles.sectionHeader}>
         <span className={styles.cornerBracket} />
         <h2 className={styles.sectionTitle}>
-          <span style={{ display: "block" }}>PCWO</span>
-          <span style={{ display: "block" }}>CUSTOM BUILD</span>
+          <span style={{ display: "block", color: "var(--color-dark)" }}>PRE-BUILT</span>
+          <span style={{ display: "block", color: "var(--color-orange)" }}>PC</span>
         </h2>
       </div>
 
@@ -249,7 +77,7 @@ export default function CustomBuildBanners() {
 }
 
 // Individual Column Component (Slider with 1.5 Items Visible)
-function BuildColumn({ title, builds, viewAllLink, intervalMs = 3000 }: ColumnData) {
+function BuildColumn({ title, builds, intervalMs = 3000 }: ColumnData) {
   const [currentIndex, setCurrentIndex] = useState(builds.length);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -332,6 +160,26 @@ function BuildColumn({ title, builds, viewAllLink, intervalMs = 3000 }: ColumnDa
       {/* Column Header */}
       <div className={styles.columnHeader}>
         <h3 className={styles.columnTitle}>{title}</h3>
+        
+        {/* Navigation Buttons - Moved to Header */}
+        <div className={styles.navButtons}>
+          <button
+            onClick={handlePrevious}
+            className={styles.navButton}
+            aria-label="Previous"
+            disabled={builds.length <= 1}
+          >
+            <ChevronLeft size={20} strokeWidth={2.5} />
+          </button>
+          <button
+            onClick={handleNext}
+            className={styles.navButton}
+            aria-label="Next"
+            disabled={builds.length <= 1}
+          >
+            <ChevronRight size={20} strokeWidth={2.5} />
+          </button>
+        </div>
       </div>
 
       {/* Slider Container */}
@@ -354,69 +202,93 @@ function BuildColumn({ title, builds, viewAllLink, intervalMs = 3000 }: ColumnDa
               className={styles.buildCard}
               style={{ width: `calc(100% / ${totalItems})` }}
             >
-              {/* Image Area */}
-              <div className={styles.imageArea}>
+              {/* Image Area - TEMPORARILY COMMENTED OUT */}
+              {/* <div className={styles.imageArea}>
                 <div className={styles.badge}>{build.badge}</div>
-                <Image
-                  src={build.image}
-                  alt={build.name}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="33vw"
-                />
-              </div>
+              </div> */}
 
               {/* Info Area */}
               <div className={styles.infoArea}>
-                <h4 className={styles.buildName}>{build.name}</h4>
-                
-                {/* Model + Shop Now Button */}
-                <div className={styles.modelButtonRow}>
-                  <p className={styles.buildModel}>{build.model}</p>
-                  <Link href={viewAllLink} className={styles.shopNowButton}>
-                    SHOP NOW
-                    <ArrowRight size={14} strokeWidth={2.5} />
-                  </Link>
+                {/* Badges - Top Right Corner */}
+                <div className={styles.badgesContainer}>
+                  {build.badges.slice(0, 2).map((badge, idx) => (
+                    <span key={idx} className={styles.performanceBadge}>
+                      {badge}
+                    </span>
+                  ))}
                 </div>
 
-                {/* Specs List */}
+                {/* Title + SKU Row */}
+                <div className={styles.titleRow}>
+                  <h4 className={styles.buildName}>{build.model}</h4>
+                  <p className={styles.buildModel}>{build.sku}</p>
+                </div>
+                
+                {/* GPU + CPU Highlight Row - Black Background */}
+                <div className={styles.highlightRow}>
+                  {build.gpuShort} + {build.cpuShort}
+                </div>
+
+                {/* Rating Bar */}
+                <div className={styles.ratingBar}>
+                  <div className={styles.ratingBoxes}>
+                    {[...Array(10)].map((_, i) => {
+                      const boxNumber = i + 1;
+                      const wholeRating = Math.floor(build.rating);
+                      const decimal = build.rating % 1;
+                      
+                      let fillPercentage = 0;
+                      if (boxNumber <= wholeRating) {
+                        fillPercentage = 100;
+                      } else if (boxNumber === wholeRating + 1) {
+                        fillPercentage = decimal * 100;
+                      }
+                      
+                      return (
+                        <span 
+                          key={i} 
+                          className={styles.ratingBox}
+                          style={{
+                            background: fillPercentage > 0 
+                              ? `linear-gradient(to right, var(--color-accent-lime) ${fillPercentage}%, transparent ${fillPercentage}%)`
+                              : 'transparent'
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <span className={styles.ratingText}>
+                    Expert Rating {build.rating}/10
+                  </span>
+                </div>
+
+                {/* Full Specs List - No labels, just component names */}
                 <ul className={styles.specsList}>
-                  {build.specs.map((spec, index) => (
-                    <li key={index} className={styles.specItem}>{spec}</li>
-                  ))}
+                  <li className={styles.specItem}>{build.gpu}</li>
+                  <li className={styles.specItem}>{build.cpu}</li>
+                  <li className={styles.specItem}>{build.motherboard}</li>
+                  <li className={styles.specItem}>{build.ram}</li>
+                  <li className={styles.specItem}>{build.storage}</li>
+                  <li className={styles.specItem}>{build.cooler}</li>
+                  <li className={styles.specItem}>{build.psu}</li>
+                  <li className={styles.specItem}>{build.case}</li>
                 </ul>
+
+                {/* Why Description */}
+                <p className={styles.whyDescription}>"{build.why}"</p>
+
+                {/* Shop Now Button */}
+                <Link 
+                  href={generatePreBuiltWhatsAppLink(build)}
+                  className={styles.shopNowButton}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  SHOP NOW
+                </Link>
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Footer: View All + Navigation */}
-      <div className={styles.footer}>
-        <Link href={viewAllLink} className={styles.viewAllLink}>
-          <span className={styles.viewAllLinkText}>
-            VIEW ALL
-            <ArrowRight size={16} strokeWidth={2.5} />
-          </span>
-        </Link>
-
-        <div className={styles.navButtons}>
-          <button
-            onClick={handlePrevious}
-            className={styles.navButton}
-            aria-label="Previous"
-            disabled={builds.length <= 1}
-          >
-            <ChevronLeft size={20} strokeWidth={2.5} />
-          </button>
-          <button
-            onClick={handleNext}
-            className={styles.navButton}
-            aria-label="Next"
-            disabled={builds.length <= 1}
-          >
-            <ChevronRight size={20} strokeWidth={2.5} />
-          </button>
         </div>
       </div>
     </div>
