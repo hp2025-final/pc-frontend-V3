@@ -30,6 +30,16 @@ const nextConfig: NextConfig = {
         destination: '/collection/on-sale',
         permanent: true, // 301 redirect
       },
+      {
+        source: '/category/custom-builds',
+        destination: '/pre-built-pc/lizard-series',
+        permanent: true, // 301 redirect
+      },
+      {
+        source: '/category/pre-built-pcs',
+        destination: '/pre-built-pc/lizard-series',
+        permanent: true, // 301 redirect
+      },
     ];
   },
 };
