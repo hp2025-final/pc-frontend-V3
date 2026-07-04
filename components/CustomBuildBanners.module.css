@@ -77,6 +77,20 @@
   align-items: center;
 }
 
+/* Series Banner Container */
+.seriesBannerContainer {
+  width: 100%;
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.seriesBannerImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
 /* Slider Container */
 .sliderContainer {
   --visible-items: 1.5;

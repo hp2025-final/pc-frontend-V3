@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { generatePreBuiltWhatsAppLink } from "@/lib/utils";
 import { LIZARD_BUILDS, FALCON_BUILDS, APEX_BUILDS, PreBuiltPC } from "@/lib/prebuiltData";
@@ -9,6 +10,7 @@ import styles from "./CustomBuildBanners.module.css";
 interface ColumnData {
   title: string;
   builds: PreBuiltPC[];
+  bannerImage: string;
   intervalMs?: number;
 }
 
@@ -41,16 +43,19 @@ export default function CustomBuildBanners() {
     {
       title: "LIZARD SERIES",
       builds: lizardShuffled,
+      bannerImage: "https://api.pcwalaonline.com/wp-content/uploads/2026/07/pcwo-pre-built-pc-lizard-series.webp",
       intervalMs: 3000,
     },
     {
       title: "FALCON SERIES",
       builds: falconShuffled,
+      bannerImage: "https://api.pcwalaonline.com/wp-content/uploads/2026/07/pcwo-pre-built-pc-falcon-series.webp",
       intervalMs: 3250,
     },
     {
       title: "APEX SERIES",
       builds: apexShuffled,
+      bannerImage: "https://api.pcwalaonline.com/wp-content/uploads/2026/07/pcwo-pre-built-pc-apex-series.webp",
       intervalMs: 3500,
     }
   ];
@@ -77,7 +82,7 @@ export default function CustomBuildBanners() {
 }
 
 // Individual Column Component (Slider with 1.5 Items Visible)
-function BuildColumn({ title, builds, intervalMs = 3000 }: ColumnData) {
+function BuildColumn({ title, builds, bannerImage, intervalMs = 3000 }: ColumnData) {
   const [currentIndex, setCurrentIndex] = useState(builds.length);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -182,6 +187,18 @@ function BuildColumn({ title, builds, intervalMs = 3000 }: ColumnData) {
         </div>
       </div>
 
+      {/* Series Banner Image */}
+      <div className={styles.seriesBannerContainer}>
+        <Image 
+          src={bannerImage} 
+          alt={`${title} Banner`}
+          width={1200}
+          height={400}
+          className={styles.seriesBannerImage}
+          priority
+        />
+      </div>
+
       {/* Slider Container */}
       <div 
         className={styles.sliderContainer}
@@ -202,11 +219,6 @@ function BuildColumn({ title, builds, intervalMs = 3000 }: ColumnData) {
               className={styles.buildCard}
               style={{ width: `calc(100% / ${totalItems})` }}
             >
-              {/* Image Area - TEMPORARILY COMMENTED OUT */}
-              {/* <div className={styles.imageArea}>
-                <div className={styles.badge}>{build.badge}</div>
-              </div> */}
-
               {/* Info Area */}
               <div className={styles.infoArea}>
                 {/* Badges - Top Right Corner */}

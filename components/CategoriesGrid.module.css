@@ -1,7 +1,7 @@
 .section {
   border-top: 1px solid var(--color-outline);
   border-bottom: 1px solid var(--color-outline);
-  background-color: var(--color-surface);
+  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
   position: relative;
 }
 
