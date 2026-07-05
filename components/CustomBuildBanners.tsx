@@ -61,7 +61,7 @@ export default function CustomBuildBanners() {
   ];
 
   return (
-    <section className={styles.section} id="pre-built-pc">
+    <section className={styles.section}>
       {/* Section Header */}
       <div className={styles.sectionHeader}>
         <span className={styles.cornerBracket} />

@@ -4,8 +4,8 @@ const BASE_URL = process.env.WOOCOMMERCE_BASE_URL || "https://api.pcwalaonline.c
 const CONSUMER_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY;
 const CONSUMER_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET;
 
-// Cache duration: 12 hours (43200 seconds)
-const CACHE_REVALIDATE = 43200;
+// Cache duration: 30 days (2592000 seconds)
+const CACHE_REVALIDATE = 2592000;
 
 function getAuthParams(): string {
   if (!CONSUMER_KEY || !CONSUMER_SECRET) {

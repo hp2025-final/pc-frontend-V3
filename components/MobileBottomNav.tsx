@@ -113,7 +113,7 @@ export default function MobileBottomNav({ menuData }: MobileBottomNavProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/pre-built-pc/lizard-series" onClick={() => setMenuOpen(false)} className={styles.mobileMenuLink}>
+                <Link href="/category/pre-built-pcs" onClick={() => setMenuOpen(false)} className={styles.mobileMenuLink}>
                   PRE-BUILT PC
                 </Link>
               </li>

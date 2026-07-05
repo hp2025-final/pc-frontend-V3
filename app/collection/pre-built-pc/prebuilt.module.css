@@ -1,44 +1,29 @@
-/* Page Container */
 .page {
   width: 100%;
   background-color: var(--color-surface);
 }
 
-/* Breadcrumb */
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 24px var(--grid-margin);
+/* Page Header */
+.pageHeader {
+  padding: 48px var(--grid-margin);
   background-color: var(--color-surface-container-lowest);
   border-bottom: 1px solid var(--color-outline);
+  position: relative;
 }
 
-.breadcrumbLink {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-on-surface-variant);
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--color-on-surface);
   text-transform: uppercase;
-  transition: color 0.2s ease;
+  margin: 0;
 }
 
-.breadcrumbLink:hover {
-  color: var(--color-primary);
-}
-
-.breadcrumbCurrent {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-primary);
-  text-transform: uppercase;
-}
-
-/* Series Navigation Tabs */
-.seriesNav {
+/* Series Tabs */
+.tabsContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
@@ -46,39 +31,27 @@
   border-bottom: 1px solid var(--color-outline);
 }
 
-.seriesTab {
+.tab {
   padding: 24px 32px;
-  background-color: var(--color-surface-container-lowest);
+  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+  border: none;
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--color-on-surface-variant);
+  color: var(--color-on-surface);
   text-transform: uppercase;
-  text-align: center;
-  border: none;
+  cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
 }
 
-.seriesTab:hover {
-  background-color: var(--color-surface-container-low);
+.tab:hover {
+  background-color: var(--color-surface-container-highest);
 }
 
-.seriesTabActive {
-  background: linear-gradient(135deg, var(--color-accent-lime) 0%, var(--color-accent-lime) 100%);
+.tabActive {
+  background-color: var(--color-accent-lime) !important;
   color: var(--color-dark);
-  font-weight: 800;
-}
-
-.seriesTabActive::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background-color: var(--color-dark);
 }
 
 /* Series Banner */
@@ -86,7 +59,6 @@
   width: 100%;
   background-color: var(--color-surface-container-lowest);
   border-bottom: 1px solid var(--color-outline);
-  overflow: hidden;
 }
 
 .bannerImage {
@@ -96,55 +68,7 @@
   object-fit: cover;
 }
 
-/* Description Section */
-.descriptionContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px var(--grid-margin);
-  background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
-  border-bottom: 1px solid var(--color-outline);
-  gap: 32px;
-}
-
-.description {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--color-on-surface);
-  margin: 0;
-  flex: 1;
-}
-
-.buildCount {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 16px 24px;
-  background-color: var(--color-dark);
-  border: 2px solid var(--color-dark);
-  flex-shrink: 0;
-}
-
-.buildCountNumber {
-  font-family: var(--font-display);
-  font-size: 48px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--color-accent-lime);
-}
-
-.buildCountLabel {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-white);
-  text-transform: uppercase;
-}
-
-/* Cards Grid - 4 columns desktop, 1 column mobile */
+/* Cards Grid - 4 per row desktop, 1 per row mobile */
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -153,16 +77,23 @@
 }
 
 /* Build Card */
-.card {
+.buildCard {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface-container-lowest);
+}
+
+/* Info Area */
+.infoArea {
   padding: 24px;
   background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
-  border: 1px solid var(--color-outline);
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-/* Badges - Top Right Corner */
+/* Performance Badges - Top Right Corner */
 .badgesContainer {
   position: absolute;
   top: 0;
@@ -172,7 +103,7 @@
   z-index: 10;
 }
 
-.badge {
+.performanceBadge {
   display: inline-block;
   padding: 6px 10px;
   background-color: var(--color-surface);
@@ -186,7 +117,7 @@
   border-left: 1px solid var(--color-dark);
 }
 
-.badge:first-child {
+.performanceBadge:first-child {
   border-left: none;
 }
 
@@ -200,7 +131,7 @@
   margin-bottom: 6px;
 }
 
-.cardTitle {
+.buildName {
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
@@ -211,7 +142,7 @@
   margin: 0;
 }
 
-.cardSku {
+.buildModel {
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 400;
@@ -294,7 +225,7 @@
   color: var(--color-on-surface-variant);
   font-style: italic;
   margin: 0 0 16px 0;
-  height: 39px; /* 13px * 1.5 * 2 lines = 39px */
+  height: 39px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -302,7 +233,7 @@
 }
 
 /* Shop Now Button */
-.shopButton {
+.shopNowButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,7 +253,7 @@
   margin-top: auto;
 }
 
-.shopButton:hover {
+.shopNowButton:hover {
   background-color: var(--color-on-surface);
   color: var(--color-accent-lime);
 }
@@ -332,58 +263,35 @@
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .descriptionContainer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-
-  .buildCount {
-    width: 100%;
-    justify-content: space-between;
-  }
 }
 
 @media (max-width: 768px) {
-  .breadcrumb {
-    padding: 16px;
-  }
-
-  .seriesNav {
-    grid-template-columns: 1fr;
-  }
-
-  .seriesTab {
-    padding: 16px;
-    font-size: 16px;
-  }
-
-  .descriptionContainer {
+  .pageHeader {
     padding: 24px 16px;
   }
 
-  .description {
-    font-size: 14px;
+  .pageTitle {
+    font-size: 48px;
   }
 
-  .buildCountNumber {
-    font-size: 36px;
+  .tabsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .tab {
+    padding: 16px;
+    font-size: 16px;
   }
 
   .cardsGrid {
     grid-template-columns: 1fr;
   }
 
-  .card {
+  .infoArea {
     padding: 16px;
   }
 
-  .cardTitle {
+  .buildName {
     font-size: 18px;
-  }
-
-  .titleRow {
-    margin-top: 20px;
   }
 }

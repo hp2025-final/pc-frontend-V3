@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getProductBySlug, getProductsByIds, getProducts } from "@/lib/woocommerce";
 import { stripHtml, getPriceTagInfo, getProductMeta, formatPrice } from "@/lib/utils";
 import ProductPageClient from "./ProductPageClient";
@@ -8,8 +8,8 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// ISR: Revalidate every 12 hours (43200 seconds)
-export const revalidate = 43200;
+// ISR: Revalidate every 30 days (2592000 seconds)
+export const revalidate = 2592000;
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
@@ -144,6 +144,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) {
     notFound();
+  }
+
+  // Check if product is in "pre-built-pcs" category - redirect to custom template
+  const isPreBuiltPC = product.categories?.some(
+    (cat) => cat.slug === "pre-built-pcs"
+  );
+
+  if (isPreBuiltPC) {
+    redirect(`/pre-built-pc/${slug}`);
   }
 
   // Fetch related products
