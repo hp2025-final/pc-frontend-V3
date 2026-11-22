@@ -1,0 +1,43 @@
+# Dependencies and generated output
+**/node_modules
+.next
+out
+build
+dist
+coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Local configuration and secrets (also excludes Coolify-generated env files)
+**/.env
+**/.env.*
+**/.aws
+**/.ssh
+**/.npmrc
+**/*.pem
+**/*.key
+**/*.pfx
+**/*.p12
+
+# Git history and local tooling
+.git
+.github
+.gitignore
+.vercel
+.vscode
+.idea
+.agents
+.codex
+.rules
+
+# Logs and OS files
+**/*.log
+.DS_Store
+Thumbs.db
+
+# Development-only documentation and scripts
+AGENTS.md
+*.md
+docs
+scripts
+deploy-prep.*
