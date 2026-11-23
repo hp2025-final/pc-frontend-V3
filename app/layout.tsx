@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sora, IBM_Plex_Sans, Space_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
@@ -10,23 +10,29 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import NewFooter from "@/components/NewFooter";
 import { getFilteredMenuData } from "@/lib/menuData";
 
-const sora = Sora({
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
+const sora = localFont({
+  src: "../public/fonts/sora-latin.woff2",
+  weight: "600 800",
+  style: "normal",
   variable: "--font-display",
   display: "swap",
 });
 
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+const ibmPlexSans = localFont({
+  src: "../public/fonts/ibm-plex-sans-latin.woff2",
+  weight: "400 600",
+  style: "normal",
   variable: "--font-body",
   display: "swap",
 });
 
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+const spaceMono = localFont({
+  src: [
+    { path: "../public/fonts/space-mono-latin-400.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/space-mono-latin-700.woff2", weight: "700", style: "normal" },
+  ],
+  fallback: ["monospace"],
+  adjustFontFallback: false,
   variable: "--font-mono",
   display: "swap",
 });
