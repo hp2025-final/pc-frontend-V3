@@ -1,9 +1,12 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getProductsByIds, getProducts } from "@/lib/woocommerce";
+import { getProductBySlug } from "@/lib/woocommerce";
 import { stripHtml, getPriceTagInfo, getProductMeta, formatPrice } from "@/lib/utils";
 import PreBuiltPCPageClient from "./PreBuiltPCPageClient";
 import ExpertAndWhySections from "./ExpertAndWhySections";
+import RelatedProducts from "@/components/RelatedProducts";
+import relatedStyles from "@/components/RelatedProducts.module.css";
 
 interface PreBuiltPCPageProps {
   params: Promise<{ slug: string }>;
@@ -123,72 +126,6 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
   if (!product) {
     notFound();
   }
-
-  // Fetch related products — prioritize same-category (Pre-Built PCs) products
-  let relatedProducts: typeof product[] = [];
-
-  // Step 1: Fetch from deepest child category first (e.g., Lizard Series)
-  const deepestCategory = product.categories && product.categories.length > 0
-    ? product.categories[product.categories.length - 1]
-    : null;
-
-  if (deepestCategory) {
-    const categoryProducts = await getProducts({
-      category: String(deepestCategory.id),
-      per_page: 12,
-    });
-
-    const existingIds = new Set([product.id]);
-    for (const p of categoryProducts) {
-      if (!existingIds.has(p.id)) {
-        relatedProducts.push(p);
-        existingIds.add(p.id);
-      }
-      if (relatedProducts.length >= 6) break;
-    }
-  }
-
-  // Step 2: If still fewer than 6, backfill from parent category (Pre-Built PCs)
-  if (relatedProducts.length < 6) {
-    const parentCategory = product.categories && product.categories.length > 1
-      ? product.categories[0]
-      : null;
-
-    if (parentCategory && parentCategory.id !== deepestCategory?.id) {
-      const parentProducts = await getProducts({
-        category: String(parentCategory.id),
-        per_page: 12,
-      });
-
-      const existingIds = new Set([product.id, ...relatedProducts.map((p) => p.id)]);
-      for (const p of parentProducts) {
-        if (!existingIds.has(p.id)) {
-          relatedProducts.push(p);
-          existingIds.add(p.id);
-        }
-        if (relatedProducts.length >= 6) break;
-      }
-    }
-  }
-
-  // Step 3: Last resort — WooCommerce related_ids
-  if (relatedProducts.length < 6) {
-    const relatedIds = product.related_ids?.slice(0, 6) || [];
-    if (relatedIds.length > 0) {
-      const wcRelated = await getProductsByIds(relatedIds);
-      const existingIds = new Set([product.id, ...relatedProducts.map((p) => p.id)]);
-      for (const p of wcRelated) {
-        if (!existingIds.has(p.id)) {
-          relatedProducts.push(p);
-          existingIds.add(p.id);
-        }
-        if (relatedProducts.length >= 6) break;
-      }
-    }
-  }
-
-  // Ensure exactly 6
-  relatedProducts = relatedProducts.slice(0, 6);
 
   const priceInfo = getPriceTagInfo(product);
   const { brandName, condition } = getProductMeta(product);
@@ -704,7 +641,11 @@ export default async function PreBuiltPCPage({ params }: PreBuiltPCPageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
         />
       )}
-      <PreBuiltPCPageClient product={product} relatedProducts={relatedProducts}>
+      <PreBuiltPCPageClient product={product} relatedContent={
+        <Suspense fallback={<p className={relatedStyles.loading} role="status">Loading related gear…</p>}>
+          <RelatedProducts product={product} />
+        </Suspense>
+      }>
         <ExpertAndWhySections product={product} />
       </PreBuiltPCPageClient>
     </>

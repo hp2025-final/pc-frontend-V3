@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Truck, Tag } from "lucide-react";
@@ -8,16 +8,14 @@ import { siWhatsapp } from "simple-icons";
 import { WooCommerceProduct } from "@/lib/types";
 import { formatPrice, getStockLabel, getProductMeta, generateWhatsAppLink, getPriceTagInfo } from "@/lib/utils";
 import Breadcrumb from "@/components/Breadcrumb";
-import PCD_2 from "@/components/PCD_2";
-import GridSection from "@/components/GridSection";
 import styles from "./product.module.css";
 
 interface ProductPageClientProps {
   product: WooCommerceProduct;
-  relatedProducts: WooCommerceProduct[];
+  children?: ReactNode;
 }
 
-export default function ProductPageClient({ product, relatedProducts }: ProductPageClientProps) {
+export default function ProductPageClient({ product, children }: ProductPageClientProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const stock = getStockLabel(product.stock_status);
@@ -591,21 +589,7 @@ export default function ProductPageClient({ product, relatedProducts }: ProductP
         </div>
       </section>
 
-      {/* Related Products */}
-      {relatedProducts.length > 0 && (
-        <GridSection
-          title="Related Gear"
-          subtitle="Compatible Hardware"
-          count={relatedProducts.length}
-          countLabel="Related Items"
-        >
-          {relatedProducts.map((p) => (
-            <div key={p.id} style={{ gridColumn: "span 2" }}>
-              <PCD_2 product={p} />
-            </div>
-          ))}
-        </GridSection>
-      )}
+      {children}
     </div>
   );
 }

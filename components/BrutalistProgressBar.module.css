@@ -1,66 +1,31 @@
-/* components/BrutalistProgressBar.module.css */
-
-.overlay {
+.progressBar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  background-color: var(--color-dark);
-  opacity: 0.75;
-  z-index: -1;
-}
-
-.loadingBox {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-dark);
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  min-width: 220px;
-  position: relative;
-  box-shadow: none;
-}
-
-/* Signature Orange Corner Bracket */
-.loadingBox::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid var(--color-orange);
-  border-right: 2px solid var(--color-orange);
+  height: 3px;
+  overflow: hidden;
+  z-index: 9999;
   pointer-events: none;
+  background-color: var(--color-border);
 }
 
-.text {
-  font-family: var(--font-mono), monospace;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.indicator {
+  display: block;
+  width: 30%;
+  height: 100%;
+  background-color: var(--color-orange);
+  animation: progressSweep 1.2s ease-in-out infinite;
 }
 
-.barText {
-  font-family: var(--font-mono), monospace;
-  font-size: 12px;
-  color: var(--color-orange);
-  letter-spacing: 0.1em;
+@keyframes progressSweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(334%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    width: 100%;
+    animation: none;
+  }
 }

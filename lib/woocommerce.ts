@@ -55,7 +55,8 @@ export async function getProducts(params: {
   brand?: string;
   tag?: string;
   on_sale?: boolean;
-} = {}): Promise<WooCommerceProduct[]> {
+} = {}, signal?: AbortSignal): Promise<WooCommerceProduct[]> {
+  if (signal?.aborted) return [];
   try {
     const queryParts: string[] = [getAuthParams()];
 
@@ -80,6 +81,7 @@ export async function getProducts(params: {
     const url = `${BASE_URL}/wp-json/wc/v3/products?${queryParts.join("&")}`;
     const res = await fetch(url, {
       next: { revalidate: CACHE_REVALIDATE },
+      signal,
     });
 
     if (!res.ok) {
@@ -88,7 +90,7 @@ export async function getProducts(params: {
 
     return await res.json();
   } catch (error) {
-    console.error("Error fetching products:", error);
+    if (!signal?.aborted) console.error("Error fetching products:", error);
     return [];
   }
 }
@@ -216,13 +218,14 @@ export async function getProductBySlug(slug: string): Promise<WooCommerceProduct
 /**
  * Fetch batch of products by their specific IDs (used for related products).
  */
-export async function getProductsByIds(ids: number[]): Promise<WooCommerceProduct[]> {
-  if (!ids || ids.length === 0) return [];
+export async function getProductsByIds(ids: number[], signal?: AbortSignal): Promise<WooCommerceProduct[]> {
+  if (!ids || ids.length === 0 || signal?.aborted) return [];
   try {
     const res = await fetch(
       `${BASE_URL}/wp-json/wc/v3/products?include=${ids.join(",")}&status=publish&${getAuthParams()}`,
       {
         next: { revalidate: CACHE_REVALIDATE },
+        signal,
       }
     );
     if (!res.ok) {
@@ -230,8 +233,66 @@ export async function getProductsByIds(ids: number[]): Promise<WooCommerceProduc
     }
     return await res.json();
   } catch (error) {
-    console.error("Error fetching products by IDs:", error);
+    if (!signal?.aborted) console.error("Error fetching products by IDs:", error);
     return [];
+  }
+}
+
+/** Optional recommendations share one deadline across all fallback requests. */
+export async function getRelatedProducts(product: WooCommerceProduct): Promise<WooCommerceProduct[]> {
+  const controller = new AbortController();
+  const deadline = setTimeout(() => controller.abort(), 8000);
+  const products: WooCommerceProduct[] = [];
+  const seenIds = new Set([product.id]);
+
+  const append = (candidates: WooCommerceProduct[]) => {
+    for (const candidate of candidates) {
+      if (products.length >= 6) break;
+      if (seenIds.has(candidate.id)) continue;
+      products.push(candidate);
+      seenIds.add(candidate.id);
+    }
+  };
+
+  try {
+    const category = product.categories?.[product.categories.length - 1];
+    const parentCategory = product.categories?.[0];
+    const isPreBuiltPC = product.categories?.some((item) => item.slug === "pre-built-pcs");
+    const relatedIds = product.related_ids?.slice(0, 6) || [];
+    const requests: Array<() => Promise<WooCommerceProduct[]>> = [];
+
+    // Preserve the dedicated pre-built page's category-first recommendations.
+    if (isPreBuiltPC) {
+      if (category) {
+        requests.push(() => getProducts({ category: String(category.id), per_page: 12 }, controller.signal));
+      }
+      if (parentCategory && parentCategory.id !== category?.id) {
+        requests.push(() => getProducts({ category: String(parentCategory.id), per_page: 12 }, controller.signal));
+      }
+    }
+
+    if (relatedIds.length > 0) {
+      requests.push(() => getProductsByIds(relatedIds, controller.signal));
+    }
+
+    if (!isPreBuiltPC) {
+      if (category) {
+        requests.push(() => getProducts({ category: String(category.id), per_page: 12 }, controller.signal));
+      }
+      requests.push(() => getProducts({ per_page: 12 }, controller.signal));
+    }
+
+    for (const request of requests) {
+      if (products.length >= 6 || controller.signal.aborted) break;
+      append(await request());
+    }
+
+    return products;
+  } catch {
+    // Recommendations must never turn a valid product into an error page.
+    return products;
+  } finally {
+    clearTimeout(deadline);
   }
 }
 

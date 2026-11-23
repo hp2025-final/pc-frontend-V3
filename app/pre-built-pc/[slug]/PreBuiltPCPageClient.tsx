@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Truck, Tag, Cpu, Server, HardDrive, Fan, Plug, MemoryStick, CircuitBoard, Layers } from "lucide-react";
@@ -8,17 +8,15 @@ import { siWhatsapp } from "simple-icons";
 import { WooCommerceProduct } from "@/lib/types";
 import { formatPrice, getStockLabel, getProductMeta, generateWhatsAppLink, getPriceTagInfo } from "@/lib/utils";
 import Breadcrumb from "@/components/Breadcrumb";
-import PCD_2 from "@/components/PCD_2";
-import GridSection from "@/components/GridSection";
 import styles from "./prebuilt.module.css";
 
 interface PreBuiltPCPageClientProps {
   product: WooCommerceProduct;
-  relatedProducts: WooCommerceProduct[];
+  relatedContent: ReactNode;
   children: React.ReactNode; // Expert & Why sections passed from server component
 }
 
-export default function PreBuiltPCPageClient({ product, relatedProducts, children }: PreBuiltPCPageClientProps) {
+export default function PreBuiltPCPageClient({ product, relatedContent, children }: PreBuiltPCPageClientProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
@@ -882,21 +880,7 @@ export default function PreBuiltPCPageClient({ product, relatedProducts, childre
         </ul>
       </div>
 
-      {/* Related Products */}
-      {relatedProducts.length > 0 && (
-        <GridSection
-          title="Related Gear"
-          subtitle="Pre-Built PCs"
-          count={relatedProducts.length}
-          countLabel="Pre-Built PCs"
-        >
-          {relatedProducts.map((p) => (
-            <div key={p.id} style={{ gridColumn: "span 2" }}>
-              <PCD_2 product={p} />
-            </div>
-          ))}
-        </GridSection>
-      )}
+      {relatedContent}
     </div>
   );
 }

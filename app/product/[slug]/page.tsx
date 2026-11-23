@@ -1,8 +1,11 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound, redirect } from "next/navigation";
-import { getProductBySlug, getProductsByIds, getProducts } from "@/lib/woocommerce";
+import { getProductBySlug } from "@/lib/woocommerce";
 import { stripHtml, getPriceTagInfo, getProductMeta, formatPrice } from "@/lib/utils";
 import ProductPageClient from "./ProductPageClient";
+import RelatedProducts from "@/components/RelatedProducts";
+import relatedStyles from "@/components/RelatedProducts.module.css";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -155,56 +158,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
     redirect(`/pre-built-pc/${slug}`);
   }
 
-  // Fetch related products
-  const relatedIds = product.related_ids?.slice(0, 6) || [];
-  let relatedProducts = relatedIds.length > 0 ? await getProductsByIds(relatedIds) : [];
-
-  // If we have fewer than 6 related products, backfill with same-category products
-  if (relatedProducts.length < 6) {
-    const deepestCategory = product.categories && product.categories.length > 0
-      ? product.categories[product.categories.length - 1]
-      : null;
-
-    if (deepestCategory) {
-      const categoryProducts = await getProducts({
-        category: String(deepestCategory.id),
-        per_page: 12,
-      });
-
-      const existingIds = new Set([product.id, ...relatedProducts.map((p) => p.id)]);
-      for (const p of categoryProducts) {
-        if (!existingIds.has(p.id)) {
-          relatedProducts.push(p);
-          existingIds.add(p.id);
-        }
-        if (relatedProducts.length >= 6) {
-          break;
-        }
-      }
-    }
-  }
-
-  // If still fewer than 6, backfill with general products
-  if (relatedProducts.length < 6) {
-    const generalProducts = await getProducts({
-      per_page: 12,
-    });
-
-    const existingIds = new Set([product.id, ...relatedProducts.map((p) => p.id)]);
-    for (const p of generalProducts) {
-      if (!existingIds.has(p.id)) {
-        relatedProducts.push(p);
-        existingIds.add(p.id);
-      }
-      if (relatedProducts.length >= 6) {
-        break;
-      }
-    }
-  }
-
-  // Ensure exactly 6
-  relatedProducts = relatedProducts.slice(0, 6);
-
   const priceInfo = getPriceTagInfo(product);
   const { brandName, condition } = getProductMeta(product);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pcwalaonline.com";
@@ -329,7 +282,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ProductPageClient product={product} relatedProducts={relatedProducts} />
+      <ProductPageClient product={product}>
+        <Suspense fallback={<p className={relatedStyles.loading} role="status">Loading related gear…</p>}>
+          <RelatedProducts product={product} />
+        </Suspense>
+      </ProductPageClient>
     </>
   );
 }

@@ -1,0 +1,11 @@
+.productCard {
+  grid-column: span 2;
+}
+
+.loading {
+  padding: 24px var(--grid-margin);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-dark);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
